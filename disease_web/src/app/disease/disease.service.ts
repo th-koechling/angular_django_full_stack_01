@@ -1,0 +1,59 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Disease } from './interfaces';
+import { Panel } from './interfaces';
+import { environment } from '../../environments/environment.development';
+import { map } from 'rxjs/operators';
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DiseaseService {
+
+  private diseaseUrl: String = "/api/diseases/";
+  private panelUrl: String = "/api/panels/";
+  private detailViewUrl: String = "/api/diseases/home/detail-view/";
+  constructor(private httpClient:HttpClient) { }
+
+  // dummy method, as user management does not exist yet
+  isUserLoggedIn(): boolean {
+    return Math.random() < 0.5; // coin toss
+  }
+
+  // disease service methods:
+  getDiseases(): Observable<Disease[]> {
+    return this.httpClient.get<Disease[]>(`${environment.apiUrl}${this.diseaseUrl}`);
+  }
+
+  getDiseaseByName(name: string): Observable<Disease> {
+    //return this.httpClient.get<Disease>(`${environment.apiUrl}${this.detailViewUrl}?name=${name}`);
+    return this.getDiseases().pipe(
+      // Simulate filtering by name
+      map(diseases => diseases.find(disease => disease.name === name)!)
+    );  
+  }
+
+  createDisease(data: Disease) {
+    return this.httpClient.post<Disease>(`${environment.apiUrl}${this.diseaseUrl}`, data);
+  }
+
+  updateDisease(data: Disease) {
+    return this.httpClient.put<Disease>(`${environment.apiUrl}${this.diseaseUrl}${data.id}/`, data);
+  }
+
+  deleteDisease(id: Number) {
+    return this.httpClient.delete<Disease>(`${environment.apiUrl}${this.diseaseUrl}${id}/`);
+  }
+
+  // panel service methods:
+  getPanels(): Observable<Panel[]> {
+    return this.httpClient.get<Panel[]>(`${environment.apiUrl}${this.panelUrl}`);
+  }
+}
+
+
+
+
+

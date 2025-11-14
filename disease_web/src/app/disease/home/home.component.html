@@ -1,0 +1,124 @@
+<div class="disease-container" style="width: 1400px; margin-top:25px;margin-left:20px">
+    <h1 style="color: seagreen; font-weight: bold;" >Diseases</h1>
+    <h3 style="color: lightseagreen; font-weight: bold;" >Full Stack App with Angular and Django</h3>
+    <mat-form-field style="width: 200px; height: 70px;">
+        <input matInput type="text" name="name" id="name" [(ngModel)]="disease.name" placeholder="name">
+        <mat-icon fontIcon="abc" matPrefix></mat-icon>
+    </mat-form-field>
+    <mat-form-field style="width: 700px; height: 70px; margin-left: 15px;">
+        <mat-select [value]="disease.associated_panels" [formControl]="panels" multiple placeholder="select panel(s)" (selectionChange)="showChange($event.value)">
+            @for (panel of disease.associated_panels; track panel.name) {
+                <mat-option [value]="panel">{{panel.name}}</mat-option>
+            }
+            @for (panel of panelList; track panel.name) {
+                @if (!isAssociatedPanel(panel)) {
+                    <mat-option [value]="panel">{{panel.name}}</mat-option>
+                }
+            }
+        </mat-select>
+        <mat-icon fontIcon="list" matPrefix></mat-icon>
+    </mat-form-field>
+    <div style="display: flex; align-items: center;">
+        <mat-form-field style="width: 575px">
+            <mat-label>analysis comment</mat-label>
+            <mat-icon fontIcon="analytics" matPrefix></mat-icon>
+            <textarea matInput placeholder="analysis comment" [(ngModel)]="disease.analysis_comment" name="analysis_comment" id="analysis_comment"></textarea>
+        </mat-form-field>
+        <mat-form-field style="width: 575px; margin-left: 10px;"> 
+            <mat-label>disease info</mat-label>
+            <mat-icon fontIcon="info_outline" matPrefix></mat-icon>
+            <textarea matInput placeholder="info" [(ngModel)]="disease.comment" name="comment" id="comment"></textarea>
+        </mat-form-field>
+        <button mat-flat-button class="button confirm" (click)="addUpdateDisease(disease)">Add/ Update</button>
+        <button mat-flat-button class="button cancel" (click)="unsetDisease()">Cancel</button>
+    </div>  
+    <br>
+    <mat-form-field style="width: 415px; height: 70px;">
+        <input matInput type="text" name="searchinput" id="searchinput" #filter (input)="searchDiseases(filter.value)" placeholder="search">
+        <mat-icon fontIcon="search" matPrefix></mat-icon>
+    </mat-form-field>
+    <br>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+            <td mat-cell *matCellDef="let disease">{{ disease.id }}</td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+            <td mat-cell *matCellDef="let disease">{{ disease.name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="comment">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Kommentar </th>
+            <td mat-cell *matCellDef="let disease">{{ disease.comment }}</td>
+        </ng-container>
+        <ng-container matColumnDef="analysis_comment">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Kommentar zur Auswertung</th>
+            <td mat-cell *matCellDef="let disease">{{ disease.analysis_comment }}</td>
+        </ng-container>
+        <ng-container matColumnDef="associated_panels">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Panels </th>
+            <!--<td mat-cell *matCellDef="let disease">{{ disease.associated_panels }}</td>-->
+            <td mat-cell *matCellDef="let disease">
+                @for (panel of disease.associated_panels; track panel.name) {
+                    <li>{{ panel.name }}</li>
+                }
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef> Edit </th>
+            <td mat-cell *matCellDef="let disease">
+                <button mat-flat-button 
+                (click)="setDisease(disease)" 
+                style="background-color: lightseagreen;"
+                >
+                <mat-icon 
+                    fontIcon="edit" 
+                    style="color: white; margin-left: auto; margin-right: auto; display: block !important;">
+                </mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="view">
+            <th mat-header-cell *matHeaderCellDef> View </th>
+            <td mat-cell *matCellDef="let disease">
+                <button 
+                    mat-flat-button 
+                    (click)="viewDisease(disease.name)" 
+                    style="background-color: cornflowerblue;"
+                >
+                <mat-icon 
+                    fontIcon="visibility" 
+                    style="color: white; margin-left: auto; margin-right: auto; display: block !important;">
+                </mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <!--
+        <ng-container matColumnDef="link">
+            <th mat-header-cell *matHeaderCellDef> Link </th>
+            <td mat-cell *matCellDef="let disease">
+                <a [routerLink]="['detail-view', {diseaseName: disease.name}]"> Go! </a>
+            </td>
+        </ng-container>
+        -->
+        <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef> Delete </th>
+            <td mat-cell *matCellDef="let disease">
+                <button 
+                    mat-flat-button 
+                    (click)="deleteDisease(disease.id)" 
+                    style="background-color: coral;"
+                >
+                <mat-icon 
+                    fontIcon="delete_forever" 
+                    style="color: white; margin-left: auto; margin-right: auto; display: block !important;">
+                </mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let disease; columns: displayedColumns;"></tr>
+    </table>
+    <br>
+    <mat-paginator [pageSizeOptions]="[4, 8, 12]"></mat-paginator>
+</div>

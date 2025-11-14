@@ -1,0 +1,41 @@
+<div class="disease-container" style="width: 1400px; margin-top:25px;margin-left:20px">
+    <h1 style="color: seagreen; font-weight: bold;" >Disease Details</h1>
+    <h3 style="color: lightseagreen; font-weight: bold;" >View and Edit a Disease data set</h3>
+    <mat-form-field style="width: 200px; height: 70px;">
+        <input matInput type="text" name="name" id="name" [(ngModel)]="disease.name" placeholder="name">
+        <mat-icon fontIcon="abc" matPrefix></mat-icon>
+    </mat-form-field>
+    <mat-form-field style="width: 700px; height: 70px; margin-left: 15px;">
+        <mat-select [value]="disease.associated_panels" [formControl]="panels" multiple placeholder="select panel(s)" (selectionChange)="showChange($event.value)">
+            @for (panel of disease.associated_panels; track panel.name) {
+                <mat-option [value]="panel">{{panel.name}}</mat-option>
+            }
+            @for (panel of panelList; track panel.name) {
+                @if (!isAssociatedPanel(panel)) {
+                    <mat-option [value]="panel">{{panel.name}}</mat-option>
+                }
+            }
+        </mat-select>
+        <mat-icon fontIcon="list" matPrefix></mat-icon>
+    </mat-form-field>
+    <div style="display: flex; align-items: center;">
+        <mat-form-field style="width: 575px">
+            <mat-label>analysis comment</mat-label>
+            <mat-icon fontIcon="analytics" matPrefix></mat-icon>
+            <textarea matInput placeholder="analysis comment" [(ngModel)]="disease.analysis_comment" name="analysis_comment" id="analysis_comment"></textarea>
+        </mat-form-field>
+        <mat-form-field style="width: 575px; margin-left: 10px;"> 
+            <mat-label>disease info</mat-label>
+            <mat-icon fontIcon="info_outline" matPrefix></mat-icon>
+            <textarea matInput placeholder="info" [(ngModel)]="disease.comment" name="comment" id="comment"></textarea>
+        </mat-form-field>
+        <button mat-flat-button class="button confirm" (click)="addUpdateDisease(disease)">Add/ Update</button>
+        <button mat-flat-button class="button cancel" (click)="unsetDisease()">Cancel</button>
+    </div>  
+    <br>
+    <mat-form-field style="width: 415px; height: 70px;">
+        <input matInput type="text" name="searchinput" id="searchinput" #filter (input)="searchDiseases(filter.value)" placeholder="search">
+        <mat-icon fontIcon="search" matPrefix></mat-icon>
+    </mat-form-field>
+    <br>
+</div>

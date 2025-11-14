@@ -1,0 +1,5 @@
+<!--<app-logged-out-message *ngIf="!loggedIn"></app-logged-out-message>-->
+@if(!loggedIn){
+    <app-logged-out-message></app-logged-out-message>
+}
+<router-outlet />
