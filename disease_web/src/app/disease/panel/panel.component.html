@@ -1,5 +1,27 @@
-<div class="panel-container" style="margin-left: 20px;">
-    <p>panel component template</p>
-</div>  
-
-
+<div class="panel-container" style="width: 1400px; margin-top:25px;margin-left:20px">
+    <h1 style="color: seagreen; font-weight: bold;" >Panels</h1>
+    <h3 style="color: lightseagreen; font-weight: bold;" >Full Stack App with Angular and Django</h3>
+    <mat-form-field style="width: 200px; height: 70px;">
+        <input matInput type="text" name="name" id="name" [(ngModel)]="panel.name" placeholder="name">
+        <mat-icon fontIcon="abc" matPrefix></mat-icon>
+    </mat-form-field>
+    <br>
+    <mat-form-field style="width: 200px; height: 70px;">
+        <input matInput type="text" name="genes" id="genes" [(ngModel)]="panel.genes" placeholder="genes">
+        <mat-icon fontIcon="list" matPrefix></mat-icon>
+    </mat-form-field>
+    <!--
+    <mat-form-field style="width: 700px; height: 70px; margin-left: 15px;">
+        <mat-icon fontIcon="list" matPrefix></mat-icon>
+    </mat-form-field>
+    <div style="display: flex; align-items: center;">
+        <mat-form-field style="width: 575px">
+            <mat-label>Panel Genes</mat-label>
+            <mat-icon fontIcon="analytics" matPrefix></mat-icon>
+            <textarea matInput placeholder="panel genes" [(ngModel)]="panel.genes" name="panel_genes" id="panel_genes"></textarea>
+        </mat-form-field>
+    </div>
+        <button mat-flat-button class="button confirm" (click)="addUpdatePanel(panel)">Add/ Update</button>
+        <button mat-flat-button class="button cancel" (click)="unsetPanel()">Cancel</button>
+    -->
+</div>
