@@ -131,6 +131,10 @@ export class HomeComponent implements AfterViewInit {
     */
   }
 
+  goToPanels() {
+    this.router.navigate(['/panels']);
+  }
+
   extEncodeURI(str: string): string {
     return encodeURI(str).replace(/[()]/g, function(c: string): string {
       return '%' + c.charCodeAt(0).toString(16);

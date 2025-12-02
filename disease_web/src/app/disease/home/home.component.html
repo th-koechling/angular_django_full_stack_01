@@ -1,30 +1,42 @@
 <div class="disease-container" style="width: 1400px; margin-top:25px;margin-left:20px">
     <h1 style="color: seagreen; font-weight: bold;" >Diseases</h1>
     <h3 style="color: lightseagreen; font-weight: bold;" >Full Stack App with Angular and Django</h3>
-    <mat-form-field style="width: 200px; height: 70px;">
-        <input matInput type="text" name="name" id="name" [(ngModel)]="disease.name" placeholder="name">
-        <mat-icon fontIcon="abc" matPrefix></mat-icon>
-    </mat-form-field>
-    <mat-form-field style="width: 700px; height: 70px; margin-left: 15px;">
-        <mat-select [value]="disease.associated_panels" [formControl]="panels" multiple placeholder="select panel(s)" (selectionChange)="showChange($event.value)">
-            @for (panel of disease.associated_panels; track panel.name) {
-                <mat-option [value]="panel">{{panel.name}}</mat-option>
-            }
-            @for (panel of panelList; track panel.name) {
-                @if (!isAssociatedPanel(panel)) {
+    <div style="display: flex; align-items: bottom;">
+        <mat-form-field style="width: 540px; height: 70px;">
+            <input matInput type="text" name="name" id="name" [(ngModel)]="disease.name" placeholder="name">
+            <mat-icon fontIcon="abc" matPrefix></mat-icon>
+        </mat-form-field>
+        <mat-form-field style="width: 700px; height: 70px; margin-left: 10px;">
+            <mat-select [value]="disease.associated_panels" [formControl]="panels" multiple placeholder="select panel(s)" (selectionChange)="showChange($event.value)">
+                @for (panel of disease.associated_panels; track panel.name) {
                     <mat-option [value]="panel">{{panel.name}}</mat-option>
                 }
-            }
-        </mat-select>
-        <mat-icon fontIcon="list" matPrefix></mat-icon>
-    </mat-form-field>
+                @for (panel of panelList; track panel.name) {
+                    @if (!isAssociatedPanel(panel)) {
+                        <mat-option [value]="panel">{{panel.name}}</mat-option>
+                    }
+                }
+            </mat-select>
+            <mat-icon fontIcon="list" matPrefix></mat-icon>
+        </mat-form-field>
+        <button 
+            mat-flat-button 
+            (click)="goToPanels()" 
+            style="color: white; background-color: cornflowerblue; height: 50px; width: 140px; margin-left: 10px;"
+            >See Panels
+            <mat-icon 
+            fontIcon="visibility" 
+            style="color: white; margin-left: auto; margin-right: auto; display: block !important;">
+            </mat-icon>
+        </button>
+    </div>
     <div style="display: flex; align-items: center;">
-        <mat-form-field style="width: 575px">
+        <mat-form-field style="width: 635px">
             <mat-label>analysis comment</mat-label>
             <mat-icon fontIcon="analytics" matPrefix></mat-icon>
             <textarea matInput placeholder="analysis comment" [(ngModel)]="disease.analysis_comment" name="analysis_comment" id="analysis_comment"></textarea>
         </mat-form-field>
-        <mat-form-field style="width: 575px; margin-left: 10px;"> 
+        <mat-form-field style="width: 635px; margin-left: 10px;"> 
             <mat-label>disease info</mat-label>
             <mat-icon fontIcon="info_outline" matPrefix></mat-icon>
             <textarea matInput placeholder="info" [(ngModel)]="disease.comment" name="comment" id="comment"></textarea>
