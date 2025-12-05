@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Disease
 from .models import Panel
+from .models import DiseasePanel
 
 class PanelSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,6 +19,19 @@ class PanelCustomSerializer(serializers.ModelSerializer):
             'id',
             'name',
         )
+
+class DiseasePanelSerializer(serializers.ModelSerializer):
+    disease_name = serializers.CharField(source="disease.name", read_only=True)
+    panel_name = serializers.CharField(source="panel.name", read_only=True)
+    class Meta:
+        model = DiseasePanel
+        fields = (
+            'id',
+            'disease_name',
+            'panel_name',
+            'rank',
+        )
+
 
 class DiseaseSerializer(serializers.ModelSerializer):
     associated_panels = PanelSerializer(many=True, required=False, read_only=False)

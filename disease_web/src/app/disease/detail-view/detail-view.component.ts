@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DiseaseService } from '../disease.service';
 import { Disease } from '../interfaces';
 import { Panel } from '../interfaces';
+import { DiseasePanel } from '../interfaces';
 import { FormsModule, FormControl } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormField } from '@angular/material/form-field';
@@ -49,7 +50,7 @@ export class DetailViewComponent implements OnInit {
     genes: '',
   };
 
-  displayedColumns: string[] = ['rank', 'name', 'genes'];
+  displayedColumns: string[] = ['panelid', 'name', 'genes', 'rank'];
   dataSource = new MatTableDataSource<Panel>();
   /*
   @ViewChild(MatSort) sort: any;

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Panel } from './../interfaces';
+import { DiseasePanel } from './../interfaces';
 import { DiseaseService } from '../disease.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { FormsModule, FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -18,6 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class PanelComponent implements OnInit {
   panelList: Panel[] = [];
+  diseasePanelList: DiseasePanel[] = [];
   constructor(private diseaseService: DiseaseService) {}
 
   panels = new FormControl('');
@@ -26,13 +28,19 @@ export class PanelComponent implements OnInit {
     genes: '',
   };
 
+
+
   displayedColumns = ['name', 'genes'];
   dataSource = new MatTableDataSource<Panel>();
 
   ngOnInit(): void {
     this.diseaseService.getPanels().subscribe((data) => {
-        this.panelList = data;
-        console.log(this.panels);
+      this.panelList = data;
+      //console.log(this.panels);
+    });
+    this.diseaseService.getDiseasePanels().subscribe((data) => {
+      this.diseasePanelList = data;
+      console.log("DEBUG: diseasePanels: ", this.diseasePanelList, "<= DEBUG");
     });
   }
 

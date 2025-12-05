@@ -10,3 +10,10 @@ export interface Disease {
     analysis_comment:string,
     associated_panels:Panel[],
 }
+
+export interface DiseasePanel {
+    id:Number,
+    disease_name:string,
+    panel_name:string,
+    rank:Number,
+}

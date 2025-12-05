@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Disease } from './interfaces';
+import { DiseasePanel } from './interfaces';
 import { Panel } from './interfaces';
 import { environment } from '../../environments/environment.development';
 import { map } from 'rxjs/operators';
@@ -14,6 +15,7 @@ export class DiseaseService {
 
   private diseaseUrl: String = "/api/diseases/";
   private panelUrl: String = "/api/panels/";
+  private diseasePanelUrl: String = "/api/diseasepanels/";
   private detailViewUrl: String = "/api/diseases/home/detail-view/";
   constructor(private httpClient:HttpClient) { }
 
@@ -51,9 +53,12 @@ export class DiseaseService {
   getPanels(): Observable<Panel[]> {
     return this.httpClient.get<Panel[]>(`${environment.apiUrl}${this.panelUrl}`);
   }
+
+  getDiseasePanels(): Observable<DiseasePanel[]> {
+    return this.httpClient.get<DiseasePanel[]>(`${environment.apiUrl}${this.diseasePanelUrl}`);
+  }
+
 }
-
-
 
 
 
