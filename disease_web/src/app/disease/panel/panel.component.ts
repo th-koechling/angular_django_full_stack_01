@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Panel } from './../interfaces';
 import { DiseasePanel } from './../interfaces';
 import { DiseaseService } from '../disease.service';
@@ -13,14 +14,16 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-panel',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatButtonModule, MatInputModule],
+  imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, 
+            MatButtonModule, MatIconModule, MatInputModule, MatTableModule],
   templateUrl: './panel.component.html',
   styleUrl: './panel.component.css'
 })
 export class PanelComponent implements OnInit {
   panelList: Panel[] = [];
   diseasePanelList: DiseasePanel[] = [];
-  constructor(private diseaseService: DiseaseService) {}
+  constructor(private diseaseService: DiseaseService,
+              private router: Router) {}
 
   panels = new FormControl('');
   panel: Panel = {
@@ -28,19 +31,18 @@ export class PanelComponent implements OnInit {
     genes: '',
   };
 
-
-
-  displayedColumns = ['name', 'genes'];
+  displayedColumns: string[] = ['name', 'genes'];
   dataSource = new MatTableDataSource<Panel>();
 
   ngOnInit(): void {
     this.diseaseService.getPanels().subscribe((data) => {
       this.panelList = data;
-      //console.log(this.panels);
+      this.dataSource = new MatTableDataSource<Panel>(this.panelList);
+      console.log("DEBUG: all panels: ", this.panelList);
     });
     this.diseaseService.getDiseasePanels().subscribe((data) => {
       this.diseasePanelList = data;
-      console.log("DEBUG: diseasePanels: ", this.diseasePanelList, "<= DEBUG");
+      console.log("DEBUG: diseasePanels: ", this.diseasePanelList);
     });
   }
 
@@ -52,6 +54,8 @@ export class PanelComponent implements OnInit {
     return "blahhhhaaahhh!!!";
   }
 
-
+  goToHome() {
+    this.router.navigate(['/']);
+  }
 
 }

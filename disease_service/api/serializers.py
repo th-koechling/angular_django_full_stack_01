@@ -3,6 +3,7 @@ from .models import Disease
 from .models import Panel
 from .models import DiseasePanel
 
+
 class PanelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Panel
