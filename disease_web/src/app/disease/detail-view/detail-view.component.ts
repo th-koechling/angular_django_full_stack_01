@@ -52,6 +52,7 @@ export class DetailViewComponent implements OnInit {
 
   displayedColumns: string[] = ['panelid', 'name', 'genes', 'rank'];
   dataSource = new MatTableDataSource<Panel>();
+  diseasePanels: DiseasePanel[] = [];
   /*
   @ViewChild(MatSort) sort: any;
   @ViewChild(MatPaginator) paginator: any;
@@ -64,16 +65,27 @@ export class DetailViewComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(params => {this.diseaseName = params['diseaseName']});
       console.log("Detail view for disease (queryParams): ", this.diseaseName);
-
-    this.diseaseService.getDiseaseByName(this.diseaseName!).subscribe((data) => {
-      this.disease = data;
-      console.log("Loaded disease details: ", this.disease); 
-      this.dataSource = new MatTableDataSource<Panel>(this.disease.associated_panels);
-      console.log("Associated panels data source: ", this.dataSource);
-    });
-    this.diseaseService.getPanels().subscribe((data) => {
-      this.panelList = data;
-      console.log("loaded panels: ", this.panelList)
+    // TODO: make nicer by using forkjoin (deprecated?) or combineLatest (for simultaneous calls), 
+    // or merge map, switch map (to call one after another) -->
+    this.diseaseService.getDiseaseByName(this.diseaseName!).subscribe((disease_data) => {
+      this.diseaseService.getPanels().subscribe((panel_data) => {
+        this.diseaseService.getDiseasePanels().subscribe((disease_panel_data) => {
+          const associatedPanels: Panel[] = [];
+          disease_panel_data.forEach(dp => {
+            if (dp.disease_name === disease_data.name) {
+              const panel = panel_data.find(p => p.name === dp.panel_name);
+              if (panel) {
+                panel['rank'] = dp.rank;  // M2M: join/add rank to panel
+                associatedPanels.push(panel);
+              }
+            }
+          });
+          this.disease = disease_data;
+          this.disease.associated_panels = associatedPanels;
+          this.dataSource = new MatTableDataSource<Panel>(this.disease.associated_panels);
+          console.log("Final disease with associated panels: ", this.disease);
+        });
+      });
     });
   }
 
@@ -91,6 +103,7 @@ export class DetailViewComponent implements OnInit {
     this.disease.associated_panels = rowData.associated_panels;
     this.panelsPreSelect = this.disease.associated_panels;
     console.log("current associated panels: ", this.disease.associated_panels);
+    // TODO: I AM HERE: set rank values in associated panels
   }
 
   unsetDisease() {
@@ -102,6 +115,7 @@ export class DetailViewComponent implements OnInit {
   }
 
   addUpdateDisease(disease: Disease) {
+    // TODO: I AM HERE: set rank values in associated panels
     console.log("Adding/updating disease: ", disease);
     if (disease.id !== 0) {
       this.diseaseService.updateDisease(disease).subscribe({
@@ -113,7 +127,7 @@ export class DetailViewComponent implements OnInit {
           console.log(err);
         }
       })
-    } else {;
+    } else {
       this.diseaseService.createDisease(disease).subscribe({
         next:(data) => {
           console.log("New disease created successfully");

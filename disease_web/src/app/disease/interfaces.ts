@@ -1,6 +1,7 @@
 export interface Panel {
     name:string,
     genes:string,
+    rank?:Number,  // optional, for use in associated panels
 }
 
 export interface Disease {
