@@ -37,8 +37,6 @@ export class DiseaseService {
     );  
   }
 
-
-
   createDisease(data: Disease) {
     return this.httpClient.post<Disease>(`${environment.apiUrl}${this.diseaseUrl}`, data);
   }

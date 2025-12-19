@@ -19,10 +19,3 @@ class DiseasePanelViewSet(viewsets.ModelViewSet):
     queryset = DiseasePanel.objects.all()
     serializer_class = DiseasePanelSerializer
 
-
-def index(request):
-    #disease_panels = DiseasePanel.objects.all()
-    disease_panels = DiseasePanel.objects.prefetch_related('disease', 'panel').all()
-    for dp in disease_panels:
-        print(f"Disease: {dp.disease.name}, Panel: {dp.panel.name}, Rank: {dp.rank}")
-    return render(request, 'api/index.html', {'disease_panels': disease_panels})

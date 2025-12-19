@@ -6,6 +6,7 @@ import { Panel } from '../interfaces';
 import { DiseasePanel } from '../interfaces';
 import { FormsModule, FormControl } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Observable, forkJoin } from 'rxjs';
 import { MatFormField } from '@angular/material/form-field';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -63,29 +64,24 @@ export class DetailViewComponent implements OnInit {
   */
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {this.diseaseName = params['diseaseName']});
-      console.log("Detail view for disease (queryParams): ", this.diseaseName);
-    // TODO: make nicer by using forkjoin (deprecated?) or combineLatest (for simultaneous calls), 
-    // or merge map, switch map (to call one after another) -->
-    this.diseaseService.getDiseaseByName(this.diseaseName!).subscribe((disease_data) => {
-      this.diseaseService.getPanels().subscribe((panel_data) => {
-        this.diseaseService.getDiseasePanels().subscribe((disease_panel_data) => {
-          const associatedPanels: Panel[] = [];
-          disease_panel_data.forEach(dp => {
-            if (dp.disease_name === disease_data.name) {
-              const panel = panel_data.find(p => p.name === dp.panel_name);
-              if (panel) {
-                panel['rank'] = dp.rank;  // M2M: join/add rank to panel
-                associatedPanels.push(panel);
-              }
-            }
-          });
-          this.disease = disease_data;
-          this.disease.associated_panels = associatedPanels;
-          this.dataSource = new MatTableDataSource<Panel>(this.disease.associated_panels);
-          console.log("Final disease with associated panels: ", this.disease);
-        });
+    const panels$: Observable<Panel[]> = this.diseaseService.getPanels();
+    const diseasePanels$: Observable<DiseasePanel[]> = this.diseaseService.getDiseasePanels();
+    const disease$: Observable<Disease> = this.diseaseService.getDiseaseByName(this.route.snapshot.queryParamMap.get('diseaseName')!);
+    forkJoin([panels$, diseasePanels$, disease$]).subscribe(([panel_data, disease_panel_data, disease_data]) => {
+      const associated_panels: Panel[] = [];
+      disease_panel_data.forEach(dp => {
+        if (dp.disease_name === disease_data.name) {
+          const panel: Panel | undefined = panel_data.find(p => p.name === dp.panel_name);
+          if (panel) {
+            panel['rank'] = dp.rank;  // M2M: join/add rank to panel
+            associated_panels.push(panel);
+          }
+        }
       });
+      this.disease = disease_data;
+      this.disease.associated_panels = associated_panels;
+      this.dataSource = new MatTableDataSource<Panel>(this.disease.associated_panels);
+      console.log("Disease details with associated panels: ", this.disease);
     });
   }
 
@@ -116,12 +112,16 @@ export class DetailViewComponent implements OnInit {
 
   addUpdateDisease(disease: Disease) {
     // TODO: I AM HERE: set rank values in associated panels
+    //       -> use forkJoin to update Disease and DiseasePanels simultaneously?
+    //       -> or let the disease service do this?
+    //       (what do post and put methods return?)
     console.log("Adding/updating disease: ", disease);
     if (disease.id !== 0) {
+      console.log("DEBUG: assoc panels: ", disease.associated_panels);
       this.diseaseService.updateDisease(disease).subscribe({
         next:(data) => {
           console.log("Disease data updated");
-          window.location.reload();
+          //window.location.reload();
         },
         error:(err: any) => {
           console.log(err);
@@ -131,7 +131,7 @@ export class DetailViewComponent implements OnInit {
       this.diseaseService.createDisease(disease).subscribe({
         next:(data) => {
           console.log("New disease created successfully");
-          window.location.reload();
+          //window.location.reload();
         },
         error:(err) => {
           console.log(err);

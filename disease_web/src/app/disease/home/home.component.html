@@ -69,7 +69,7 @@
         </ng-container>
         <ng-container matColumnDef="associated_panels">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Panels </th>
-            <!--<td mat-cell *matCellDef="let disease">{{ disease.associated_panels }}</td>-->
+            <!--<td mat-cell *matCellDef="let disease">{{ disease.associatedPanels }}</td>-->
             <td mat-cell *matCellDef="let disease">
                 @for (panel of disease.associated_panels; track panel.name) {
                     <li>{{ panel.name }}</li>

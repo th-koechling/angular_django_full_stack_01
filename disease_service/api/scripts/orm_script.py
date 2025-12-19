@@ -17,8 +17,6 @@ def run():
     disease.associated_panels.add(panel_01, through_defaults={'rank': rank_one})
     disease.associated_panels.add(panel_02, through_defaults={'rank': rank_two})
 
-
-
     """
     DiseasePanel.objects.create(
         disease=disease,

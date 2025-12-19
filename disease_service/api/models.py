@@ -1,5 +1,6 @@
 from django.db import models
 
+# TODO: I am here: manage unique constraints!!!
 
 class Panel(models.Model):
     name = models.CharField(max_length=500)
@@ -21,13 +22,16 @@ class Disease(models.Model):
         return self.name
 
 
-# TODO: I AM HERE
-# Association table between Disease and Panel with additional 'rank' field ("Reihenfolge bei der Auswertung")
 class DiseasePanel(models.Model):
     disease = models.ForeignKey(Disease, on_delete=models.CASCADE)
     panel = models.ForeignKey(Panel, on_delete=models.CASCADE)
     rank = models.PositiveIntegerField(null=True)
     class Meta:
         db_table = 'disease_panel'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['disease', 'panel'], name='unique_disease_panel'
+            )
+        ]
     def __str__(self):
         return f"{self.disease.name} - {self.panel.name}"
