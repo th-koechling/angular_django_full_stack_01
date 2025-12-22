@@ -1,6 +1,18 @@
 <div class="panel-container" style="width: 1400px; margin-top:25px;margin-left:20px">
     <h1 style="color: seagreen; font-weight: bold;" >Panels</h1>
     <h3 style="color: lightseagreen; font-weight: bold;" >Add, edit and view disease-associated panels</h3>
+    <div style="display: flex; align-items: bottom;">
+        <mat-form-field style="width: 540px; height: 75px;">
+            <input matInput type="text" name="name" id="name" [(ngModel)]="panel.name" placeholder="name">
+            <mat-icon fontIcon="abc" matPrefix></mat-icon>
+        </mat-form-field>
+        <mat-form-field style="width: 640px; height: 75px; margin-left: 10px;">
+            <input matInput type="text" name="genes" id="genes" [(ngModel)]="panel.genes" placeholder="genes">
+            <mat-icon fontIcon="list" matPrefix></mat-icon>
+        </mat-form-field>
+        <button mat-flat-button class="button confirm" (click)="addUpdatePanel(panel)">Add/ Update</button>
+        <button mat-flat-button class="button cancel" (click)="unsetPanel()">Cancel</button>
+    </div>
 
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
         <ng-container matColumnDef="name">

@@ -27,9 +27,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 })
 export class HomeComponent implements AfterViewInit {
   
-  constructor(private diseaseService: DiseaseService) {
-
-  }
+  constructor(private diseaseService: DiseaseService) { }
   displayedColumns: string[] = ['id', 'name', 'comment', 'analysis_comment', 
                                 'associated_panels', 'edit', 'view',  'delete'];
   dataSource = new MatTableDataSource<Disease>();
@@ -52,6 +50,7 @@ export class HomeComponent implements AfterViewInit {
   panels = new FormControl('');
   panelList: Panel[] = [];
   panel: Panel = {
+    id: 0,
     name: '',
     genes: '',
   };
@@ -159,7 +158,7 @@ export class HomeComponent implements AfterViewInit {
           console.log(err);
         }
       })
-    } else {;
+    } else {
       this.diseaseService.createDisease(disease).subscribe({
         next:(data) => {
           console.log("New disease created successfully");

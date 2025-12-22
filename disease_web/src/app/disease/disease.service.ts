@@ -54,6 +54,18 @@ export class DiseaseService {
     return this.httpClient.get<Panel[]>(`${environment.apiUrl}${this.panelUrl}`);
   }
 
+  createPanel(data: Panel) {
+    return this.httpClient.post<Panel>(`${environment.apiUrl}${this.panelUrl}`, data);
+  }
+
+  updatePanel(data: Panel) {
+    return this.httpClient.put<Panel>(`${environment.apiUrl}${this.panelUrl}${data.id}/`, data);
+  }
+
+  deletePanel(id: Number) {
+    return this.httpClient.delete<Panel>(`${environment.apiUrl}${this.panelUrl}${id}/`);
+  }
+
   getDiseasePanels(): Observable<DiseasePanel[]> {
     return this.httpClient.get<DiseasePanel[]>(`${environment.apiUrl}${this.diseasePanelUrl}`);
   }

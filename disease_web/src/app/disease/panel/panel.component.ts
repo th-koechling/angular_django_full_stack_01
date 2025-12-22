@@ -26,10 +26,7 @@ export class PanelComponent implements OnInit {
               private router: Router) {}
 
   panels = new FormControl('');
-  panel: Panel = {
-    name: '',
-    genes: '',
-  };
+  panel: Panel = {id: 0, name: '', genes: ''};
 
   displayedColumns: string[] = ['name', 'genes'];
   dataSource = new MatTableDataSource<Panel>();
@@ -47,11 +44,48 @@ export class PanelComponent implements OnInit {
   }
 
   addUpdatePanel(panel: Panel) {
-    return "blah!";
+    console.log("Adding/updating panel: ", panel);
+    if (this.panel.id !== 0) {
+      this.diseaseService.updatePanel(panel).subscribe({
+        next:(data) => {
+          console.log("Panel data updated");
+          window.location.reload(); 
+        },
+        error:(err: any) => {
+          console.log(err);
+        }
+      })
+    } else {
+      this.diseaseService.createPanel(panel).subscribe({
+        next:(data) => {
+          console.log("New panel created successfully");
+          window.location.reload();
+        },
+        error:(err) => {
+          console.log(err);
+        }
+      })
+    }
   }
 
   unsetPanel() {
-    return "blahhhhaaahhh!!!";
+    this.panel.id = 0;
+    this.panel.name = '';
+    this.panel.genes = '';  
+  }
+
+  setPanel(rowData: Panel) {
+    this.panel.id = rowData.id;
+    this.panel.name = rowData.name;
+    this.panel.genes = rowData.genes;
+  }
+
+  deletePanel(id: Number) {
+    const confirm = window.confirm("Delete panel?");
+    this.diseaseService.deletePanel(id).subscribe((data) => {
+      this.panelList = this.panelList.filter(item => item.id !== id)
+      window.location.reload();
+    });
   }
 
   goToHome() {

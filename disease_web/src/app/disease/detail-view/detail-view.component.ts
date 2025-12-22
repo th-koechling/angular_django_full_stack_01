@@ -47,6 +47,7 @@ export class DetailViewComponent implements OnInit {
   panels = new FormControl('');
   panelList: Panel[] = [];
   panel: Panel = {
+    id: 0,
     name: '',
     genes: '',
   };
@@ -111,6 +112,7 @@ export class DetailViewComponent implements OnInit {
   }
 
   addUpdateDisease(disease: Disease) {
+    // BUG: not all panels are available for selection here!!!
     // TODO: I AM HERE: set rank values in associated panels
     //       -> use forkJoin to update Disease and DiseasePanels simultaneously?
     //       -> or let the disease service do this?
@@ -121,7 +123,7 @@ export class DetailViewComponent implements OnInit {
       this.diseaseService.updateDisease(disease).subscribe({
         next:(data) => {
           console.log("Disease data updated");
-          //window.location.reload();
+          window.location.reload();
         },
         error:(err: any) => {
           console.log(err);
@@ -131,7 +133,7 @@ export class DetailViewComponent implements OnInit {
       this.diseaseService.createDisease(disease).subscribe({
         next:(data) => {
           console.log("New disease created successfully");
-          //window.location.reload();
+          window.location.reload();
         },
         error:(err) => {
           console.log(err);
