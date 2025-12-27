@@ -45,6 +45,8 @@ export class DetailViewComponent implements OnInit {
               private router: Router) {}
 
   panels = new FormControl('');
+  rankValues: number[] = [];
+  //rankFormControl = new FormControl([1]);
   panelList: Panel[] = [];
   panel: Panel = {
     id: 0,
@@ -52,7 +54,7 @@ export class DetailViewComponent implements OnInit {
     genes: '',
   };
 
-  displayedColumns: string[] = ['panelid', 'name', 'genes', 'rank'];
+  displayedColumns: string[] = ['rank', 'name', 'genes', 'setRank'];
   dataSource = new MatTableDataSource<Panel>();
   diseasePanels: DiseasePanel[] = [];
   /*
@@ -68,19 +70,29 @@ export class DetailViewComponent implements OnInit {
     const panels$: Observable<Panel[]> = this.diseaseService.getPanels();
     const diseasePanels$: Observable<DiseasePanel[]> = this.diseaseService.getDiseasePanels();
     const disease$: Observable<Disease> = this.diseaseService.getDiseaseByName(this.route.snapshot.queryParamMap.get('diseaseName')!);
+    
     forkJoin([panels$, diseasePanels$, disease$]).subscribe(([panel_data, disease_panel_data, disease_data]) => {
       const associated_panels: Panel[] = [];
       disease_panel_data.forEach(dp => {
         if (dp.disease_name === disease_data.name) {
           const panel: Panel | undefined = panel_data.find(p => p.name === dp.panel_name);
           if (panel) {
+            if (dp.rank == null) {
+              console.log(dp.panel_name, "<- panel rank is null");
+              dp.rank = 0;
+            }
             panel['rank'] = dp.rank;  // M2M: join/add rank to panel
             associated_panels.push(panel);
           }
         }
       });
+      this.diseasePanels = disease_panel_data;
       this.disease = disease_data;
       this.disease.associated_panels = associated_panels;
+      const numberOfRanks = associated_panels.length
+      for (let i = 1; i <= numberOfRanks; i++) {
+        this.rankValues.push(i);
+      }
       this.dataSource = new MatTableDataSource<Panel>(this.disease.associated_panels);
       console.log("Disease details with associated panels: ", this.disease);
     });
@@ -91,6 +103,7 @@ export class DetailViewComponent implements OnInit {
     console.log("TYPE: ", typeof(value));
     this.disease.associated_panels = value;
   }
+
 
   setDisease(rowData: Disease) {
     this.disease.id = rowData.id;
@@ -103,12 +116,19 @@ export class DetailViewComponent implements OnInit {
     // TODO: I AM HERE: set rank values in associated panels
   }
 
-  unsetDisease() {
+  XXXunsetDisease() {
     this.disease.id = 0;
     this.disease.name = '';
     this.disease.comment = '';
     this.disease.analysis_comment = '';
     this.disease.associated_panels = this.associated_panels;
+  }
+
+  unsetDisease() {
+    this.diseaseService.getDiseaseByName(this.route.snapshot.queryParamMap.get('diseaseName')!).subscribe((data) => {
+      this.disease = data;
+      //this.disease.associated_panels = this.associated_panels;
+    });
   }
 
   addUpdateDisease(disease: Disease) {
@@ -142,10 +162,47 @@ export class DetailViewComponent implements OnInit {
     }
   }
 
+
+
   isAssociatedPanel(panel: Panel): boolean {
     //console.log("Checking if panel is associated: ", panel);
     return this.disease.associated_panels?.some((p: Panel) => p.name === panel.name);
   }
+
+  setRank({panel, value}: {panel: Panel, value: Number}) {
+    console.log("check value: ", value);
+    console.log("for panel: ", panel);
+    //console.log("diseasePanels: ", this.diseasePanels);
+    const rank = value;
+    this.diseasePanels.forEach((dp: DiseasePanel) => {
+      //console.log("checking diseasePanel: ", dp);
+      if (dp.disease_name === this.disease.name && dp.panel_name === panel.name) {
+        console.log("panel name: ", dp.panel_name, "rank: ", dp.rank);
+        const data: DiseasePanel = {
+          id : dp.id,
+          panel_name : dp.panel_name, 
+          disease_name : this.disease.name, 
+          rank : rank
+        };
+        console.log("data for update: ", data);
+        this.diseaseService.updateDiseasePanel(data).subscribe({
+          next:(data) => {
+            console.log("diseasePanel updated");
+          },
+          error:(err) => {
+            console.log(err);
+          }
+        });
+      }
+    })
+  }
+
+  showRankChange(value: any) {
+    console.log("check value: ", value);
+    // TODO: logic
+  }
+
+
 
   goToDiseaseOverview() {
     this.router.navigate(['/diseases']);

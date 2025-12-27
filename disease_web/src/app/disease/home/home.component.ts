@@ -29,7 +29,7 @@ export class HomeComponent implements AfterViewInit {
   
   constructor(private diseaseService: DiseaseService) { }
   displayedColumns: string[] = ['id', 'name', 'comment', 'analysis_comment', 
-                                'associated_panels', 'edit', 'view',  'delete'];
+                                'associated_panels', 'edit', 'view', 'delete'];
   dataSource = new MatTableDataSource<Disease>();
   @ViewChild(MatSort) sort: any;
   @ViewChild(MatPaginator) paginator: any;

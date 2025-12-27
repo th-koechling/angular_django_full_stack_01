@@ -10,6 +10,7 @@ import { DiseasePanel } from '../interfaces';
 })
 export class PanelServiceService {
 
+  // TODO: obsolete -> delete this service, functions provided by DiseaseService!!!
   private panelUrl: String = "/api/panels/";
   private diseasePanelUrl: String = "/api/diseasepanels/";
   constructor(private httpClient:HttpClient) { }

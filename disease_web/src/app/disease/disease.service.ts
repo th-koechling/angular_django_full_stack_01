@@ -70,6 +70,16 @@ export class DiseaseService {
     return this.httpClient.get<DiseasePanel[]>(`${environment.apiUrl}${this.diseasePanelUrl}`);
   }
 
+  createDiseasePanel(data: DiseasePanel) {
+    return this.httpClient.post<DiseasePanel>(`${environment.apiUrl}${this.diseasePanelUrl}`, data);
+  }
+
+  updateDiseasePanel(data: DiseasePanel) {
+    return this.httpClient.put<DiseasePanel>(`${environment.apiUrl}${this.diseasePanelUrl}${data.id}/`, data);
+  }
+
+  // deleteDiseasePanel() should not be necessary because of cascading delete when both foreign keys are deleted
+
 }
 
 
