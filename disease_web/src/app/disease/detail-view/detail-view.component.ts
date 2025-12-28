@@ -78,11 +78,13 @@ export class DetailViewComponent implements OnInit {
         if (dp.disease_name === disease_data.name) {
           const panel: Panel | undefined = panel_data.find(p => p.name === dp.panel_name);
           if (panel) {
+            console.log("DEBUG: panel rank: ", dp.rank);
             if (dp.rank == null) {
               console.log(dp.panel_name, "<- panel rank is null");
               dp.rank = 0;
             }
-            panel['rank'] = dp.rank;  // M2M: join/add rank to panel
+            console.log("oninit -> dp rank", dp.rank);
+            //panel['rank'] = dp.rank;  // M2M: join/add rank to panel
             associated_panels.push(panel);
           }
         }
@@ -137,7 +139,51 @@ export class DetailViewComponent implements OnInit {
     //       (what do post and put methods return?)
     // <<-- modified diseasePanel data is available here!! -->>
 
-  addUpdateDisease(disease: Disease) {
+  updateDisease(disease: Disease) {
+    if (disease.id !== 0) {
+      console.log("diseassPanels before update: ", this.diseasePanels);
+      console.log("DEBUG: disease: ", disease);
+      /*
+      disease.associated_panels.forEach((panel: Panel) => {
+        this.diseasePanels.forEach((dp: DiseasePanel) => {
+          if (dp.disease_name === disease.name && dp.panel_name === panel.name) {
+            console.log("MATCH! panel name: ", dp.panel_name, "rank: ", dp.rank);
+            //panel['rank'] = dp.rank;  // M2M: join/add rank to panel
+            disease.associated_panels.push(panel);
+            console.log("d.e.b.u.g. -> ", disease);
+          }
+      })
+    });
+          */
+      this.diseaseService.updateDisease(disease).subscribe({
+        next:(disease) => {
+          console.log("D.A.T.A.: ", disease);
+          console.log("disease updated"); 
+          //window.location.reload();
+        },
+        error:(err) => {
+          console.log(err);
+        }
+      });
+    } 
+    /*
+    else {
+      this.diseaseService.createDisease(disease).subscribe({
+        next:(data) => {
+          console.log("New disease created successfully");
+          window.location.reload();
+        },
+        error:(err) => {
+          console.log(err);
+        }
+      }) 
+    }
+      */
+
+    //this.updateDiseasePanels(disease);
+  }
+
+  updateDiseasePanels(disease: Disease) {
     this.diseasePanels = this.diseasePanelBuffer;
     // <-- using the buffer in the setRank method, so it can be cancelled if needed (button press)
     console.log("DEBUG: disease.id: ", disease.id);
@@ -157,18 +203,11 @@ export class DetailViewComponent implements OnInit {
           })
         }
       });
-    } else {
-      this.diseaseService.createDisease(disease).subscribe({
-        next:(data) => {
-          console.log("New disease created successfully");
-          window.location.reload();
-        },
-        error:(err) => {
-          console.log(err);
-        }
-      }) 
     }
   }
+
+
+
 
   isAssociatedPanel(panel: Panel): boolean {
     return this.disease.associated_panels?.some((p: Panel) => p.name === panel.name);

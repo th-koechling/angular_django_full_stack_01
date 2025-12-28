@@ -29,8 +29,12 @@
             <mat-icon fontIcon="info_outline" matPrefix></mat-icon>
             <textarea matInput placeholder="info" [(ngModel)]="disease.comment" name="comment" id="comment"></textarea>
         </mat-form-field>
-        <button mat-flat-button class="button confirm" (click)="addUpdateDisease(disease)">
+        <button mat-flat-button class="button confirm" (click)="updateDisease(disease)">
             Save
+            <mat-icon fontIcon="save" style="font-size: 20px;"></mat-icon>
+        </button>
+        <button mat-flat-button class="button confirm" (click)="updateDiseasePanels(disease)">
+            Save Panels
             <mat-icon fontIcon="save" style="font-size: 20px;"></mat-icon>
         </button>
         <button mat-flat-button class="button cancel" (click)="unsetDisease()">
