@@ -116,6 +116,8 @@ export class DetailViewComponent implements OnInit {
     // TODO: I AM HERE: set rank values in associated panels
   }
 
+
+  // remove: should not be blank after pressing 'cancel'!
   XXXunsetDisease() {
     this.disease.id = 0;
     this.disease.name = '';
@@ -123,6 +125,7 @@ export class DetailViewComponent implements OnInit {
     this.disease.analysis_comment = '';
     this.disease.associated_panels = this.associated_panels;
   }
+
 
   unsetDisease() {
     this.diseaseService.getDiseaseByName(this.disease.name).subscribe((data) => {
@@ -132,55 +135,39 @@ export class DetailViewComponent implements OnInit {
     });
   }
 
-    // BUG: not all panels are available for selection here!!!
-    // TODO: I AM HERE: set rank values in associated panels
-    //       -> use forkJoin to update Disease and DiseasePanels simultaneously?
-    //       -> or let the disease service do this?
-    //       (what do post and put methods return?)
-    // <<-- modified diseasePanel data is available here!! -->>
 
+  // TODO: -> use forkJoin to update Disease and DiseasePanels simultaneously?
+  // BUG: not all panels are available for selection here!!!
   updateDisease(disease: Disease) {
+    this.diseasePanels = this.diseasePanelBuffer;
+    this.diseasePanels.forEach((dp: DiseasePanel) => {
+      if (dp.disease_name === this.disease.name) {
+        console.log("panel name: ", dp.panel_name, "rank: ", dp.rank);
+        this.diseaseService.updateDiseasePanel(dp).subscribe({
+          next:(data) => {
+            console.log("diseasePanel updated", data);
+            window.location.reload();
+          },
+          error:(err) => {
+            console.log(err);
+          }
+        })
+      }
+    });
     if (disease.id !== 0) {
       console.log("diseassPanels before update: ", this.diseasePanels);
       console.log("DEBUG: disease: ", disease);
-      /*
-      disease.associated_panels.forEach((panel: Panel) => {
-        this.diseasePanels.forEach((dp: DiseasePanel) => {
-          if (dp.disease_name === disease.name && dp.panel_name === panel.name) {
-            console.log("MATCH! panel name: ", dp.panel_name, "rank: ", dp.rank);
-            //panel['rank'] = dp.rank;  // M2M: join/add rank to panel
-            disease.associated_panels.push(panel);
-            console.log("d.e.b.u.g. -> ", disease);
-          }
-      })
-    });
-          */
       this.diseaseService.updateDisease(disease).subscribe({
         next:(disease) => {
           console.log("D.A.T.A.: ", disease);
           console.log("disease updated"); 
-          //window.location.reload();
+          window.location.reload();
         },
         error:(err) => {
           console.log(err);
         }
       });
     } 
-    /*
-    else {
-      this.diseaseService.createDisease(disease).subscribe({
-        next:(data) => {
-          console.log("New disease created successfully");
-          window.location.reload();
-        },
-        error:(err) => {
-          console.log(err);
-        }
-      }) 
-    }
-      */
-
-    //this.updateDiseasePanels(disease);
   }
 
   updateDiseasePanels(disease: Disease) {
@@ -207,15 +194,7 @@ export class DetailViewComponent implements OnInit {
   }
 
 
-
-
-  isAssociatedPanel(panel: Panel): boolean {
-    return this.disease.associated_panels?.some((p: Panel) => p.name === panel.name);
-  }
-
   setRank({panel, value}: {panel: Panel, value: Number}) {
-    // TODO!? empty buffer here?
-    // this.diseasePanelBuffer = [];
     const rank = value;
     this.diseasePanels.forEach((dp: DiseasePanel) => {
       if (dp.disease_name === this.disease.name && dp.panel_name === panel.name) {
@@ -229,6 +208,12 @@ export class DetailViewComponent implements OnInit {
       }
     })
   }
+
+
+  isAssociatedPanel(panel: Panel): boolean {
+    return this.disease.associated_panels?.some((p: Panel) => p.name === panel.name);
+  }
+
 
   goToDiseaseOverview() {
     this.router.navigate(['/diseases']);
