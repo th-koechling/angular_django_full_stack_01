@@ -8,11 +8,11 @@ from .serializers import PanelSerializer
 from .serializers import DiseasePanelSerializer
 
 class DiseaseViewSet(viewsets.ModelViewSet):
-    queryset = Disease.objects.all()
+    queryset = Disease.objects.all().order_by('name')
     serializer_class = DiseaseSerializer
 
 class PanelViewSet(viewsets.ModelViewSet):
-    queryset = Panel.objects.all()
+    queryset = Panel.objects.all().order_by('id')
     serializer_class = PanelSerializer
 
 class DiseasePanelViewSet(viewsets.ModelViewSet):

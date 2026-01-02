@@ -52,7 +52,6 @@ class DiseaseSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         panels_data = validated_data.pop('associated_panels', [])
         instance.name = validated_data.get('name', instance.name)
-        print("instance.name: ", instance.name)
         instance.comment = validated_data.get('comment', instance.comment)
         instance.analysis_comment = validated_data.get('analysis_comment', instance.analysis_comment)
         instance.save()

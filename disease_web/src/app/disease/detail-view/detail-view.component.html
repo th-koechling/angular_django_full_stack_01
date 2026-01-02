@@ -1,8 +1,8 @@
 <div class="disease-container" style="width: 1400px; margin-top:25px;margin-left:20px">
-    <h1 style="color: seagreen; font-weight: bold;" >Disease Details</h1>
-    <h3 style="color: lightseagreen; font-weight: bold;" >View and Edit a Disease data set</h3>
+    <h1 style="color: seagreen; font-weight: bold;" >Erkrankungsdetails</h1>
+    <h3 style="color: lightseagreen; font-weight: bold;" >Erkrankung anzeigen und bearbeiten</h3>
     <mat-form-field style="width: 410px; height: 70px;">
-        <input matInput type="text" name="name" id="name" [(ngModel)]="disease.name" placeholder="name">
+        <input matInput type="text" name="name" id="name" [(ngModel)]="disease.name" placeholder="name" readonly>
         <mat-icon fontIcon="abc" matPrefix></mat-icon>
     </mat-form-field>
     <mat-form-field style="width: 700px; height: 70px; margin-left: 15px;">
@@ -20,30 +20,30 @@
     </mat-form-field>
     <div style="display: flex; align-items: center;">
         <mat-form-field style="width: 565px">
-            <mat-label>analysis comment</mat-label>
+            <mat-label>Kommentar zur Auswertung</mat-label>
             <mat-icon fontIcon="comment" matPrefix></mat-icon>
-            <textarea matInput placeholder="analysis comment" [(ngModel)]="disease.analysis_comment" name="analysis_comment" id="analysis_comment"></textarea>
+            <textarea matInput placeholder="Kommentar" [(ngModel)]="disease.analysis_comment" name="analysis_comment" id="analysis_comment"></textarea>
         </mat-form-field>
         <mat-form-field style="width: 565px; margin-left: 10px;"> 
-            <mat-label>disease info</mat-label>
+            <mat-label>Informationen zur Erkrankung</mat-label>
             <mat-icon fontIcon="info_outline" matPrefix></mat-icon>
-            <textarea matInput placeholder="info" [(ngModel)]="disease.comment" name="comment" id="comment"></textarea>
+            <textarea matInput placeholder="Info" [(ngModel)]="disease.comment" name="comment" id="comment"></textarea>
         </mat-form-field>
         <button mat-flat-button class="button confirm" (click)="updateDisease(disease)">
-            Save
+            Speichern
             <mat-icon fontIcon="save" style="font-size: 20px;"></mat-icon>
         </button>
         <button mat-flat-button class="button cancel" (click)="unsetDisease()">
-            Cancel
+            Abbrechen
             <mat-icon fontIcon="cancel" style="font-size: 20px;"></mat-icon>
         </button>
     </div>  
     <br>
 
-    <h2 style="color: lightseagreen; font-weight: bold;" >Associated Gene Panels</h2>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+    <h2 style="color: lightseagreen; font-weight: bold;" >Auszuwertende Panels</h2>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort matSortActive="rank" matSortDirection="asc">
         <ng-container matColumnDef="rank">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Rank</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Reihenfolge Auswertung</th>
             <td mat-cell *matCellDef="let panel">
                 @if (panel.rank !== undefined && +panel.rank !== 0) {
                     {{ panel.rank }}.
@@ -57,11 +57,11 @@
             <td mat-cell *matCellDef="let panel">{{ panel.name }}</td>
         </ng-container>
         <ng-container matColumnDef="genes">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Genes </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Gene </th>
             <td mat-cell *matCellDef="let panel">{{ panel.genes }}</td>
         </ng-container>
         <ng-container matColumnDef="setRank">
-            <th mat-header-cell *matHeaderCellDef>Set Rank</th>
+            <th mat-header-cell *matHeaderCellDef>Reihenfolge setzen</th>
             <td mat-cell *matCellDef="let panel">
                 <mat-select [value]="rankValues" [formControl]="panels" placeholder="select" 
                 (selectionChange)="setRank({value: $event.value, panel: panel})">
@@ -75,6 +75,7 @@
         <tr mat-row *matRowDef="let panel; columns: displayedColumns;"></tr>
     </table>
     <br>
+    <mat-paginator [pageSizeOptions]="[4, 8, 12]"></mat-paginator>
     <button 
         mat-flat-button 
         (click)="goToDiseaseOverview()" 

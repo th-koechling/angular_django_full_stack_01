@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DiseaseService } from '../disease.service';
 import { Disease } from '../interfaces';
@@ -6,7 +6,7 @@ import { Panel } from '../interfaces';
 import { DiseasePanel } from '../interfaces';
 import { FormsModule, FormControl } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, forkJoin, concat } from 'rxjs';
 import { MatFormField } from '@angular/material/form-field';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -14,6 +14,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule, MatOption } from '@angular/material/select';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
 
 
@@ -22,7 +24,8 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MatFormField, 
             MatIconModule, MatSelectModule, MatOption, MatFormFieldModule, 
-            MatInputModule, MatTableModule, MatButtonModule],
+            MatInputModule, MatTableModule, MatButtonModule, MatSort, MatSortModule,
+            MatPaginator],
   templateUrl: './detail-view.component.html',
   styleUrl: './detail-view.component.css'
 })
@@ -48,19 +51,22 @@ export class DetailViewComponent implements OnInit {
 
   panels = new FormControl('');
   rankValues: number[] = [];
-  //rankFormControl = new FormControl([1]);
   panelList: Panel[] = [];
   panel: Panel = {
     id: 0,
     name: '',
     genes: '',
+    rank: 0,
   };
 
   displayedColumns: string[] = ['rank', 'name', 'genes', 'setRank'];
   dataSource = new MatTableDataSource<Panel>();
-  /*
-  @ViewChild(MatSort) sort: any;
+  //sort: MatSort | undefined;
+  //paginator: MatPaginator | undefined;
+  @ViewChild(MatSort, {static: true}) sort!: MatSort;
   @ViewChild(MatPaginator) paginator: any;
+
+  /*
   diseases: Disease[] = [];
   filteredDiseases: Disease[] = [];
   associated_panels: any=undefined;
@@ -84,7 +90,7 @@ export class DetailViewComponent implements OnInit {
               dp.rank = 0;
             }
             console.log("oninit -> dp rank", dp.rank);
-            //panel['rank'] = dp.rank;  // M2M: join/add rank to panel
+            panel['rank'] = dp.rank;  // M2M: join/add rank to panel
             associated_panels.push(panel);
           }
         }
@@ -97,6 +103,8 @@ export class DetailViewComponent implements OnInit {
         this.rankValues.push(i);
       }
       this.dataSource = new MatTableDataSource<Panel>(this.disease.associated_panels);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
     });
   }
 
@@ -136,39 +144,33 @@ export class DetailViewComponent implements OnInit {
   }
 
 
-  // TODO: -> use forkJoin to update Disease and DiseasePanels simultaneously?
   // BUG: not all panels are available for selection here!!!
   updateDisease(disease: Disease) {
-    this.diseasePanels = this.diseasePanelBuffer;
-    this.diseasePanels.forEach((dp: DiseasePanel) => {
-      if (dp.disease_name === this.disease.name) {
-        console.log("panel name: ", dp.panel_name, "rank: ", dp.rank);
-        this.diseaseService.updateDiseasePanel(dp).subscribe({
-          next:(data) => {
-            console.log("diseasePanel updated", data);
-            window.location.reload();
-          },
-          error:(err) => {
-            console.log(err);
-          }
-        })
-      }
-    });
     if (disease.id !== 0) {
-      console.log("diseassPanels before update: ", this.diseasePanels);
-      console.log("DEBUG: disease: ", disease);
-      this.diseaseService.updateDisease(disease).subscribe({
-        next:(disease) => {
-          console.log("D.A.T.A.: ", disease);
-          console.log("disease updated"); 
+      this.diseasePanels = this.diseasePanelBuffer;
+      const diseasePanelsToUpdate: DiseasePanel[] = this.diseasePanels.filter(
+        (dp: DiseasePanel) => dp.disease_name === this.disease.name
+      );
+      const dpUpdates: Observable<DiseasePanel>[] = [];
+      diseasePanelsToUpdate.forEach((dp: DiseasePanel) => {
+        dpUpdates.push(
+          this.diseaseService.updateDiseasePanel(dp)
+        );
+      });
+      concat(
+        forkJoin(dpUpdates),
+        this.diseaseService.updateDisease(disease)
+      ).subscribe({
+        complete: () => {
           window.location.reload();
         },
-        error:(err) => {
+        error: (err) => {
           console.log(err);
         }
-      });
-    } 
+      })
+    }
   }
+
 
   updateDiseasePanels(disease: Disease) {
     this.diseasePanels = this.diseasePanelBuffer;
