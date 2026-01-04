@@ -1,0 +1,63 @@
+<div class="gene-container" style="width: 1400px; margin-top:25px;margin-left:20px">
+    <h1 style="color: seagreen; font-weight: bold;" >Genes</h1>
+    <h3 style="color: lightseagreen; font-weight: bold;" >Add, edit and view genes</h3>
+    <div style="display: flex; align-items: bottom;">
+        <mat-form-field style="width: 540px; height: 75px;">
+            <input matInput type="text" name="symbol" id="symbol" [(ngModel)]="gene.symbol" placeholder="symbol">
+            <mat-icon fontIcon="abc" matPrefix></mat-icon>
+        </mat-form-field>
+        <mat-form-field style="width: 640px; height: 75px; margin-left: 10px;">
+            <input matInput type="text" name="description" id="description" [(ngModel)]="gene.description" placeholder="description">
+            <mat-icon fontIcon="list" matPrefix></mat-icon>
+        </mat-form-field>
+        <button mat-flat-button class="button confirm" (click)="addUpdateGene(gene)">Add/ Update</button>
+        <button mat-flat-button class="button cancel" (click)="unsetGene()">Cancel</button>
+    </div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+        <ng-container matColumnDef="symbol">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Symbol </th>
+            <td mat-cell *matCellDef="let gene">{{ gene.symbol }}</td>
+        </ng-container>
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+            <td mat-cell *matCellDef="let gene">{{ gene.description }}</td>
+        </ng-container>
+        <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Delete </th>
+            <td mat-cell *matCellDef="let gene">
+                <button 
+                    mat-flat-button 
+                    (click)="deleteGene(gene.id)"
+                    style="background-color: coral;"
+                >
+                    <mat-icon 
+                        fontIcon="delete_forever" 
+                        style="color: white; margin-left: auto; margin-right: auto; display: block !important;">
+                    </mat-icon>
+                </button>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let panel; columns: displayedColumns;"></tr>
+    </table>
+    <br>
+    <button 
+        mat-flat-button 
+        (click)="goToHome()" 
+        style="color: white; background-color: cornflowerblue; height: 50px; width: 200px;"
+        >Back to Home
+        <mat-icon 
+        fontIcon="door_back" 
+        style="color: white; margin-left: 0px; margin-right: 10px; display: block !important;">
+        </mat-icon>
+    </button>
+    <button
+        mat-flat-button
+        (click)="goToPanels()"
+        style="color: white; background-color: cornflowerblue; height: 50px; width: 200px; margin-left: 20px;"
+        >Panels
+        <mat-icon
+        fontIcon="summarize"
+        style="color: white; margin-left: 0px; margin-right: 10px; display: block !important;">
+        </mat-icon>
+    </button>
+</div>

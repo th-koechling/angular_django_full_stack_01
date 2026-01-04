@@ -1,10 +1,21 @@
 from rest_framework import serializers
+from .models import Gene
 from .models import Disease
 from .models import Panel
 from .models import DiseasePanel
 
 
-class PanelSerializer(serializers.ModelSerializer):
+class GeneSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Gene
+        fields = (
+            'id',
+            'symbol',
+            'description',
+        )
+
+
+class OLD_PanelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Panel
         fields = (
@@ -13,13 +24,44 @@ class PanelSerializer(serializers.ModelSerializer):
             'genes',
         )
 
-class PanelCustomSerializer(serializers.ModelSerializer):
+
+class PanelSerializer(serializers.ModelSerializer):
+    genes = GeneSerializer(many=True, required=False, read_only=False)
     class Meta:
         model = Panel
         fields = (
             'id',
             'name',
+            'genes',
         )
+    def update(self, instance, validated_data):
+        print("DEBUG: Inside PanelSerializer.update()")
+        genes_data = validated_data.pop('genes', [])
+        instance.name = validated_data.get('name', instance.name)
+        instance.save()
+        if genes_data:
+            instance.genes.clear()
+            for gene_data in genes_data:
+                gene, created = Gene.objects.get_or_create(**gene_data)
+                instance.genes.add(gene)
+        return instance
+
+    def create(self, validated_data):
+        print("DEBUG: Inside PanelSerializer.create()")
+        print(f"validated_data: {validated_data}")
+        genes_data = validated_data.pop('genes', [])
+        panel = Panel.objects.create(**validated_data)
+        for gene_data in genes_data:
+            gene_symbol = gene_data.get('symbol')
+            if gene_symbol:
+                try:
+                    gene = Gene.objects.get(symbol=gene_symbol)
+                    panel.genes.add(gene)
+                except Gene.DoesNotExist:
+                    print(f'Gene with symbol {gene_symbol} does not exist. Skipping.')
+                    continue
+        return panel
+
 
 class DiseasePanelSerializer(serializers.ModelSerializer):
     print("DEBUG: Inside DiseasePanelSerializer")
@@ -48,7 +90,6 @@ class DiseaseSerializer(serializers.ModelSerializer):
             'associated_panels',
         )
 
-
     def update(self, instance, validated_data):
         panels_data = validated_data.pop('associated_panels', [])
         instance.name = validated_data.get('name', instance.name)
@@ -73,7 +114,6 @@ class DiseaseSerializer(serializers.ModelSerializer):
                 print(f"rank_dict[{dp.panel.name}] = {rank_dict.get(dp.panel.name)}")
                 DiseasePanel.objects.filter(disease=instance, panel=dp.panel).update(rank=rank_dict.get(dp.panel.name))
         return instance
-
 
     # old create method, actually writes if a panel does not exist :
     def __MASK__create(self, validated_data):
@@ -103,4 +143,3 @@ class DiseaseSerializer(serializers.ModelSerializer):
                 except Panel.DoesNotExist:
                     continue
         return disease
-

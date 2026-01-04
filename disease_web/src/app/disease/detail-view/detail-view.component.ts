@@ -55,7 +55,7 @@ export class DetailViewComponent implements OnInit {
   panel: Panel = {
     id: 0,
     name: '',
-    genes: '',
+    genes: [],
     rank: 0,
   };
 
@@ -104,6 +104,9 @@ export class DetailViewComponent implements OnInit {
       }
       this.dataSource = new MatTableDataSource<Panel>(this.disease.associated_panels);
       this.dataSource.sort = this.sort;
+      this.paginator._intl.itemsPerPageLabel = 'Einträge pro Seite:';
+      this.paginator._intl.nextPageLabel = 'Nächste Seite';
+      this.paginator._intl.previousPageLabel = 'Vorherige Seite';
       this.dataSource.paginator = this.paginator;
     });
   }

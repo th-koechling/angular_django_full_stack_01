@@ -1,7 +1,13 @@
+export interface Gene {
+    id:Number,
+    symbol:string,
+    description:string,
+}
+
 export interface Panel {
     id:Number,
     name:string,
-    genes:string,
+    genes:Gene[],
     rank?:Number,  // optional, for use in associated panels
 }
 

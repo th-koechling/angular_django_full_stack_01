@@ -52,7 +52,7 @@ export class HomeComponent implements AfterViewInit {
   panel: Panel = {
     id: 0,
     name: '',
-    genes: '',
+    genes: [],
   };
 
   ngAfterViewInit(): void {
@@ -61,6 +61,9 @@ export class HomeComponent implements AfterViewInit {
       console.log("loaded diseases: ", this.diseases)
       this.dataSource = new MatTableDataSource<Disease>(data);
       this.dataSource.sort = this.sort;
+      this.paginator._intl.itemsPerPageLabel = 'Einträge pro Seite:';
+      this.paginator._intl.nextPageLabel = 'Nächste Seite';
+      this.paginator._intl.previousPageLabel = 'Vorherige Seite';
       this.dataSource.paginator = this.paginator;
     });
     this.diseaseService.getPanels().subscribe((data) => {
