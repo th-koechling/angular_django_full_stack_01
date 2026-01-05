@@ -33,7 +33,11 @@
         </ng-container>
         <ng-container matColumnDef="genes">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Genes </th>
-            <td mat-cell *matCellDef="let panel">{{ panel.genes }}</td>
+            <td mat-cell *matCellDef="let panel">
+                @for (gene of panel.genes; track gene.symbol) {
+                    {{ gene.symbol }}@if (gene != panel.genes[panel.genes.length - 1]) {, }
+                }
+            </td>
         </ng-container>
         <ng-container matColumnDef="delete">
             <th mat-header-cell *matHeaderCellDef> Delete </th>

@@ -9,12 +9,10 @@ class Gene(models.Model):
     def __str__(self):
         return self.symbol
 
-# TODO: I AM HERE -> convert the string based 'genes' field to a ManyToManyField to Gene model
 
 class Panel(models.Model):
     name = models.CharField(max_length=500, unique=False)
-    genes = models.ManyToManyField(to=Gene, blank=True)
-    #genes = models.CharField(max_length=1000)
+    genes = models.ManyToManyField(Gene, blank=True)
     class Meta:
         db_table = 'panel'
     def __str__(self):

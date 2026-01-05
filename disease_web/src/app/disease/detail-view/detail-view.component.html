@@ -33,10 +33,12 @@
             Speichern
             <mat-icon fontIcon="save" style="font-size: 20px;"></mat-icon>
         </button>
+        <!-- funcionality not needed here
         <button mat-flat-button class="button cancel" (click)="unsetDisease()">
-            Abbrechen
+            Abbruch
             <mat-icon fontIcon="cancel" style="font-size: 20px;"></mat-icon>
         </button>
+        -->
     </div>  
     <br>
 
@@ -58,7 +60,11 @@
         </ng-container>
         <ng-container matColumnDef="genes">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Gene </th>
-            <td mat-cell *matCellDef="let panel">{{ panel.genes }}</td>
+            <td mat-cell *matCellDef="let panel">
+                @for (gene of panel.genes; track gene.symbol) {
+                    {{ gene.symbol }}@if (gene != panel.genes[panel.genes.length - 1]) {, }
+                }
+            </td>
         </ng-container>
         <ng-container matColumnDef="setRank">
             <th mat-header-cell *matHeaderCellDef>Reihenfolge setzen</th>
@@ -66,7 +72,7 @@
                 <mat-select [value]="rankValues" [formControl]="panels" placeholder="select" 
                 (selectionChange)="setRank({value: $event.value, panel: panel})">
                 @for (rank of rankValues; track rank) {
-                    <mat-option [value]="rank">{{rank}}</mat-option>
+                    <mat-option [value]="rank">{{rank}}.</mat-option>
                 }
                 </mat-select>
             </td>

@@ -12,7 +12,6 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-//import { MatDivider } from '@angular/material/divider';
 
 @Component({
   selector: 'app-home',
@@ -104,6 +103,9 @@ export class HomeComponent implements AfterViewInit {
   }
 
   searchDiseases(input:any) {
+    console.log("searchin in panels", this.diseases.filter(item => 
+      item.associated_panels)
+    );
     this.filteredDiseases = this.diseases.filter(item => 
       item.name.toLowerCase().includes(input.toLowerCase()) || 
       item.comment.toLowerCase().includes(input.toLowerCase()) ||

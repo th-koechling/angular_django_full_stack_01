@@ -61,17 +61,9 @@ export class DetailViewComponent implements OnInit {
 
   displayedColumns: string[] = ['rank', 'name', 'genes', 'setRank'];
   dataSource = new MatTableDataSource<Panel>();
-  //sort: MatSort | undefined;
-  //paginator: MatPaginator | undefined;
   @ViewChild(MatSort, {static: true}) sort!: MatSort;
   @ViewChild(MatPaginator) paginator: any;
 
-  /*
-  diseases: Disease[] = [];
-  filteredDiseases: Disease[] = [];
-  associated_panels: any=undefined;
-  panelsPreSelect: Panel[] = [];
-  */
 
   ngOnInit() {
     const panels$: Observable<Panel[]> = this.diseaseService.getPanels();
@@ -84,17 +76,15 @@ export class DetailViewComponent implements OnInit {
         if (dp.disease_name === disease_data.name) {
           const panel: Panel | undefined = panel_data.find(p => p.name === dp.panel_name);
           if (panel) {
-            console.log("DEBUG: panel rank: ", dp.rank);
             if (dp.rank == null) {
-              console.log(dp.panel_name, "<- panel rank is null");
               dp.rank = 0;
             }
-            console.log("oninit -> dp rank", dp.rank);
             panel['rank'] = dp.rank;  // M2M: join/add rank to panel
             associated_panels.push(panel);
           }
         }
       });
+      this.panelList = panel_data;
       this.diseasePanels = disease_panel_data;
       this.disease = disease_data;
       this.disease.associated_panels = associated_panels;
@@ -112,42 +102,9 @@ export class DetailViewComponent implements OnInit {
   }
 
   showChange(value: any) {
-    console.log("CHECK VAL: ", value);
-    console.log("TYPE: ", typeof(value));
     this.disease.associated_panels = value;
   }
 
-  setDisease(rowData: Disease) {
-    this.disease.id = rowData.id;
-    this.disease.name = rowData.name;
-    this.disease.comment = rowData.comment;
-    this.disease.analysis_comment = rowData.analysis_comment;
-    this.disease.associated_panels = rowData.associated_panels;
-    this.panelsPreSelect = this.disease.associated_panels;
-    // TODO: I AM HERE: set rank values in associated panels
-  }
-
-
-  // remove: should not be blank after pressing 'cancel'!
-  XXXunsetDisease() {
-    this.disease.id = 0;
-    this.disease.name = '';
-    this.disease.comment = '';
-    this.disease.analysis_comment = '';
-    this.disease.associated_panels = this.associated_panels;
-  }
-
-
-  unsetDisease() {
-    this.diseaseService.getDiseaseByName(this.disease.name).subscribe((data) => {
-      this.disease = data;
-      window.location.reload();
-      //this.disease.associated_panels = this.associated_panels;
-    });
-  }
-
-
-  // BUG: not all panels are available for selection here!!!
   updateDisease(disease: Disease) {
     if (disease.id !== 0) {
       this.diseasePanels = this.diseasePanelBuffer;
@@ -174,16 +131,12 @@ export class DetailViewComponent implements OnInit {
     }
   }
 
-
   updateDiseasePanels(disease: Disease) {
     this.diseasePanels = this.diseasePanelBuffer;
     // <-- using the buffer in the setRank method, so it can be cancelled if needed (button press)
-    console.log("DEBUG: disease.id: ", disease.id);
-    console.log("DEBUG: diseasePanels: ", this.diseasePanels);
     if (disease.id !== 0) {
       this.diseasePanels.forEach((dp: DiseasePanel) => {
         if (dp.disease_name === this.disease.name) {
-          console.log("panel name: ", dp.panel_name, "rank: ", dp.rank);
           this.diseaseService.updateDiseasePanel(dp).subscribe({
             next:(data) => {
               console.log("diseasePanel updated");
