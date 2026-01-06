@@ -1,15 +1,16 @@
-import { Component, AfterViewInit, ViewChild, inject, Injectable } from '@angular/core';
+import { Panel, Disease } from '../interfaces';
+import { DiseaseService } from '../disease.service';
+import { Component, AfterViewInit, ViewChild, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { Observable, forkJoin } from 'rxjs';
+import { FormsModule, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSelectModule, MatOption } from '@angular/material/select';
-import { Panel, Disease } from '../interfaces';
-import { DiseaseService } from '../disease.service';
-import { FormsModule, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
@@ -55,19 +56,17 @@ export class HomeComponent implements AfterViewInit {
   };
 
   ngAfterViewInit(): void {
-    this.diseaseService.getDiseases().subscribe((data) => {
-      this.diseases = data;
-      console.log("loaded diseases: ", this.diseases)
-      this.dataSource = new MatTableDataSource<Disease>(data);
+    const diseases$: Observable<Disease[]> = this.diseaseService.getDiseases();
+    const panels$: Observable<Panel[]> = this.diseaseService.getPanels();
+    forkJoin([diseases$, panels$]).subscribe(([disease_data, panel_data]) => {
+      this.diseases = disease_data;
+      this.dataSource = new MatTableDataSource<Disease>(disease_data);
       this.dataSource.sort = this.sort;
       this.paginator._intl.itemsPerPageLabel = 'Einträge pro Seite:';
       this.paginator._intl.nextPageLabel = 'Nächste Seite';
       this.paginator._intl.previousPageLabel = 'Vorherige Seite';
       this.dataSource.paginator = this.paginator;
-    });
-    this.diseaseService.getPanels().subscribe((data) => {
-      this.panelList = data;
-      console.log("loaded panels: ", this.panelList);
+      this.panelList = panel_data;
     });
   }
 
@@ -80,8 +79,15 @@ export class HomeComponent implements AfterViewInit {
   }
 
   isAssociatedPanel(panel: Panel): boolean {
-    //console.log("Checking if panel is associated: ", panel);
     return this.disease.associated_panels?.some((p: Panel) => p.name === panel.name);
+  }
+
+  unsetDisease() {
+    this.disease.id = 0;
+    this.disease.name = '';
+    this.disease.comment = '';
+    this.disease.analysis_comment = '';
+    this.disease.associated_panels = [];
   }
 
   setDisease(rowData: Disease) {
@@ -90,16 +96,8 @@ export class HomeComponent implements AfterViewInit {
     this.disease.comment = rowData.comment;
     this.disease.analysis_comment = rowData.analysis_comment;
     this.disease.associated_panels = rowData.associated_panels;
-    this.panelsPreSelect = this.disease.associated_panels;
-    console.log("current associated panels: ", this.disease.associated_panels);
-  }
-
-  unsetDisease() {
-    this.disease.id = 0;
-    this.disease.name = '';
-    this.disease.comment = '';
-    this.disease.analysis_comment = '';
-    this.disease.associated_panels = this.associated_panels;
+    this.panelsPreSelect = rowData.associated_panels;
+    console.log("preselected panels: ", this.panelsPreSelect);
   }
 
   searchDiseases(input:any) {

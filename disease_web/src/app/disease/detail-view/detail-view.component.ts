@@ -151,6 +151,12 @@ export class DetailViewComponent implements OnInit {
     }
   }
 
+  restoreDisease() {
+    this.rankValues = [];
+    this.ngOnInit();
+    this.diseasePanelBuffer = [];
+    this.disease.associated_panels = this.panelsPreSelect;
+  }
 
   setRank({panel, value}: {panel: Panel, value: Number}) {
     const rank = value;
