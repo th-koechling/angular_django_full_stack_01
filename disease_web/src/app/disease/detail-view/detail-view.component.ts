@@ -63,7 +63,7 @@ export class DetailViewComponent implements OnInit {
   dataSource = new MatTableDataSource<Panel>();
   @ViewChild(MatSort, {static: true}) sort!: MatSort;
   @ViewChild(MatPaginator) paginator: any;
-
+  
 
   ngOnInit() {
     const panels$: Observable<Panel[]> = this.diseaseService.getPanels();
@@ -103,6 +103,15 @@ export class DetailViewComponent implements OnInit {
 
   showChange(value: any) {
     this.disease.associated_panels = value;
+  }
+
+  panelSelect: Boolean = true;
+  togglePanelsLock() {
+    if (this.panelSelect === false) {
+      this.panelSelect = true;
+    } else {
+      this.panelSelect = false;
+    }
   }
 
   updateDisease(disease: Disease) {
@@ -173,15 +182,12 @@ export class DetailViewComponent implements OnInit {
     })
   }
 
-
   isAssociatedPanel(panel: Panel): boolean {
     return this.disease.associated_panels?.some((p: Panel) => p.name === panel.name);
   }
 
-
   goToDiseaseOverview() {
     this.router.navigate(['/diseases']);
   }
-
 
 } 
