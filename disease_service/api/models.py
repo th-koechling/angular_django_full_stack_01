@@ -1,5 +1,11 @@
 from django.db import models
 
+class DeletemeBecauseIamOnlyForTesting(models.Model):
+    name = models.CharField(max_length=100)
+    class Meta:
+        db_table = 'deleteme_testing'
+    def __str__(self):
+        return self.name
 
 class Gene(models.Model):
     symbol = models.CharField(max_length=100, unique=False)
