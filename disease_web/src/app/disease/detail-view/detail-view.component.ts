@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DiseaseService } from '../disease.service';
 import { Disease } from '../interfaces';
@@ -30,8 +30,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './detail-view.component.css'
 })
 
-//export class DetailViewComponent implements OnInit {
-export class DetailViewComponent implements AfterViewInit {
+export class DetailViewComponent implements OnInit {
 
   diseaseName: string | null = '';
   associated_panels: any=undefined;
@@ -66,8 +65,7 @@ export class DetailViewComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: any;
 
 
-  //ngOnInit() {
-  ngAfterViewInit() {
+  ngOnInit() {
     const panels$: Observable<Panel[]> = this.diseaseService.getPanels();
     const diseasePanels$: Observable<DiseasePanel[]> = this.diseaseService.getDiseasePanels();
     const disease$: Observable<Disease> = this.diseaseService.getDiseaseByName(this.route.snapshot.queryParamMap.get('diseaseName')!);
@@ -155,7 +153,7 @@ export class DetailViewComponent implements AfterViewInit {
 
   restoreDisease() {
     this.rankValues = [];
-    this.ngAfterViewInit();
+    this.ngOnInit();
     this.diseasePanelBuffer = [];
     this.disease.associated_panels = this.panelsPreSelect;
   }
