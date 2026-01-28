@@ -18,14 +18,24 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
 
+const material = [
+  MatFormField,
+  MatIconModule,
+  MatSelectModule,
+  MatOption,
+  MatFormFieldModule,
+  MatInputModule,
+  MatTableModule,
+  MatButtonModule,
+  MatSort,
+  MatSortModule,
+  MatPaginator
+]
 
 @Component({
   selector: 'app-detail-view',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatFormField, 
-            MatIconModule, MatSelectModule, MatOption, MatFormFieldModule, 
-            MatInputModule, MatTableModule, MatButtonModule, MatSort, MatSortModule,
-            MatPaginator],
+  imports: [material, CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './detail-view.component.html',
   styleUrl: './detail-view.component.css'
 })
@@ -131,7 +141,8 @@ export class DetailViewComponent implements OnInit {
         this.diseaseService.updateDisease(disease)
       ).subscribe({
         complete: () => {
-          window.location.reload();
+          this.ngOnInit();
+          //window.location.reload();
         },
         error: (err) => {
           console.log(err);

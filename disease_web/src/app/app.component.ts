@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { HeaderMenuComponent} from './header-menu/header-menu.component';
 import { LoggedOutMessageComponent } from './logged-out-message/logged-out-message.component';
 import { DiseaseService } from './disease/disease.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, LoggedOutMessageComponent, NgIf],
+  imports: [RouterOutlet, LoggedOutMessageComponent, HeaderMenuComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'disease_web';
