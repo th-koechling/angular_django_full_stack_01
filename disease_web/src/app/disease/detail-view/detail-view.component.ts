@@ -76,6 +76,8 @@ export class DetailViewComponent implements OnInit {
   
 
   ngOnInit() {
+    this.rankValues = [];
+    console.log("rankValues: ", this.rankValues);
     const panels$: Observable<Panel[]> = this.diseaseService.getPanels();
     const diseasePanels$: Observable<DiseasePanel[]> = this.diseaseService.getDiseasePanels();
     const disease$: Observable<Disease> = this.diseaseService.getDiseaseByName(this.route.snapshot.queryParamMap.get('diseaseName')!);

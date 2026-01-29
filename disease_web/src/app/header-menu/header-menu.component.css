@@ -1,0 +1,16 @@
+.header-button-row {
+    max-width: 600px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+
+}
+
+.button.link {
+    background-color: #3ba872;
+    color: white;
+    width: 120px;
+    height: 30px;
+    margin-right: 10px;
+
+}

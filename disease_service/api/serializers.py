@@ -13,16 +13,9 @@ class GeneSerializer(serializers.ModelSerializer):
             'symbol',
             'description',
         )
-
-
-class OLD_PanelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Panel
-        fields = (
-            'id',
-            'name',
-            'genes',
-        )
+        extra_kwargs = {
+            'symbol': {'validators': []},  # Disable unique validator for 'symbol' field
+        }
 
 
 class PanelSerializer(serializers.ModelSerializer):
@@ -34,6 +27,9 @@ class PanelSerializer(serializers.ModelSerializer):
             'name',
             'genes',
         )
+        extra_kwargs = {
+            'name': {'validators': []},  # Disable unique validator for 'name' field
+        }
     def update(self, instance, validated_data):
         genes_data = validated_data.pop('genes', [])
         instance.name = validated_data.get('name', instance.name)
@@ -78,6 +74,9 @@ class DiseaseSerializer(serializers.ModelSerializer):
     #associated_panels = PanelCustomSerializer(many=True, required=False, read_only=False)
     class Meta:
         model = Disease
+        extra_kwargs = {
+            'name': {'validators': []},  # Disable unique validator for 'name' field
+        }
         fields = (
             'id',
             'name',
