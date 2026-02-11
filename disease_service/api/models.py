@@ -21,11 +21,9 @@ class Panel(models.Model):
 
 class Disease(models.Model):
     name = models.CharField(max_length = 250, unique=True)
-    # comment = models.TextField(max_length = 50000, blank=True, null=True)
-
-    analysis_notes = models.TextField(max_length = 50000, blank=True, null=True)
-    analysis_features = models.TextField(max_length = 50000, blank=True, null=True)
     general_info = models.TextField(max_length = 50000, blank=True, null=True)
+    filter_info = models.TextField(max_length = 50000, blank=True, null=True)
+    analysis_features = models.TextField(max_length = 50000, blank=True, null=True)
     report_info = models.TextField(max_length = 50000, blank=True, null=True)
     report_text = models.TextField(max_length = 50000, blank=True, null=True)
     report_tech = models.TextField(max_length = 50000, blank=True, null=True)

@@ -36,9 +36,9 @@
     </div>
     <div style="display: flex; align-items: center;">
         <mat-form-field style="width: 565px">
-            <mat-label>Kommentar zur Auswertung</mat-label>
+            <mat-label>Hinweise zur Filterung</mat-label>
             <mat-icon fontIcon="comment" matPrefix></mat-icon>
-            <textarea matInput placeholder="Hinweise zur Auswertung" [(ngModel)]="disease.analysis_notes" name="analysis_notes" id="analysis_notes"></textarea>
+            <textarea matInput placeholder="Bitte sehr kurz fassen, nur Stichworte, z.B. [...]" [(ngModel)]="disease.filter_info" name="filter_info" id="filter_info"></textarea>
         </mat-form-field>
         <mat-form-field style="width: 565px; margin-left: 10px;"> 
             <mat-label>Informationen zur Erkrankung</mat-label>

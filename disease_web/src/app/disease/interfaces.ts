@@ -16,7 +16,7 @@ export interface Disease {
     name:string,
     general_info:string,
     associated_panels:Panel[],
-    analysis_notes:string,
+    filter_info:string,
     analysis_features:string,
     report_info:string,
     report_text:string,

@@ -52,7 +52,7 @@ export class DetailViewComponent implements OnInit {
     name: '',
     general_info: '',
     associated_panels: this.associated_panels,
-    analysis_notes: '',
+    filter_info: '',
     analysis_features: '',
     report_info: '',
     report_text: '',

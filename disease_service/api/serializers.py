@@ -71,17 +71,16 @@ class DiseasePanelSerializer(serializers.ModelSerializer):
 
 class DiseaseSerializer(serializers.ModelSerializer):
     associated_panels = PanelSerializer(many=True, required=False, read_only=False)
-    #associated_panels = PanelCustomSerializer(many=True, required=False, read_only=False)
     class Meta:
         model = Disease
         extra_kwargs = {
-            'name': {'validators': []},  # Disable unique validator for 'name' field
+            'name': {'validators': []},  # Disables unique validator for 'name' field
         }
         fields = (
             'id',
             'name',
             'general_info',
-            'analysis_notes',
+            'filter_info',
             'analysis_features',
             'report_info',
             'report_text',
@@ -93,7 +92,7 @@ class DiseaseSerializer(serializers.ModelSerializer):
         panels_data = validated_data.pop('associated_panels', [])
         instance.name = validated_data.get('name', instance.name)
         instance.general_info = validated_data.get('general_info', instance.general_info)
-        instance.analysis_notes = validated_data.get('analysis_notes', instance.analysis_notes)
+        instance.filter_info = validated_data.get('filter_info', instance.filter_info)
         instance.analysis_features = validated_data.get('analysis_features', instance.analysis_features)
         instance.report_info = validated_data.get('report_info', instance.report_info)
         instance.report_text = validated_data.get('report_text', instance.report_text)

@@ -42,7 +42,7 @@ export class HomeComponent implements AfterViewInit {
     name: '',
     general_info: '',
     associated_panels: this.associated_panels,
-    analysis_notes: '',
+    filter_info: '',
     analysis_features: '',
     report_info: '',
     report_text: '',
@@ -91,7 +91,7 @@ export class HomeComponent implements AfterViewInit {
     this.disease.name = '';
     this.disease.general_info = '';
     this.disease.associated_panels = [];
-    this.disease.analysis_notes = '';
+    this.disease.filter_info = '';
     this.disease.analysis_features = '';
     this.disease.report_info = '';
     this.disease.report_text = '';
@@ -103,7 +103,7 @@ export class HomeComponent implements AfterViewInit {
     this.disease.name = rowData.name;
     this.disease.general_info = rowData.general_info;;
     this.disease.associated_panels = rowData.associated_panels;
-    this.disease.analysis_notes = rowData.analysis_notes;
+    this.disease.filter_info = rowData.filter_info;
     this.disease.analysis_features = rowData.analysis_features;
     this.disease.report_info = rowData.report_info;
     this.disease.report_text = rowData.report_text;
@@ -119,7 +119,7 @@ export class HomeComponent implements AfterViewInit {
     this.filteredDiseases = this.diseases.filter(item => 
       item.name.toLowerCase().includes(input.toLowerCase()) || 
       item.general_info.toLowerCase().includes(input.toLowerCase()) ||
-      item.analysis_notes.toLowerCase().includes(input.toLowerCase()) ||
+      item.filter_info.toLowerCase().includes(input.toLowerCase()) ||
       item.associated_panels.toString().includes(input))
       this.dataSource = new MatTableDataSource<Disease>(this.filteredDiseases);
   }

@@ -31,21 +31,24 @@
         </button>
     </div>
     <div style="display: flex; align-items: center;">
-        <mat-form-field style="width: 635px">
-            <mat-label>Hinweise zur Auswertung</mat-label>
+        <mat-form-field style="width: 635px" floatLabel="always">
+            <mat-label>Hinweise zur Filterung</mat-label>
             <mat-icon fontIcon="analytics" matPrefix></mat-icon>
-            <textarea matInput placeholder="Hinweise zur Auswertung" [(ngModel)]="disease.analysis_notes" name="analysis_notes" id="analysis_notes"></textarea>
+            <textarea matInput placeholder="Bitte sehr kurz fassen, nur Stichworte, z.B. alphaLELY, alphaLEPRA, HBB ohne Filter, etc. Details haben unten Platz!" [(ngModel)]="disease.filter_info" name="filter_info" id="filter_info"></textarea>
         </mat-form-field>
-        <mat-form-field style="width: 635px; margin-left: 10px;"> 
+        <mat-form-field style="width: 635px; margin-left: 10px;" floatLabel="always"> 
             <mat-label>Erkrankungsinfos</mat-label>
             <mat-icon fontIcon="info_outline" matPrefix></mat-icon>
-            <textarea matInput placeholder="Erkrankungsinfos" [(ngModel)]="disease.general_info" name="general_info" id="general_info"></textarea>
+            <textarea matInput placeholder="Informationen zum Krankheitsbild&#9679;&#9679;" [(ngModel)]="disease.general_info" name="general_info" id="general_info"></textarea>
         </mat-form-field>
+        <br>
+        <p>'&#201;v&#233;nement from JS'<p>
+
         <button mat-flat-button class="button confirm" (click)="addUpdateDisease(disease)">Speichern</button>
         <button mat-flat-button class="button cancel" (click)="unsetDisease()">Abbrechen</button>
     </div>  
     <br>
-    <mat-form-field style="width: 415px; height: 70px;">
+    <mat-form-field style="width: 415px; height: 70px;" floatLabel="always">
         <input matInput type="text" name="searchinput" id="searchinput" #filter (input)="searchDiseases(filter.value)" placeholder="Suche">
         <mat-icon fontIcon="search" matPrefix></mat-icon>
     </mat-form-field>
@@ -64,8 +67,8 @@
             <td mat-cell *matCellDef="let disease">{{ disease.general_info }}</td>
         </ng-container>
         <ng-container matColumnDef="analysis_comment">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Hinweise zur Auswertung</th>
-            <td mat-cell *matCellDef="let disease">{{ disease.analysis_notes }}</td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Hinweise zur Filterung</th>
+            <td mat-cell *matCellDef="let disease">{{ disease.filter_info }}</td>
         </ng-container>
         <ng-container matColumnDef="associated_panels">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Panels </th>
