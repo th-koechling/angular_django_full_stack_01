@@ -50,9 +50,13 @@ export class DetailViewComponent implements OnInit {
   disease: Disease = {
     id: 0,
     name: '',
-    comment: '',
-    analysis_comment: '',
+    general_info: '',
     associated_panels: this.associated_panels,
+    analysis_notes: '',
+    analysis_features: '',
+    report_info: '',
+    report_text: '',
+    report_tech: '',
   };
 
   constructor(private route: ActivatedRoute, 

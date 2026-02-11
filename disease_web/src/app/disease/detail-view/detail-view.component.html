@@ -38,12 +38,12 @@
         <mat-form-field style="width: 565px">
             <mat-label>Kommentar zur Auswertung</mat-label>
             <mat-icon fontIcon="comment" matPrefix></mat-icon>
-            <textarea matInput placeholder="Kommentar" [(ngModel)]="disease.analysis_comment" name="analysis_comment" id="analysis_comment"></textarea>
+            <textarea matInput placeholder="Hinweise zur Auswertung" [(ngModel)]="disease.analysis_notes" name="analysis_notes" id="analysis_notes"></textarea>
         </mat-form-field>
         <mat-form-field style="width: 565px; margin-left: 10px;"> 
             <mat-label>Informationen zur Erkrankung</mat-label>
             <mat-icon fontIcon="info_outline" matPrefix></mat-icon>
-            <textarea matInput placeholder="Info" [(ngModel)]="disease.comment" name="comment" id="comment"></textarea>
+            <textarea matInput placeholder="Erkrankungsinfos" [(ngModel)]="disease.general_info" name="general_info" id="general_info"></textarea>
         </mat-form-field>
         <button mat-flat-button class="button confirm" (click)="updateDisease(disease)">
             Speichern

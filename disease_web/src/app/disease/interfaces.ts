@@ -14,9 +14,13 @@ export interface Panel {
 export interface Disease {
     id:Number,
     name:string,
-    comment:string,
-    analysis_comment:string,
+    general_info:string,
     associated_panels:Panel[],
+    analysis_notes:string,
+    analysis_features:string,
+    report_info:string,
+    report_text:string,
+    report_tech:string,
 }
 
 export interface DiseasePanel {

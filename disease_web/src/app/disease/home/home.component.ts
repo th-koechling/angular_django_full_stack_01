@@ -40,9 +40,13 @@ export class HomeComponent implements AfterViewInit {
   disease: Disease = {
     id: 0,
     name: '',
-    comment: '',
-    analysis_comment: '',
+    general_info: '',
     associated_panels: this.associated_panels,
+    analysis_notes: '',
+    analysis_features: '',
+    report_info: '',
+    report_text: '',
+    report_tech: '',
   };
 
   toStr = JSON.stringify;
@@ -85,17 +89,25 @@ export class HomeComponent implements AfterViewInit {
   unsetDisease() {
     this.disease.id = 0;
     this.disease.name = '';
-    this.disease.comment = '';
-    this.disease.analysis_comment = '';
+    this.disease.general_info = '';
     this.disease.associated_panels = [];
+    this.disease.analysis_notes = '';
+    this.disease.analysis_features = '';
+    this.disease.report_info = '';
+    this.disease.report_text = '';
+    this.disease.report_tech = '';
   }
 
   setDisease(rowData: Disease) {
     this.disease.id = rowData.id;
     this.disease.name = rowData.name;
-    this.disease.comment = rowData.comment;
-    this.disease.analysis_comment = rowData.analysis_comment;
+    this.disease.general_info = rowData.general_info;;
     this.disease.associated_panels = rowData.associated_panels;
+    this.disease.analysis_notes = rowData.analysis_notes;
+    this.disease.analysis_features = rowData.analysis_features;
+    this.disease.report_info = rowData.report_info;
+    this.disease.report_text = rowData.report_text;
+    this.disease.report_tech = rowData.report_tech;
     this.panelsPreSelect = rowData.associated_panels;
     console.log("preselected panels: ", this.panelsPreSelect);
   }
@@ -106,8 +118,8 @@ export class HomeComponent implements AfterViewInit {
     );
     this.filteredDiseases = this.diseases.filter(item => 
       item.name.toLowerCase().includes(input.toLowerCase()) || 
-      item.comment.toLowerCase().includes(input.toLowerCase()) ||
-      item.analysis_comment.toLowerCase().includes(input.toLowerCase()) ||
+      item.general_info.toLowerCase().includes(input.toLowerCase()) ||
+      item.analysis_notes.toLowerCase().includes(input.toLowerCase()) ||
       item.associated_panels.toString().includes(input))
       this.dataSource = new MatTableDataSource<Disease>(this.filteredDiseases);
   }

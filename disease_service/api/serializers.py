@@ -80,16 +80,24 @@ class DiseaseSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
-            'comment',
-            'analysis_comment',
+            'general_info',
+            'analysis_notes',
+            'analysis_features',
+            'report_info',
+            'report_text',
+            'report_tech',
             'associated_panels',
         )
 
     def update(self, instance, validated_data):
         panels_data = validated_data.pop('associated_panels', [])
         instance.name = validated_data.get('name', instance.name)
-        instance.comment = validated_data.get('comment', instance.comment)
-        instance.analysis_comment = validated_data.get('analysis_comment', instance.analysis_comment)
+        instance.general_info = validated_data.get('general_info', instance.general_info)
+        instance.analysis_notes = validated_data.get('analysis_notes', instance.analysis_notes)
+        instance.analysis_features = validated_data.get('analysis_features', instance.analysis_features)
+        instance.report_info = validated_data.get('report_info', instance.report_info)
+        instance.report_text = validated_data.get('report_text', instance.report_text)
+        instance.report_tech = validated_data.get('report_tech', instance.report_tech)
         instance.save()
         # Update associated panels:
         if panels_data:
