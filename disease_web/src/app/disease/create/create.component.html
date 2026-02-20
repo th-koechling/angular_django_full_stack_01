@@ -1,0 +1,62 @@
+<h3>www.youtube.com/watch?v=Ji62CoFU630</h3>
+<h4>How to create Sleek Angular Material Forms? by Zoaib Khan</h4>
+
+<form [formGroup]="createForm" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+        <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Disease name</mat-label>
+            <input matInput formControlName="name" placeholder="Enter disease name" />
+            <mat-icon matSuffix>healing</mat-icon>
+            @if (formGroup.get('name')?.hasError('required') && formGroup.get('name')?.touched) {
+                <mat-error>Disease name is required</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
+            <mat-label>General Info</mat-label>
+            <input matInput formControlName="general_info" placeholder="Enter general info" />
+            <mat-icon matSuffix>info</mat-icon>
+        </mat-form-field>
+    </div>
+    <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Panels</mat-label>
+        <mat-select formControlName="associated_panels" multiple>
+            @for (panel of panelList; track panel.name) {
+                <mat-option [value]="panel">{{panel.name}}</mat-option>
+            }
+        </mat-select>
+        <mat-icon matSuffix>warning</mat-icon>
+    </mat-form-field>
+    <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Filter Info</mat-label>
+        <textarea matInput formControlName="filter_info" placeholder="Enter filter info"></textarea>
+        <mat-icon matSuffix>filter_list</mat-icon>
+    </mat-form-field>
+    <div class="form-row">
+        <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Analysis Features</mat-label>
+            <input matInput formControlName="analysis_features" placeholder="Enter analysis features" />
+            <mat-icon matSuffix>analytics</mat-icon>
+        </mat-form-field>
+        <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Report Info</mat-label>
+            <input matInput formControlName="report_info" placeholder="Enter report info" />
+            <mat-icon matSuffix>description</mat-icon>
+        </mat-form-field>
+    </div>
+    <div class="form-row">
+        <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Report Text</mat-label>
+            <input matInput formControlName="report_text" placeholder="Enter report text" />
+            <mat-icon matSuffix>text_snippet</mat-icon>
+        </mat-form-field>
+        <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Report Tech</mat-label>
+            <input matInput formControlName="report_tech" placeholder="Enter report tech" />
+            <mat-icon matSuffix>build</mat-icon>
+        </mat-form-field>
+    </div>
+    <div class="form-actions">
+        <button mat-flat-button color="primary" type="submit" [disabled]="createForm.invalid">Create</button>
+    </div>
+</form>
+

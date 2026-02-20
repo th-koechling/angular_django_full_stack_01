@@ -1,5 +1,5 @@
 .header-button-row {
-    max-width: 600px;
+    max-width: 800px;
     margin-top: 20px;
     margin-bottom: 20px;
     margin-left: 20px;
@@ -10,7 +10,7 @@
     background-color: #3ba872;
     color: white;
     width: 120px;
-    height: 30px;
+    height: 45px;
     margin-right: 10px;
 
 }

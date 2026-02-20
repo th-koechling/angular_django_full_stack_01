@@ -1,3 +1,7 @@
+<p style="margin-left: 20px;" class="montserrat-font">Test header with Montserrat font</p>
+<p style="margin-left: 20px;" class="lato-font">&#x3B1;&#x1D38;&#x1D31;&#x1D38;&#x107B2;, &#x3B1;&#x1D38;&#x1D31;&#x1D3E;&#x1D3F;&#x1D2C;, HBB ohne Filter, etc.
+</p>    
+
 <div class="disease-container" style="width: 1400px; margin-top:25px;margin-left:20px">
     <h1 style="color: seagreen; font-weight: bold;" >Erkrankungen</h1>
     <h3 style="color: lightseagreen; font-weight: bold;" >Full Stack App with Angular and Django</h3>
@@ -34,16 +38,14 @@
         <mat-form-field style="width: 635px" floatLabel="always">
             <mat-label>Hinweise zur Filterung</mat-label>
             <mat-icon fontIcon="analytics" matPrefix></mat-icon>
-            <textarea matInput placeholder="Bitte sehr kurz fassen, nur Stichworte, z.B. alphaLELY, alphaLEPRA, HBB ohne Filter, etc. Details haben unten Platz!" [(ngModel)]="disease.filter_info" name="filter_info" id="filter_info"></textarea>
+            <textarea matInput placeholder="Bitte sehr kurz fassen, nur Stichw̲o̲r̲t̲e̲, z.B. &#x3B1;&#x1D38;&#x1D31;&#x1D38;&#x02B8;, &#x3B1;&#x1D38;&#x1D31;&#x1D3E;&#x1D3F;&#x1D2C;, HBB ohne Filter, etc. Details haben unten Platz!" [(ngModel)]="disease.filter_info" name="filter_info" id="filter_info"></textarea>
         </mat-form-field>
         <mat-form-field style="width: 635px; margin-left: 10px;" floatLabel="always"> 
             <mat-label>Erkrankungsinfos</mat-label>
             <mat-icon fontIcon="info_outline" matPrefix></mat-icon>
-            <textarea matInput placeholder="Informationen zum Krankheitsbild&#9679;&#9679;" [(ngModel)]="disease.general_info" name="general_info" id="general_info"></textarea>
+            <textarea matInput placeholder="&#9728;&#x2600;Informationen zum Krankheitsbild " [(ngModel)]="disease.general_info" name="general_info" id="general_info"></textarea>
         </mat-form-field>
         <br>
-        <p>'&#201;v&#233;nement from JS'<p>
-
         <button mat-flat-button class="button confirm" (click)="addUpdateDisease(disease)">Speichern</button>
         <button mat-flat-button class="button cancel" (click)="unsetDisease()">Abbrechen</button>
     </div>  
