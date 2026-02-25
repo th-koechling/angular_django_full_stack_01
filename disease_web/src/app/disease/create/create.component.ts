@@ -48,7 +48,7 @@ export class CreateComponent {
   };
 
   createForm = this.fb.group({
-    name: [''],
+    name: [{value: '', disabled: false}, Validators.required],
     general_info: [''],
     associated_panels: [[]],
     filter_info: [''],
@@ -57,6 +57,10 @@ export class CreateComponent {
     report_text: [''],
     report_tech: ['']
   });
+
+  disableNameControl() {
+    this.createForm.get('name')?.disable();
+  }
 
   constructor(private fb: FormBuilder) {
     this.formGroup = this.fb.group({
@@ -71,7 +75,19 @@ export class CreateComponent {
     });
   }
 
+  showPanelsTable: boolean = true;
+
+  togglePanelsTable() {
+    this.showPanelsTable = !this.showPanelsTable;
+  }
+
   onSubmit() {
     console.log(this.createForm.value);
+    this.createForm.controls['name'].disable();
   } 
+  onCancel() {
+    // TODO: do not reset to empty, but to the initial values!!
+    this.createForm.reset();
+    this.createForm.controls['name'].enable();
+  }
 }
