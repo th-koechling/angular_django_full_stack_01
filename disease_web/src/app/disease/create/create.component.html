@@ -1,68 +1,147 @@
-<h3>www.youtube.com/watch?v=Ji62CoFU630</h3>
-<h4>How to create Sleek Angular Material Forms? by Zoaib Khan</h4>
-
 <form class="create-form" [formGroup]="createForm" (ngSubmit)="onSubmit()">
     <div class="form-row">
-        <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
+        @if (nameLocked) {
+            <div class="main-header">{{ disease.name }}</div>
+        }
+        @else {
+        <mat-form-field 
+            floatLabel="always" appearance="outline" subscriptSizing="dynamic">
             <mat-label>Erkrankungsname</mat-label>
-            <input class="required" matInput formControlName="name" placeholder="Namen der Erkrankung angeben" />
+            <input 
+                class="required" 
+                matInput formControlName="name" 
+                placeholder="Namen der Erkrankung angeben" />
             <mat-icon matSuffix>abc</mat-icon>
-            @if (formGroup.get('name')?.hasError('required') && formGroup.get('name')?.touched) {
-                <mat-error>Erkrankungsname ist erforderlich</mat-error>
+            @if (formGroup.get('name')?.hasError('required') 
+                && formGroup.get('name')?.touched) {
+                    <mat-error>Erkrankungsname ist erforderlich</mat-error>
             }
         </mat-form-field>
+    }
     </div>
     <div class="form-header">Auswertung</div>
-    <div class="form-row">
-        <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
-            <mat-label>General Info</mat-label>
-            <input matInput formControlName="general_info" placeholder="Enter general info" />
-            <mat-icon matSuffix>info</mat-icon>
-        </mat-form-field>
-    </div>
     @if (showPanelsTable) {
-        <span class="form-header">
-            Panels Table
-            <button mat-flat-button color="accent" (click)="togglePanelsTable()">Select</button>
-        </span>
+        <div class="form-row">
+            <mat-form-field
+               floatLabel="always"
+               appearance="outline"
+               subscriptSizing="dynamic">
+               <mat-label>Auszuwertende Panel</mat-label> 
+               <div class="textarea-container">
+                    <textarea matInput 
+                        formControlName="associated_panels" >
+                </textarea>
+                <button mat-flat-button 
+                    class="switch" 
+                    (click)="togglePanelsTable()">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                </div>
+            </mat-form-field>
+            <mat-form-field 
+                floatLabel="always" 
+                appearance="outline" 
+                subscriptSizing="dynamic">
+                <mat-label>Hinweise zur Filterung</mat-label>
+                <div class="textarea-container">
+                    <textarea matInput 
+                        maxlength="200000"
+                        formControlName="filter_info" 
+                        placeholder="{{ filterInfoPlaceholder }}">
+                    </textarea>
+                <button mat-flat-button 
+                    class="switch" 
+                    (click)="togglePanelsTable()">
+                    <mat-icon>info_outline</mat-icon>
+                </button>
+                </div>
+            </mat-form-field>
+        </div>
     }
     @else {
-    <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
+    <mat-form-field 
+        floatLabel="always" 
+        appearance="outline" 
+        subscriptSizing="dynamic">
         <mat-label>Panels</mat-label>
         <mat-select formControlName="associated_panels" multiple>
             @for (panel of panelList; track panel.name) {
-                <mat-option [value]="panel">{{panel.name}}</mat-option>
+                <mat-option [value]="panel">{{ panel.name }}</mat-option>
             }
         </mat-select>
         <mat-icon matSuffix>format_list_numbered</mat-icon>
     </mat-form-field>
-        <button mat-flat-button color="accent" (click)="togglePanelsTable()">Show Panels Table</button>
-}
-    <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
-        <mat-label>Filter Info</mat-label>
-        <textarea matInput formControlName="filter_info" placeholder="Enter filter info"></textarea>
-        <mat-icon matSuffix>filter_list_alt</mat-icon>
+        <button mat-flat-button 
+            color="accent" 
+            (click)="togglePanelsTable()">
+            Show Panels Table
+        </button>
+    }
+    <mat-form-field
+        floatLabel="always"
+        appearance="outline"
+        subscriptSizing="dynamic">
+        <mat-label>Besonderheiten bei der Auswertung</mat-label> 
+        <div class="textarea-container">
+            <textarea matInput 
+                formControlName="analysis_features" 
+                placeholder="{{ analysisFeaturesPlaceholder }}">
+        </textarea>
+        <button mat-flat-button 
+            class="switch" 
+            (click)="popupAnalysisFeaturesHelp()">
+            <mat-icon>info_outline</mat-icon>
+        </button>
+        </div>
     </mat-form-field>
-    <div class="form-row">
-        <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
-            <mat-label>Analysis Features</mat-label>
-            <input matInput formControlName="analysis_features" placeholder="Enter analysis features" />
-        </mat-form-field>
-        <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
-            <mat-label>Report Info</mat-label>
-            <input matInput formControlName="report_info" placeholder="Enter report info" />
-        </mat-form-field>
-    </div>
-    <div class="form-row">
-        <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
-            <mat-label>Report Text</mat-label>
-            <input matInput formControlName="report_text" placeholder="Enter report text" />
-        </mat-form-field>
-        <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
-            <mat-label>Report Tech</mat-label>
-            <input matInput formControlName="report_tech" placeholder="Enter report tech" />
-        </mat-form-field>
-    </div>
+    <div class="form-header">Befundung</div>
+    <span class="form-subheader">Hier bitte keine kompletten Befundtexte, sondern nur Ausnahmen/ Besonderheiten, die sich von der Generalvorlage unterscheiden.</span>
+    <mat-form-field 
+        floatLabel="always" 
+        appearance="outline" 
+        subscriptSizing="dynamic">
+        <mat-label>Allgemeine Infos</mat-label>
+        <textarea matInput 
+            style="min-height: 200px;"
+            formControlName="report_info" 
+            placeholder="TODO: Placeholder durch Default-Text ersetzen">
+        </textarea>
+    </mat-form-field>
+    <mat-form-field 
+        floatLabel="always" 
+        appearance="outline" 
+        subscriptSizing="dynamic">
+        <mat-label>Befundtext</mat-label>
+        <textarea matInput 
+            style="min-height: 200px;"
+            formControlName="report_text" 
+            placeholder="TODO: Placeholder durch Default-Text ersetzen">
+        </textarea>
+    </mat-form-field>
+    <mat-form-field 
+        floatLabel="always" 
+        appearance="outline" 
+        subscriptSizing="dynamic">
+        <mat-label>Technischer Report</mat-label>
+        <textarea matInput 
+            style="min-height: 200px;"
+            formControlName="report_tech" 
+            placeholder="TODO: Placeholder durch Default-Text ersetzen">
+        </textarea>
+    </mat-form-field>
+    <div class="form-header">Erkrankungsinfos</div>
+    <mat-form-field 
+        floatLabel="always" 
+        appearance="outline" 
+        subscriptSizing="dynamic">
+        <mat-label>Erkrankungsinfos</mat-label>
+        <textarea matInput 
+            style="min-height: 200px;"
+            formControlName="general_info" 
+            placeholder="TODO: Placeholder durch Default-Text ersetzen">
+        </textarea>
+        <mat-icon matSuffix>info</mat-icon>
+    </mat-form-field>
     <div class="form-actions">
         <button mat-flat-button class="control-button" color="primary" type="submit" [disabled]="createForm.invalid">Create/ Save</button>
         <button mat-flat-button class="control-button" color="primary" type="button" (click)="onCancel()">Cancel</button>

@@ -10,6 +10,9 @@ import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
+import { A11yModule } from "@angular/cdk/a11y";
+import { PanelComponent } from '../panel/panel.component';
+import { MatTooltip } from "@angular/material/tooltip";
 
 const material = [
   MatToolbarModule, 
@@ -22,10 +25,15 @@ const material = [
   ReactiveFormsModule
 ];
 
+/*
+template: web form design inspired by: 
+www.youtube.com/watch?v=Ji62CoFU630
+How to create Sleek Angular Material Forms? by Zoaib Khan
+*/
 @Component({
   selector: 'app-create',
   standalone: true,
-  imports: [...material,],
+  imports: [...material, A11yModule, MatTooltip],
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.css']
 })
@@ -37,7 +45,8 @@ export class CreateComponent {
     { id: 3, name: 'Panel 3' }
   ];
   disease = {
-    name: '',
+    //name: '',
+    name: 'Morbus Segelohren',
     general_info: '',
     associated_panels: [],
     filter_info: '',
@@ -47,17 +56,27 @@ export class CreateComponent {
     report_tech: ''
   };
 
+  nameLocked: boolean = this.disease.name !== '';
+
+  // festival de creatividad!!
+  // Initialize the form with the instructional text, user must overwrite it 
   createForm = this.fb.group({
     name: [{value: '', disabled: false}, Validators.required],
     general_info: [''],
     associated_panels: [[]],
     filter_info: [''],
-    analysis_features: [''],
+    analysis_features: ['BLAHLABHllllasdfafasdfadsf\nBLAAAAHH!!!!'],
     report_info: [''],
     report_text: [''],
     report_tech: ['']
   });
 
+  filterInfoPlaceholder: string = "Bitte sehr kurz fassen: nur Stichworte, z.B. @LELY, @LEPRA, HBB ohne Filter, etc. Details haben unten Platz!";
+  analysisFeaturesPlaceholder: string = "Besonderheiten zu den verschiedenen Panels";
+
+  popupAnalysisFeaturesHelp() {
+    console.log("Help for analysis features");
+  }
   disableNameControl() {
     this.createForm.get('name')?.disable();
   }
