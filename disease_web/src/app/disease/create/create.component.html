@@ -1,3 +1,6 @@
+
+
+
 <form class="create-form" [formGroup]="createForm" (ngSubmit)="onSubmit()">
     <div class="form-row">
         @if (nameLocked) {
@@ -28,9 +31,12 @@
                subscriptSizing="dynamic">
                <mat-label>Auszuwertende Panel</mat-label> 
                <div class="textarea-container">
-                    <textarea matInput 
-                        formControlName="associated_panels" >
-                </textarea>
+                    <textarea matInput
+                        class="associated-panels"
+                        maxlength="200000"
+                        formControlName="associated_panels"
+                        onInput="this.parentNode.dataset.replicatedValue = this.value">
+                    </textarea>         
                 <button mat-flat-button 
                     class="switch" 
                     (click)="togglePanelsTable()">
@@ -38,22 +44,21 @@
                 </button>
                 </div>
             </mat-form-field>
+            <!-- example: how to populate with string from ts variable:
+            <div [innerHTML]="instructionsFilterInfo"></div>
+            -->
             <mat-form-field 
                 floatLabel="always" 
                 appearance="outline" 
                 subscriptSizing="dynamic">
                 <mat-label>Hinweise zur Filterung</mat-label>
-                <div class="textarea-container">
-                    <textarea matInput 
+                <div class="grow-wrap">
+                    <textarea matInput
+                        class="filter-info"
                         maxlength="200000"
-                        formControlName="filter_info" 
-                        placeholder="{{ filterInfoPlaceholder }}">
+                        formControlName="filter_info"
+                        onInput="this.parentNode.dataset.replicatedValue = this.value">
                     </textarea>
-                <button mat-flat-button 
-                    class="switch" 
-                    (click)="togglePanelsTable()">
-                    <mat-icon>info_outline</mat-icon>
-                </button>
                 </div>
             </mat-form-field>
         </div>
@@ -84,25 +89,29 @@
         <mat-label>Besonderheiten bei der Auswertung</mat-label> 
         <div class="textarea-container">
             <textarea matInput 
-                formControlName="analysis_features" 
-                placeholder="{{ analysisFeaturesPlaceholder }}">
+                class="analysis-features"
+                formControlName="analysis_features">
         </textarea>
+        <!--
         <button mat-flat-button 
             class="switch" 
             (click)="popupAnalysisFeaturesHelp()">
             <mat-icon>info_outline</mat-icon>
         </button>
+        -->
         </div>
     </mat-form-field>
     <div class="form-header">Befundung</div>
-    <span class="form-subheader">Hier bitte keine kompletten Befundtexte, sondern nur Ausnahmen/ Besonderheiten, die sich von der Generalvorlage unterscheiden.</span>
+    <span class="form-subheader">Hier bitte keine kompletten Befundtexte, 
+        sondern nur Ausnahmen/ Besonderheiten, die sich von der Generalvorlage 
+        unterscheiden. <= remove, once a disease record has been created?</span>
     <mat-form-field 
         floatLabel="always" 
         appearance="outline" 
         subscriptSizing="dynamic">
         <mat-label>Allgemeine Infos</mat-label>
         <textarea matInput 
-            style="min-height: 200px;"
+            class="report-info"
             formControlName="report_info" 
             placeholder="TODO: Placeholder durch Default-Text ersetzen">
         </textarea>
@@ -113,7 +122,7 @@
         subscriptSizing="dynamic">
         <mat-label>Befundtext</mat-label>
         <textarea matInput 
-            style="min-height: 200px;"
+            class="report-text"
             formControlName="report_text" 
             placeholder="TODO: Placeholder durch Default-Text ersetzen">
         </textarea>
@@ -124,7 +133,7 @@
         subscriptSizing="dynamic">
         <mat-label>Technischer Report</mat-label>
         <textarea matInput 
-            style="min-height: 200px;"
+            class="report-tech"
             formControlName="report_tech" 
             placeholder="TODO: Placeholder durch Default-Text ersetzen">
         </textarea>
@@ -135,12 +144,11 @@
         appearance="outline" 
         subscriptSizing="dynamic">
         <mat-label>Erkrankungsinfos</mat-label>
-        <textarea matInput 
-            style="min-height: 200px;"
+        <textarea matInput
+            class="general-info"
             formControlName="general_info" 
             placeholder="TODO: Placeholder durch Default-Text ersetzen">
         </textarea>
-        <mat-icon matSuffix>info</mat-icon>
     </mat-form-field>
     <div class="form-actions">
         <button mat-flat-button class="control-button" color="primary" type="submit" [disabled]="createForm.invalid">Create/ Save</button>

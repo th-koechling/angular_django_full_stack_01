@@ -18,11 +18,13 @@
     align-items: flex-start;
 }
 .main-header {
+    font-family: 'Calibri', sans-serif;
     font-size: 32px;
     font-weight: normal;
-    color: rgb(26, 67, 204)
+    color: rgb(7, 41, 155)
 }
 .form-header {
+    font-family: 'Calibri', sans-serif;
     font-size: 24px;
     font-weight: normal;
     margin-top: 10px;
@@ -30,6 +32,7 @@
     align-items: center;
 }
 .form-subheader {
+    font-family: 'Calibri', sans-serif;
     font-size: 14px;
     font-weight: normal;
     margin-top: -10px;
@@ -76,4 +79,64 @@ input.required:disabled {
     position: absolute;
     top: 0;
     right: 0;
+}
+
+textarea.associated-panels {
+    min-height: 125px;
+    font-family: 'Calibri', sans-serif;
+    font-size: 16px;
+}
+textarea.filter-info {
+    min-height: 225px;
+    font-family: 'Times New Roman', Times, serif;
+    /*font-family: 'Calibri', sans-serif;*/
+    font-size: 16px;
+}
+textarea.general-info{
+    min-height: 200px;
+    font-family: 'Calibri', sans-serif;
+    font-size: 16px;
+}
+textarea.analysis-features {
+    min-height: 175px;
+    font-family: 'Calibri', sans-serif;
+    font-size: 16px;
+}
+textarea.report-info {
+    min-height: 150px;
+    font-family: 'Calibri', sans-serif;
+    font-size: 16px;
+}
+textarea.report-text {
+    min-height: 150px;
+    font-family: 'Calibri', sans-serif;
+    font-size: 16px;
+}
+textarea.report-tech {
+    min-height: 150px;
+    font-family: 'Calibri', sans-serif;
+    font-size: 16px;
+}
+
+/*auto increasing textearea height, from: */
+/*https://chriscoyier.net/2023/09/29/css-solves-auto-expanding-textareas-probably-eventually/*/
+.grow-wrap {
+    font-family: monospace;
+    display: grid;
+}
+.grow-wrap::after {
+    content: attr(data-replicated-value) " ";
+    white-space: pre-wrap;
+    visibility: hidden;
+}
+.grow-wrap > textarea {
+    resize: none;
+    overflow: hidden;
+}
+.grow-wrap > textarea,
+.grow-wrap::after {
+    border: 1px solid black;
+    padding: 0.5rem;
+    font: inherit;
+    grid-area: 1 / 1 / 2 / 2;
 }
