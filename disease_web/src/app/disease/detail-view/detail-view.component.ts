@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DiseaseService } from '../disease.service';
-import { Disease } from '../interfaces';
-import { Panel } from '../interfaces';
-import { DiseasePanel } from '../interfaces';
+import { Disease, Panel, DiseasePanel } from '../interfaces';
 import { FormsModule, FormControl } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Observable, forkJoin, concat } from 'rxjs';
@@ -29,7 +27,7 @@ const material = [
   MatButtonModule,
   MatSort,
   MatSortModule,
-  MatPaginator
+  MatPaginator,
 ]
 
 @Component({

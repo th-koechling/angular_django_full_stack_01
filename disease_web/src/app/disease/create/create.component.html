@@ -1,110 +1,74 @@
-
-
-
 <form class="create-form" [formGroup]="createForm" (ngSubmit)="onSubmit()">
     <div class="form-row">
-        @if (nameLocked) {
-            <div class="main-header">{{ disease.name }}</div>
-        }
-        @else {
         <mat-form-field 
             floatLabel="always" appearance="outline" subscriptSizing="dynamic">
             <mat-label>Erkrankungsname</mat-label>
             <input 
-                class="required" 
-                matInput formControlName="name" 
+                class="required, disease-name" 
+                matInput 
+                formControlName="name" 
                 placeholder="Namen der Erkrankung angeben" />
             <mat-icon matSuffix>abc</mat-icon>
-            @if (formGroup.get('name')?.hasError('required') 
-                && formGroup.get('name')?.touched) {
-                    <mat-error>Erkrankungsname ist erforderlich</mat-error>
-            }
         </mat-form-field>
-    }
     </div>
     <div class="form-header">Auswertung</div>
-    @if (showPanelsTable) {
-        <div class="form-row">
-            <mat-form-field
-               floatLabel="always"
-               appearance="outline"
-               subscriptSizing="dynamic">
-               <mat-label>Auszuwertende Panel</mat-label> 
-               <div class="textarea-container">
-                    <textarea matInput
-                        class="associated-panels"
-                        maxlength="200000"
-                        formControlName="associated_panels"
-                        onInput="this.parentNode.dataset.replicatedValue = this.value">
-                    </textarea>         
-                <button mat-flat-button 
-                    class="switch" 
-                    (click)="togglePanelsTable()">
-                    <mat-icon>edit</mat-icon>
-                </button>
-                </div>
-            </mat-form-field>
-            <!-- example: how to populate with string from ts variable:
-            <div [innerHTML]="instructionsFilterInfo"></div>
-            -->
-            <mat-form-field 
-                floatLabel="always" 
-                appearance="outline" 
-                subscriptSizing="dynamic">
-                <mat-label>Hinweise zur Filterung</mat-label>
-                <div class="grow-wrap">
-                    <textarea matInput
-                        class="filter-info"
-                        maxlength="200000"
-                        formControlName="filter_info"
-                        onInput="this.parentNode.dataset.replicatedValue = this.value">
-                    </textarea>
-                </div>
-            </mat-form-field>
-        </div>
-    }
-    @else {
-    <mat-form-field 
-        floatLabel="always" 
-        appearance="outline" 
-        subscriptSizing="dynamic">
-        <mat-label>Panels</mat-label>
-        <mat-select formControlName="associated_panels" multiple>
-            @for (panel of panelList; track panel.name) {
+    <div class="form-row">
+    <mat-form-field
+        floatLabel="always" appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Auszuwertende Panels</mat-label>
+        <mat-select matInput 
+            class="associated-panels"
+            formControlName="associated_panels"
+            placeholder="Panels auswählen"
+            multiple>
+            @for (panel of disease.associated_panels; track panel.name) {
                 <mat-option [value]="panel">{{ panel.name }}</mat-option>
             }
-        </mat-select>
-        <mat-icon matSuffix>format_list_numbered</mat-icon>
+            @for (panel of panelList; track panel) {
+                @if (!isAssociatedPanel(panel)) {
+                    <mat-option [value]="panel">{{ panel.name }}</mat-option>
+                }
+            }
+            </mat-select>
     </mat-form-field>
-        <button mat-flat-button 
-            color="accent" 
-            (click)="togglePanelsTable()">
-            Show Panels Table
-        </button>
-    }
+    </div>
+    <div class="form-row">
+    <mat-form-field
+        appearance="outline"
+        subscriptSizing="dynamic">
+        <!-- alternative: place the field header inside the text box: -->
+        <span class="subheader">Hinweise zur Filterung</span>
+        <div class="grow-wrap">
+            <textarea matInput
+                class="filter-info"
+                maxlength="200000"
+                formControlName="filter_info"
+                onInput="this.parentNode.dataset.replicatedValue = this.value">
+            </textarea>
+        </div>
+    </mat-form-field>
+    </div>
+    <!-- another alternative to mat-label: field header
+    <div class="field-header">Besonderheiten bei der Auswertung</div>
+    -->
     <mat-form-field
         floatLabel="always"
         appearance="outline"
         subscriptSizing="dynamic">
-        <mat-label>Besonderheiten bei der Auswertung</mat-label> 
+        <mat-label>Besonderheiten bei der Auswertung</mat-label>
         <div class="textarea-container">
             <textarea matInput 
                 class="analysis-features"
                 formControlName="analysis_features">
         </textarea>
-        <!--
-        <button mat-flat-button 
-            class="switch" 
-            (click)="popupAnalysisFeaturesHelp()">
-            <mat-icon>info_outline</mat-icon>
-        </button>
-        -->
         </div>
     </mat-form-field>
     <div class="form-header">Befundung</div>
     <span class="form-subheader">Hier bitte keine kompletten Befundtexte, 
         sondern nur Ausnahmen/ Besonderheiten, die sich von der Generalvorlage 
-        unterscheiden. <= remove, once a disease record has been created?</span>
+        unterscheiden. <br/> <span style="color: orangered;">
+            <- Hinweis nach Anlegen eines Datensatzes entfernen?</span>
+    </span>
     <mat-form-field 
         floatLabel="always" 
         appearance="outline" 
@@ -155,4 +119,3 @@
         <button mat-flat-button class="control-button" color="primary" type="button" (click)="onCancel()">Cancel</button>
     </div>
 </form>
-

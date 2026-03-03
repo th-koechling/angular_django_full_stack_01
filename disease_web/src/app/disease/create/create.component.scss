@@ -1,8 +1,22 @@
+
+@use '@angular/material' as mat;
+
+// does not work in angular versions < 19, apparently!
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+/*
+:root {
+  @include mat.form-field-overrides((
+    disabled-input-text-placeholder-color: orange,
+    disabled-leading-icon-color: red,
+  ));
+}
+*/
+
 :host {
     padding: 20px;
 }
 .create-form {
-    max-width: 800px;
+    max-width: 900px;
     padding: 40px;
     margin: 0 auto;
     background-color: #f5f5f5;
@@ -21,7 +35,7 @@
     font-family: 'Calibri', sans-serif;
     font-size: 32px;
     font-weight: normal;
-    color: rgb(7, 41, 155)
+    color: navy;
 }
 .form-header {
     font-family: 'Calibri', sans-serif;
@@ -59,7 +73,7 @@ input.required:disabled {
     width: 25px;
     height: 25px;
     min-width: 25px !important;
-    background-color: rgb(172, 214, 238);
+    background-color: navy;
     color: white;
     padding: 0px !important;
 }
@@ -80,48 +94,90 @@ input.required:disabled {
     top: 0;
     right: 0;
 }
-
-textarea.associated-panels {
-    min-height: 125px;
+input.disease-name {
+    width: 100%;
+    height: 30px;
+    padding-top: 7px;
+    font-size: 20px;
+}
+mat-select.associated-panels {
+    min-height: 40px;
+    padding-top: 7px;
     font-family: 'Calibri', sans-serif;
     font-size: 16px;
 }
 textarea.filter-info {
-    min-height: 225px;
+    min-height: 140px;
+    padding-top: 7px;
     font-family: 'Times New Roman', Times, serif;
     /*font-family: 'Calibri', sans-serif;*/
     font-size: 16px;
 }
 textarea.general-info{
-    min-height: 200px;
+    min-height: 600px;
+    padding-top: 7px;
     font-family: 'Calibri', sans-serif;
     font-size: 16px;
 }
 textarea.analysis-features {
     min-height: 175px;
+    padding-top: 7px;
     font-family: 'Calibri', sans-serif;
     font-size: 16px;
 }
 textarea.report-info {
     min-height: 150px;
+    padding-top: 7px;
     font-family: 'Calibri', sans-serif;
     font-size: 16px;
 }
 textarea.report-text {
     min-height: 150px;
+    padding-top: 7px;
     font-family: 'Calibri', sans-serif;
     font-size: 16px;
 }
 textarea.report-tech {
     min-height: 150px;
+    padding-top: 7px;
     font-family: 'Calibri', sans-serif;
     font-size: 16px;
+}
+mat-label {
+    font-family: 'Calibri', sans-serif;
+    font-size: 24px;
+    font-weight: normal;
+    color: navy;
+    padding-bottom: 20px !important;
+}
+.mini-table {
+    width: 600px;
+    min-height: 175px;
+    border: 1px solid rgb(143, 140, 140);
+    border-radius: 3px;
+    border-style: solid;
+    padding: 10px;
+}
+.subheader {
+    font-family: 'Calibri', sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    color: navy;
+    padding-bottom: 10px !important;
+}
+.field-header {
+    margin-top: 20px;
+    font-family: 'Calibri', sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    color: navy;
 }
 
 /*auto increasing textearea height, from: */
 /*https://chriscoyier.net/2023/09/29/css-solves-auto-expanding-textareas-probably-eventually/*/
 .grow-wrap {
     font-family: monospace;
+    font-size: 14px;
     display: grid;
 }
 .grow-wrap::after {
