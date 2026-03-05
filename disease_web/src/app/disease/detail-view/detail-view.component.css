@@ -1,3 +1,23 @@
+.view-edit-form {
+    max-width: 900px;
+    padding: 40px;
+    margin: 0 auto;
+    /*background-color: #f5f5f5; <- light grey */
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mini-table {
+    width: 400px;
+    min-height: 175px;
+    border: 1px solid rgb(143, 140, 140);
+    border-radius: 3px;
+    border-style: solid;
+    padding: 10px;
+}
+
 .center {
     display: flex;
     flex-direction: column;
@@ -5,6 +25,39 @@
     align-items: center;
 }
 
+.form-row {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.outline {
+    /*display: flex; */
+    /*align-items: top; */
+    align-items: flex-start; 
+    border-style: solid; 
+    border-radius: 3px;
+    border-width: 1px; 
+    border-color: slategray; 
+    padding: 10px; 
+    margin-bottom: 20px;
+}
+
+.subheader {
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    color: midnightblue;
+    padding-bottom: 10px !important;
+}
+
+mat-label {
+    font-family: 'Roboto', sans-serif;
+    font-size: 24px;
+    font-weight: normal;
+    color: midnightblue;
+    padding-bottom: 20px !important;
+}
 .button {
     width: 130px;
 }
@@ -12,20 +65,32 @@
 .button.confirm {
     background-color: lightseagreen;
     color: white;
-    width: 130px;
-    height: 60px;
-    margin-left: 10px;
-
+    width: 8rem;
+    height: 3rem;
+    margin-left: 1rem;
 }
 
 .button.cancel {
     background-color: coral;
     color: white;
-    width: 130px;
-    height: 60px;
-    margin-left: 10px;
+    width: 8rem;
+    height: 3rem;
+    margin-left: 1rem;
 }
 
+.button.edit {
+    background-color: midnightblue;
+    color: white;
+    width: 40px;
+    height: 40px;
+    margin-left: 0px;
+}
+.button.home {
+    background-color: midnightblue;
+    color: white;
+    width: 8rem;
+    height: 3rem;
+}
 .button.lock {
     background-color: coral;
     color: white;

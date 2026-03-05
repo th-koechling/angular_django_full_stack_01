@@ -32,21 +32,22 @@
     align-items: flex-start;
 }
 .main-header {
-    font-family: 'Calibri', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 32px;
     font-weight: normal;
-    color: navy;
+    color: midnightblue;
 }
 .form-header {
-    font-family: 'Calibri', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 24px;
     font-weight: normal;
+    color: midnightblue;
     margin-top: 10px;
     display: flex;
     align-items: center;
 }
 .form-subheader {
-    font-family: 'Calibri', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 14px;
     font-weight: normal;
     margin-top: -10px;
@@ -73,7 +74,7 @@ input.required:disabled {
     width: 25px;
     height: 25px;
     min-width: 25px !important;
-    background-color: navy;
+    background-color: midnightblue;
     color: white;
     padding: 0px !important;
 }
@@ -103,80 +104,72 @@ input.disease-name {
 mat-select.associated-panels {
     min-height: 40px;
     padding-top: 7px;
-    font-family: 'Calibri', sans-serif;
-    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
 }
 textarea.filter-info {
     min-height: 140px;
     padding-top: 7px;
-    font-family: 'Times New Roman', Times, serif;
-    /*font-family: 'Calibri', sans-serif;*/
-    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
 }
 textarea.general-info{
     min-height: 600px;
     padding-top: 7px;
-    font-family: 'Calibri', sans-serif;
-    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
 }
 textarea.analysis-features {
     min-height: 175px;
     padding-top: 7px;
-    font-family: 'Calibri', sans-serif;
-    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
 }
 textarea.report-info {
     min-height: 150px;
     padding-top: 7px;
-    font-family: 'Calibri', sans-serif;
-    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
 }
 textarea.report-text {
     min-height: 150px;
     padding-top: 7px;
-    font-family: 'Calibri', sans-serif;
-    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
 }
 textarea.report-tech {
     min-height: 150px;
     padding-top: 7px;
-    font-family: 'Calibri', sans-serif;
-    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
 }
 mat-label {
-    font-family: 'Calibri', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 24px;
     font-weight: normal;
-    color: navy;
+    color: midnightblue;
     padding-bottom: 20px !important;
 }
-.mini-table {
-    width: 600px;
-    min-height: 175px;
-    border: 1px solid rgb(143, 140, 140);
-    border-radius: 3px;
-    border-style: solid;
-    padding: 10px;
-}
 .subheader {
-    font-family: 'Calibri', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 18px;
     font-weight: normal;
-    color: navy;
+    color: midnightblue;
     padding-bottom: 10px !important;
 }
 .field-header {
     margin-top: 20px;
-    font-family: 'Calibri', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 18px;
     font-weight: normal;
-    color: navy;
+    color: midnightblue;
 }
 
 /*auto increasing textearea height, from: */
 /*https://chriscoyier.net/2023/09/29/css-solves-auto-expanding-textareas-probably-eventually/*/
 .grow-wrap {
-    font-family: monospace;
+    /*font-family: monospace;*/
+    font-family: 'Roboto', sans-serif;
     font-size: 14px;
     display: grid;
 }
@@ -192,7 +185,8 @@ mat-label {
 .grow-wrap > textarea,
 .grow-wrap::after {
     border: 1px solid black;
-    padding: 0.5rem;
+    //padding: 0.5rem;
     font: inherit;
+    font-family: 'Roboto', sans-serif;
     grid-area: 1 / 1 / 2 / 2;
 }

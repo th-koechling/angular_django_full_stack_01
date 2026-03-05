@@ -20,7 +20,8 @@
             class="associated-panels"
             formControlName="associated_panels"
             placeholder="Panels auswählen"
-            multiple>
+            multiple
+            (selectionChange)="onPanelSelectionChange($event.value)">
             @for (panel of disease.associated_panels; track panel.name) {
                 <mat-option [value]="panel">{{ panel.name }}</mat-option>
             }
@@ -56,11 +57,12 @@
         appearance="outline"
         subscriptSizing="dynamic">
         <mat-label>Besonderheiten bei der Auswertung</mat-label>
-        <div class="textarea-container">
+        <div class="grow-wrap">
             <textarea matInput 
                 class="analysis-features"
-                formControlName="analysis_features">
-        </textarea>
+                formControlName="analysis_features"
+                onInput="this.parentNode.dataset.replicatedValue = this.value">  
+            </textarea>
         </div>
     </mat-form-field>
     <div class="form-header">Befundung</div>
@@ -73,34 +75,43 @@
         floatLabel="always" 
         appearance="outline" 
         subscriptSizing="dynamic">
-        <mat-label>Allgemeine Infos</mat-label>
-        <textarea matInput 
-            class="report-info"
-            formControlName="report_info" 
-            placeholder="TODO: Placeholder durch Default-Text ersetzen">
-        </textarea>
+        <mat-label>Allgemeine Info</mat-label>
+        <div class="grow-wrap">
+            <textarea matInput 
+                class="report-info"
+                formControlName="report_info" 
+                placeholder="TODO: Placeholder durch Default-Text ersetzen"
+                onInput="this.parentNode.dataset.replicatedValue = this.value">
+            </textarea>
+        </div>
     </mat-form-field>
     <mat-form-field 
         floatLabel="always" 
         appearance="outline" 
         subscriptSizing="dynamic">
         <mat-label>Befundtext</mat-label>
-        <textarea matInput 
-            class="report-text"
-            formControlName="report_text" 
-            placeholder="TODO: Placeholder durch Default-Text ersetzen">
-        </textarea>
+        <div class="grow-wrap">
+            <textarea matInput 
+                class="report-text"
+                formControlName="report_text" 
+                placeholder="TODO: Placeholder durch Default-Text ersetzen"
+                onInput="this.parentNode.dataset.replicatedValue = this.value">
+            </textarea>
+        </div>
     </mat-form-field>
     <mat-form-field 
         floatLabel="always" 
         appearance="outline" 
         subscriptSizing="dynamic">
         <mat-label>Technischer Report</mat-label>
-        <textarea matInput 
-            class="report-tech"
-            formControlName="report_tech" 
-            placeholder="TODO: Placeholder durch Default-Text ersetzen">
-        </textarea>
+        <div class="grow-wrap">
+            <textarea matInput 
+                class="report-tech"
+                formControlName="report_tech" 
+                placeholder="TODO: Placeholder durch Default-Text ersetzen"
+                onInput="this.parentNode.dataset.replicatedValue = this.value">
+            </textarea>
+        </div>
     </mat-form-field>
     <div class="form-header">Erkrankungsinfos</div>
     <mat-form-field 
@@ -108,11 +119,14 @@
         appearance="outline" 
         subscriptSizing="dynamic">
         <mat-label>Erkrankungsinfos</mat-label>
-        <textarea matInput
-            class="general-info"
-            formControlName="general_info" 
-            placeholder="TODO: Placeholder durch Default-Text ersetzen">
-        </textarea>
+        <div class="grow-wrap">
+            <textarea matInput
+                class="general-info"
+                formControlName="general_info" 
+                placeholder="TODO: Placeholder durch Default-Text ersetzen"
+                onInput="this.parentNode.dataset.replicatedValue = this.value">
+            </textarea>
+        </div>
     </mat-form-field>
     <div class="form-actions">
         <button mat-flat-button class="control-button" color="primary" type="submit" [disabled]="createForm.invalid">Create/ Save</button>

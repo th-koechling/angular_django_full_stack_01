@@ -4,6 +4,7 @@ import { CreateComponent } from './disease/create/create.component';
 import { PanelComponent } from './disease/panel/panel.component';
 import { GeneComponent } from './disease/gene/gene.component';
 import { DetailViewComponent } from './disease/detail-view/detail-view.component';
+import { SelectPanelsComponent } from './disease/select-panels/select-panels.component';
 
 
 // TODO: why the 'home/' path is needed?
@@ -17,5 +18,6 @@ export const routes: Routes = [
     {path: "genes/home", component: GeneComponent},
     {path: "genes", redirectTo:"genes/home", pathMatch:"full"},
     {path: "detail-view", component: DetailViewComponent},
+    {path: "select-panels", component: SelectPanelsComponent},
     //{path: "detail-view", redirectTo:"detail-view/home", pathMatch:"full"},
 ];

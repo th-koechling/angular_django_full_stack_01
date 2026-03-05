@@ -45,7 +45,6 @@ How to create Sleek Angular Material Forms? by Zoaib Khan
   styleUrls: ['./create.component.scss']
 })
 export class CreateComponent implements AfterViewInit {
-  panels = new FormControl();
   panelList: Panel[] = [];
 
   constructor(private fb: FormBuilder,
@@ -81,8 +80,8 @@ export class CreateComponent implements AfterViewInit {
     return this.disease.associated_panels.some((associated_panel) => associated_panel.name === panel.name);
   }
 
-
   initFormValues = {
+    //name: "",
     name: [{value: '', disabled: false}, Validators.required],
     general_info: formDefaultValues.instructionsGeneralInfo,
     associated_panels: [],
@@ -95,10 +94,8 @@ export class CreateComponent implements AfterViewInit {
 
   createForm: FormGroup = this.fb.group(this.initFormValues);
 
-
-
   /* TODO: use this in the view/ edit template to switch 
-           between panel display and editing:
+           between associated panel display and editing:
   showPanelsTable: boolean = true;
   togglePanelsTable() {
     this.showPanelsTable = !this.showPanelsTable;
@@ -107,11 +104,24 @@ export class CreateComponent implements AfterViewInit {
 
   onSubmit() {
     console.log(this.createForm.value);
-    this.createForm.controls['name'].disable();
+    this.diseaseService.createDisease(this.createForm.value).subscribe((response) => {
+      console.log('Disease created successfully:', response);
+      // Navigate to the detail view of the newly created disease
+      this.router.navigate(['/detail-view'], { queryParams: { diseaseName: response.name } });
+    }, (error) => {
+      console.error('Error creating disease:', error);
+    });
+    // not needed for now: currently, the submit button navigates to another view:
+    //this.createForm.controls['name'].disable(); 
   } 
   onCancel() {
     // TODO: do not reset to empty, but to the initial values!!
-    this.createForm.reset();
-    this.createForm.controls['name'].enable();
+    //this.createForm.reset();
+    // this gives weird results:
+    //this.createForm.reset(this.initFormValues);
+    // this seems to work:
+    this.createForm = this.fb.group(this.initFormValues);
+    // unnecessary:
+    //this.createForm.controls['name'].enable();
   }
 }

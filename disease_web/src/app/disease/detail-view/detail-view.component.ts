@@ -13,8 +13,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule, MatOption } from '@angular/material/select';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
+import { MatTooltipModule, MatTooltip } from "@angular/material/tooltip";
 
 const material = [
   MatFormField,
@@ -28,14 +29,15 @@ const material = [
   MatSort,
   MatSortModule,
   MatPaginator,
+  MatPaginatorModule,
 ]
 
 @Component({
   selector: 'app-detail-view',
   standalone: true,
-  imports: [material, CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [material, CommonModule, FormsModule, ReactiveFormsModule, MatTooltipModule],
   templateUrl: './detail-view.component.html',
-  styleUrl: './detail-view.component.css'
+  styleUrls: ['./detail-view.component.css']
 })
 
 export class DetailViewComponent implements OnInit {
@@ -45,6 +47,7 @@ export class DetailViewComponent implements OnInit {
   diseasePanels: DiseasePanel[] = [];
   diseasePanelBuffer: DiseasePanel[] = [];
   panelsPreSelect: Panel[] = [];
+  panelSelectView: Boolean = false;
   disease: Disease = {
     id: 0,
     name: '',
@@ -75,7 +78,7 @@ export class DetailViewComponent implements OnInit {
   dataSource = new MatTableDataSource<Panel>();
   @ViewChild(MatSort, {static: true}) sort!: MatSort;
   @ViewChild(MatPaginator) paginator: any;
-  
+  sorted_associated_panels: Panel[] = [];
 
   ngOnInit() {
     this.rankValues = [];
@@ -108,24 +111,19 @@ export class DetailViewComponent implements OnInit {
       }
       this.dataSource = new MatTableDataSource<Panel>(this.disease.associated_panels);
       this.dataSource.sort = this.sort;
-      this.paginator._intl.itemsPerPageLabel = 'Einträge pro Seite:';
-      this.paginator._intl.nextPageLabel = 'Nächste Seite';
-      this.paginator._intl.previousPageLabel = 'Vorherige Seite';
-      this.dataSource.paginator = this.paginator;
+      //this.dataSource.paginator = this.paginator;
+      //this.paginator._intl.itemsPerPageLabel = 'Einträge pro Seite:';
+      //this.paginator._intl.nextPageLabel = 'Nächste Seite';
+      //this.paginator._intl.previousPageLabel = 'Vorherige Seite';
+      this.sorted_associated_panels = this.disease.associated_panels.sort(
+        (a: Panel, b: Panel) => 
+          ((a.rank as number) < (b.rank as number) ? -1 : 1)
+      );
     });
   }
 
   showChange(value: any) {
     this.disease.associated_panels = value;
-  }
-
-  panelSelect: Boolean = true;
-  togglePanelsLock() {
-    if (this.panelSelect === false) {
-      this.panelSelect = true;
-    } else {
-      this.panelSelect = false;
-    }
   }
 
   updateDisease(disease: Disease) {
@@ -199,6 +197,10 @@ export class DetailViewComponent implements OnInit {
 
   isAssociatedPanel(panel: Panel): boolean {
     return this.disease.associated_panels?.some((p: Panel) => p.name === panel.name);
+  }
+
+  panelSelectionView() {
+    this.router.navigate(['/select-panels'], { queryParams: { diseaseName: this.disease.name } });
   }
 
   goToDiseaseOverview() {
