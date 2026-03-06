@@ -84,14 +84,21 @@ export class DetailViewComponent implements OnInit {
     this.rankValues = [];
     console.log("rankValues: ", this.rankValues);
     const panels$: Observable<Panel[]> = this.diseaseService.getPanels();
-    const diseasePanels$: Observable<DiseasePanel[]> = this.diseaseService.getDiseasePanels();
-    const disease$: Observable<Disease> = this.diseaseService.getDiseaseByName(this.route.snapshot.queryParamMap.get('diseaseName')!);
+    const diseasePanels$: Observable<DiseasePanel[]> = 
+      this.diseaseService.getDiseasePanels();
+    const disease$: Observable<Disease> = 
+      this.diseaseService.getDiseaseByName(
+        this.route.snapshot.queryParamMap.get('diseaseName')!
+      );
     
-    forkJoin([panels$, diseasePanels$, disease$]).subscribe(([panel_data, disease_panel_data, disease_data]) => {
+    forkJoin([panels$, diseasePanels$, disease$]).subscribe(
+      ([panel_data, disease_panel_data, disease_data]) => {
       const associated_panels: Panel[] = [];
       disease_panel_data.forEach(dp => {
         if (dp.disease_name === disease_data.name) {
-          const panel: Panel | undefined = panel_data.find(p => p.name === dp.panel_name);
+          const panel: Panel | undefined = panel_data.find(
+            p => p.name === dp.panel_name
+          );
           if (panel) {
             if (dp.rank == null) {
               dp.rank = 0;
@@ -105,7 +112,7 @@ export class DetailViewComponent implements OnInit {
       this.diseasePanels = disease_panel_data;
       this.disease = disease_data;
       this.disease.associated_panels = associated_panels;
-      const numberOfRanks = associated_panels.length
+      const numberOfRanks = associated_panels.length;
       for (let i = 1; i <= numberOfRanks; i++) {
         this.rankValues.push(i);
       }
@@ -153,6 +160,13 @@ export class DetailViewComponent implements OnInit {
     }
   }
 
+  updateDiseasePanelBuffer(diseaseName: string) {
+    this.diseasePanelBuffer.forEach((dp: DiseasePanel) => {
+      dp.disease_name = diseaseName;
+    });
+  }
+
+  // TODO: not used? if so, remove!
   updateDiseasePanels(disease: Disease) {
     this.diseasePanels = this.diseasePanelBuffer;
     // <-- using the buffer in the setRank method, so it can be cancelled if needed (button press)

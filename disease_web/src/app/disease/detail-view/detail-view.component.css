@@ -40,7 +40,8 @@
     border-width: 1px; 
     border-color: slategray; 
     padding: 10px; 
-    margin-bottom: 20px;
+    padding-bottom: 0px !important;
+    /*margin-bottom: 20px;*/
 }
 
 .subheader {

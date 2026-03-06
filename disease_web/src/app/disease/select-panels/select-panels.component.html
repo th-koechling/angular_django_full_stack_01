@@ -1,18 +1,21 @@
-<p style="margin-left: 20px;">Erkrankung: <b>{{ diseaseName }}</b></p>
-
-        <!--
-        <div style="display: flex; align-items: center;">
-        <h2 style="font-size: 20px; color: lightseagreen; font-style: italic;">
-            Hier können die zugeordneten Panels bearbeitet werden.</h2>
+<div class="panel-select-form">
+    <div style="display: flex; align-items: center;">
+        <h1 style="color: midnightblue; font-weight: bold;" >{{ disease.name }}</h1>
         <button mat-mini-fab class="button edit" 
-                style="background-color: slateblue; margin-left: 15px;"
-                matTooltip="Zurück zur Erkrankung" 
-                (click)="togglePanelView()">
+                style="background-color: midnightblue; margin-left: 15px;"
+                matTooltip="Zurück zur Detailansicht der Erkrankung" 
+                (click)="goToDiseaseDetailView()">
             <mat-icon>list_alt</mat-icon>
         </button>
-        </div>
+    </div>
+    <h2 style="font-size: 18px; color: midnightblue; font-style: normal;">
+        Auszuwertende Panel: Auswahl und Reihenfolge</h2>
+    <div class="form-row">
     <mat-form-field style="width: 700px; height: 70px; margin-left: 0px;">
-        <mat-select [value]="disease.associated_panels" [formControl]="panels" multiple placeholder="select panel(s)" (selectionChange)="showChange($event.value)">
+        <mat-select [value]="disease.associated_panels" 
+                    [formControl]="panels" 
+                    multiple placeholder="select panel(s)" 
+                    (selectionChange)="showChange($event.value)">
             @for (panel of disease.associated_panels; track panel.name) {
                 <mat-option [value]="panel">{{panel.name}}</mat-option>
             }
@@ -25,20 +28,33 @@
         <mat-icon fontIcon="list" matPrefix></mat-icon>
     </mat-form-field>
         @if (panelSelect) {
-            <button mat-flat-button class="button lock" (click)="togglePanelsLock()">
+            <button mat-flat-button 
+                    class="button lock" 
+                    (click)="togglePanelsLock()"
+                    matTooltip="Panel-Auswahl entsperren">
                 <i class="material-icons">lock</i>
             </button>
         } @else {
-            <button mat-flat-button class="button unlock" (click)="togglePanelsLock()">
+            <button mat-flat-button 
+                    class="button unlock" 
+                    (click)="togglePanelsLock()"
+                    matTooltip="Panel-Auswahl blockieren">
                 <i class="material-icons">lock_open</i>
             </button>
         }
     </div>
-
-    <h2 style="color: lightseagreen; font-weight: bold;" >Auszuwertende Panels</h2>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort matSortActive="rank" matSortDirection="asc">
+    <!--
+    <h2 style="color: midnightblue; font-weight: bold;" >Auszuwertende Panels</h2>
+    -->
+    <table mat-table 
+        [dataSource]="dataSource" 
+        class="mat-elevation-z8" 
+        matSort matSortActive="rank" 
+        matSortDirection="asc">
         <ng-container matColumnDef="rank">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Reihenfolge Auswertung</th>
+            <th mat-header-cell 
+                *matHeaderCellDef 
+                mat-sort-header>Reihenfolge Auswertung</th>
             <td mat-cell *matCellDef="let panel">
                 @if (panel.rank !== undefined && +panel.rank !== 0) {
                     {{ panel.rank }}.
@@ -48,21 +64,28 @@
             </td>
         </ng-container>
         <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+            <th mat-header-cell 
+                *matHeaderCellDef 
+                mat-sort-header> Name </th>
             <td mat-cell *matCellDef="let panel">{{ panel.name }}</td>
         </ng-container>
         <ng-container matColumnDef="genes">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Gene </th>
+            <th mat-header-cell 
+                *matHeaderCellDef 
+                mat-sort-header> Gene </th>
             <td mat-cell *matCellDef="let panel">
                 @for (gene of panel.genes; track gene.symbol) {
-                    {{ gene.symbol }}@if (gene != panel.genes[panel.genes.length - 1]) {, }
+                    {{ gene.symbol }}@if (
+                        gene != panel.genes[panel.genes.length - 1]) {, }
                 }
             </td>
         </ng-container>
         <ng-container matColumnDef="setRank">
             <th mat-header-cell *matHeaderCellDef>Reihenfolge setzen</th>
             <td mat-cell *matCellDef="let panel">
-                <mat-select [value]="rankValues" [formControl]="panels" placeholder="select" 
+                <mat-select [value]="rankValues" 
+                            [formControl]="panels" 
+                            placeholder="select" 
                 (selectionChange)="setRank({value: $event.value, panel: panel})">
                 @for (rank of rankValues; track rank) {
                     <mat-option [value]="rank">{{rank}}.</mat-option>
@@ -73,6 +96,41 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let panel; columns: displayedColumns;"></tr>
     </table>
-    <br>
     <mat-paginator [pageSizeOptions]="[4, 8, 12]"></mat-paginator>
--->
+    <br>
+
+    <div class="button-row"> 
+        <button 
+            mat-raised-button 
+            (click)="goToDiseaseDetailView()" 
+            class="button home"
+            matTooltip="Zurück zur Detailansicht der Erkrankung">
+            Zurück
+            <mat-icon 
+                fontIcon="door_back" 
+                style="color: white; 
+                       margin-left: 0px; 
+                       margin-right: 10px; 
+                       display: block !important;">
+            </mat-icon>
+        </button>
+        <div class="double-button">
+            <button mat-raised-button 
+                    class="button confirm" 
+                    (click)="updateDisease(disease)"
+                    matTooltip="Änderungen speichern">
+                Speichern
+                <mat-icon fontIcon="save" style="font-size: 20px;"></mat-icon>
+            </button>
+            <button mat-raised-button 
+                    class="button cancel" 
+                    (click)="restoreDisease()"
+                    matTooltip="Änderungen verwerfen">
+                Abbruch
+                <mat-icon fontIcon="cancel" style="font-size: 20px;"></mat-icon>
+            </button>
+        </div>
+    <br>
+
+
+</div>
