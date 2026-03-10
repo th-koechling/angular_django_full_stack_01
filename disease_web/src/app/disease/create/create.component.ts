@@ -80,11 +80,13 @@ export class CreateComponent implements AfterViewInit {
     return this.disease.associated_panels.some((associated_panel) => associated_panel.name === panel.name);
   }
 
+  initPanels: Panel[] = [];
   initFormValues = {
     //name: "",
     name: [{value: '', disabled: false}, Validators.required],
     general_info: formDefaultValues.instructionsGeneralInfo,
-    associated_panels: [],
+    //associated_panels: [{value: [], disabled: false}, Validators.required],
+    associated_panels: this.initPanels,
     filter_info: formDefaultValues.instructionsFilterInfo,
     analysis_features: formDefaultValues.instructionsAnalysisFeatures,
     report_info: formDefaultValues.instructionsReportInfo,
@@ -103,7 +105,9 @@ export class CreateComponent implements AfterViewInit {
   */
 
   onSubmit() {
+    console.log('assoc panels: ', this.disease.associated_panels);
     console.log(this.createForm.value);
+    this.createForm.value.associated_panels = this.disease.associated_panels;
     this.diseaseService.createDisease(this.createForm.value).subscribe((response) => {
       console.log('Disease created successfully:', response);
       // Navigate to the detail view of the newly created disease

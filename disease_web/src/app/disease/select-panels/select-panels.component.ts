@@ -2,15 +2,15 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DiseaseService } from '../disease.service';
 import { Disease, Panel, DiseasePanel } from '../interfaces';
-import { FormsModule, FormControl } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Observable, forkJoin, concat } from 'rxjs';
 import { MatFormField } from '@angular/material/form-field';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule, MatOption } from '@angular/material/select';
+import { MatSelectModule, MatSelect, MatOption } from '@angular/material/select';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -21,6 +21,7 @@ const material = [
   MatFormField,
   MatIconModule,
   MatSelectModule,
+  MatSelect,
   MatOption,
   MatFormFieldModule,
   MatInputModule,
@@ -46,8 +47,9 @@ export class SelectPanelsComponent implements OnInit {
   associated_panels: any=undefined;
   diseasePanels: DiseasePanel[] = [];
   diseasePanelBuffer: DiseasePanel[] = [];
-  panelsPreSelect: Panel[] = [];
-  panelSelect: Boolean = false;
+  preselectedPanels: Panel[] = [];
+  bufferedAssociatedPanels: Panel[] = [];
+  bufferedDiseaseName: string = '';
   disease: Disease = {
     id: 0,
     name: '',
@@ -60,13 +62,34 @@ export class SelectPanelsComponent implements OnInit {
     report_tech: '',
   };
 
+  diseaseForm: FormGroup;
+  panelSelect = new FormControl(false);
+
+  panelSelectActive: boolean = false;
+  toggleDisableSelect() {
+    const isDisabled = this.diseaseForm.get('panelSelect')?.disabled;
+    if (isDisabled) {
+      this.diseaseForm.get('panelSelect')?.enable();
+      this.panelSelectActive = true;
+      return;
+    } else {
+      this.diseaseForm.get('panelSelect')?.disable();
+      this.panelSelectActive = false;
+      return;
+    } 
+  }
+
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private diseaseService: DiseaseService) {}
+              private diseaseService: DiseaseService) {
+    const fb = new FormBuilder();   
+    this.diseaseForm = fb.group({
+      //panelSelect: new FormControl(false)
+      panelSelect: [{value: false, disabled: true}]
+    });
+  }
 
-  // AI suggestion (type):
-  //panels = new FormControl<Panel[]>([]);
-  panels = new FormControl('');
+  panels = new FormControl<Panel[]>([]);
   rankValues: number[] = [];
   panelList: Panel[] = [];
   panel: Panel = {
@@ -83,7 +106,7 @@ export class SelectPanelsComponent implements OnInit {
   sorted_associated_panels: Panel[] = [];
 
   ngOnInit(): void {
-    // removed, is read further down:
+    //stuff by AI removed, is read further down:
     //const queryParams = new URLSearchParams(window.location.search);
     //this.diseaseName = queryParams.get('diseaseName');
     //console.log('Received disease name:', this.diseaseName); 
@@ -113,15 +136,19 @@ export class SelectPanelsComponent implements OnInit {
             }
           }
         });
+        this.disease = disease_data;
+        this.preselectedPanels = this.disease.associated_panels; // for restore/cancel functionality
+        this.preselectedPanels.sort();
+        this.bufferedDiseaseName = this.disease.name;
+        this.bufferedAssociatedPanels = this.disease.associated_panels;
         this.panelList = panel_data;
         this.diseasePanels = disease_panel_data;
-        this.disease = disease_data;
         this.disease.associated_panels = associated_panels;
-        this.panelsPreSelect = associated_panels; // for restore/cancel functionality
         const numberOfRanks = associated_panels.length;
         for (let i = 1; i <= numberOfRanks; i++) {
           this.rankValues.push(i);
         }
+        this.diseasePanelBuffer = [];
         this.dataSource = new MatTableDataSource<Panel>(
           this.disease.associated_panels
         );
@@ -130,22 +157,21 @@ export class SelectPanelsComponent implements OnInit {
         this.paginator._intl.itemsPerPageLabel = 'Eintäge pro Seite';
         this.paginator._intl.nextPageLabel = 'Nächste Seite';
         this.paginator._intl.previousPageLabel = 'Vorherige Seite';
-        this.sorted_associated_panels = this.disease.associated_panels.sort(
-          (a: Panel, b: Panel) =>
-          ((a.rank as number) < (b.rank as number) ? -1 : 1)
-        );
+        //this.sorted_associated_panels = this.disease.associated_panels.sort(
+        //  (a: Panel, b: Panel) =>
+        //  ((a.rank as number) < (b.rank as number) ? -1 : 1)
+        //);
       }
     );
   }
 
-  togglePanelsLock(): Boolean {
-    this.panelSelect = !this.panelSelect;
-    return this.panelSelect;
-  }
+  dropDown = new FormControl();
+
 
   // TODO: specify type Panel ?
   showChange(value: any) {
     this.disease.associated_panels = value;
+    console.log("showChange --- Selected panels: ", this.disease.associated_panels);
   }
 
   isAssociatedPanel(panel: Panel): boolean {
@@ -166,10 +192,9 @@ export class SelectPanelsComponent implements OnInit {
     })
   }
 
-  // TODO: remove passed argument: use this.disease!
-  updateDisease(disease: Disease) {
-    if (disease.id !== 0) {
-      this.updateDiseasePanelBuffer(disease.name);
+  updateDisease() {
+    if (this.disease.id !== 0) {
+      this.updateDiseasePanelBuffer(this.disease.name);
       this.diseasePanels = this.diseasePanelBuffer;
       const diseasePanelsToUpdate: DiseasePanel[] = this.diseasePanels.filter(
         (dp: DiseasePanel) => dp.disease_name === this.disease.name
@@ -184,10 +209,11 @@ export class SelectPanelsComponent implements OnInit {
       });
       concat(
         forkJoin(dpUpdates),
-        this.diseaseService.updateDisease(disease)
+        this.diseaseService.updateDisease(this.disease)
       ).subscribe({
         next: () => {
-          this.ngOnInit(); // see changes made, NOT by window.location.reload();
+          //this.ngOnInit(); // <- does not pre-select the mat-options!!
+          window.location.reload();
         },
         error: (error) => {
           console.error(error);
@@ -200,7 +226,7 @@ export class SelectPanelsComponent implements OnInit {
     this.rankValues = [];
     this.ngOnInit();
     this.diseasePanelBuffer = [];
-    this.disease.associated_panels = this.panelsPreSelect;
+    this.disease.associated_panels = this.preselectedPanels;
   }
 
   setRank({panel, value}: {panel: Panel, value: Number}) {

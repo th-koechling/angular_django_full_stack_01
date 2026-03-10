@@ -8,16 +8,17 @@
             <mat-icon>list_alt</mat-icon>
         </button>
     </div>
+    <form [formGroup]="diseaseForm">
     <h2 style="font-size: 18px; color: midnightblue; font-style: normal;">
         Auszuwertende Panel: Auswahl und Reihenfolge</h2>
-    <div class="form-row">
-    <mat-form-field style="width: 700px; height: 70px; margin-left: 0px;">
+    <div class="dropdown-row">
+    <mat-form-field style="width: 100%; height: 80px;" [attr.disabled]="true">
         <mat-select [value]="disease.associated_panels" 
-                    [formControl]="panels" 
+                    formControlName="panelSelect"
                     multiple placeholder="select panel(s)" 
                     (selectionChange)="showChange($event.value)">
             @for (panel of disease.associated_panels; track panel.name) {
-                <mat-option [value]="panel">{{panel.name}}</mat-option>
+                <mat-option [value]="panel" >{{ panel.name}}</mat-option>
             }
             @for (panel of panelList; track panel.name) {
                 @if (!isAssociatedPanel(panel)) {
@@ -27,22 +28,23 @@
         </mat-select>
         <mat-icon fontIcon="list" matPrefix></mat-icon>
     </mat-form-field>
-        @if (panelSelect) {
+        @if (!panelSelectActive) {
             <button mat-flat-button 
                     class="button lock" 
-                    (click)="togglePanelsLock()"
-                    matTooltip="Panel-Auswahl entsperren">
+                    (click)="toggleDisableSelect()"
+                    matTooltip="Panel-Auswahl freigeben">
                 <i class="material-icons">lock</i>
             </button>
         } @else {
             <button mat-flat-button 
                     class="button unlock" 
-                    (click)="togglePanelsLock()"
+                    (click)="toggleDisableSelect()"
                     matTooltip="Panel-Auswahl blockieren">
                 <i class="material-icons">lock_open</i>
             </button>
         }
     </div>
+</form>
     <!--
     <h2 style="color: midnightblue; font-weight: bold;" >Auszuwertende Panels</h2>
     -->
@@ -117,7 +119,7 @@
         <div class="double-button">
             <button mat-raised-button 
                     class="button confirm" 
-                    (click)="updateDisease(disease)"
+                    (click)="updateDisease()"
                     matTooltip="Änderungen speichern">
                 Speichern
                 <mat-icon fontIcon="save" style="font-size: 20px;"></mat-icon>
