@@ -34,7 +34,7 @@
 .outline {
     /*display: flex; */
     /*align-items: top; */
-    align-items: flex-start; 
+    /*align-items: flex-start; */
     border-style: solid; 
     border-radius: 3px;
     border-width: 1px; 
