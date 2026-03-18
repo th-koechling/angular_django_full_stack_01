@@ -147,19 +147,20 @@
                        display: block !important;">
             </mat-icon>
         </button>
-    <div style="display: flex; width: 90%; justify-content: end; align-items: center;">
-        <button mat-raised-button 
-                class="button confirm" 
-                (click)="updateDisease(disease)">
-            Speichern
-            <mat-icon fontIcon="save" style="font-size: 20px;"></mat-icon>
-        </button>
-        <button mat-raised-button 
-                class="button cancel" 
-                (click)="restoreDisease()">
-            Abbruch
-            <mat-icon fontIcon="cancel" style="font-size: 20px;"></mat-icon>
-        </button>
+        <div style="display: flex; width: 90%; justify-content: end; align-items: center;">
+            <button mat-raised-button 
+                    class="button confirm" 
+                    (click)="updateDisease(disease)">
+                Speichern
+                <mat-icon fontIcon="save" style="font-size: 20px;"></mat-icon>
+            </button>
+            <button mat-raised-button 
+                    class="button cancel" 
+                    (click)="restoreDisease()">
+                Abbruch
+                <mat-icon fontIcon="cancel" style="font-size: 20px;"></mat-icon>
+            </button>
+        </div>
+        <br>
     </div>
-    <br>
 </div>

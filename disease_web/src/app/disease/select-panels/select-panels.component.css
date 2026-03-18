@@ -10,13 +10,6 @@
     gap: 20px;
 }
 
-.center {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
 .dropdown-row {
     display:flex;
     width: 100%; 
@@ -24,44 +17,9 @@
     justify-content: space-between;
 }
 
-.outline {
-    /*display: flex; */
-    /*align-items: top; */
-    align-items: flex-start; 
-    border-style: solid; 
-    border-radius: 3px;
-    border-width: 1px; 
-    border-color: slategray; 
-    padding: 10px; 
-    padding-bottom: 0px !important;
-    /*margin-bottom: 20px;*/
-}
-.subheader {
-    font-family: 'Roboto', sans-serif;
-    font-size: 18px;
-    font-weight: normal;
-    color: midnightblue;
-    padding-bottom: 10px !important;
-}
-.subtitle {
-    font-size: 18px;
-    color: midnightblue;
-    font-style: normal;
-}
-mat-label {
-    font-family: 'Roboto', sans-serif;
-    font-size: 24px;
-    font-weight: normal;
-    color: midnightblue;
-    padding-bottom: 20px !important;
-}
-.button {
-    width: 130px;
-}
-
 /* bottom row with one button on the left and two on the right side */
 .button-row {
-    display:flex;
+    display: flex;
     width: 100%; 
     align-items: center; 
     justify-content: space-between;
@@ -94,7 +52,7 @@ mat-label {
     color: white;
     width: 40px;
     height: 40px;
-    margin-left: 0px;
+    margin-left: 15px;
 }
 .button.home {
     background-color: midnightblue;
@@ -113,16 +71,11 @@ mat-label {
 }
 
 .button.unlock {
-    background-color: lightseagreen;;
+    background-color: lightseagreen;
     color: white;
     width: 36px;
     height: 60px;
     min-width: 38px !important;
     padding: 0px !important;
     margin-left: 10px;
-}
-
-.input-group-append{
-    display: flex;
-    flex-direction: column;
 }

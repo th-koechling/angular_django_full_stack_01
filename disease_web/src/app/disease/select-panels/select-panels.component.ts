@@ -62,18 +62,18 @@ export class SelectPanelsComponent implements OnInit {
     report_tech: '',
   };
 
-  diseaseForm: FormGroup;
+  panelsForm: FormGroup;
   panelSelect = new FormControl(false);
 
   panelSelectActive: boolean = false;
   toggleDisableSelect() {
-    const isDisabled = this.diseaseForm.get('panelSelect')?.disabled;
+    const isDisabled = this.panelsForm.get('panelSelect')?.disabled;
     if (isDisabled) {
-      this.diseaseForm.get('panelSelect')?.enable();
+      this.panelsForm.get('panelSelect')?.enable();
       this.panelSelectActive = true;
       return;
     } else {
-      this.diseaseForm.get('panelSelect')?.disable();
+      this.panelsForm.get('panelSelect')?.disable();
       this.panelSelectActive = false;
       return;
     } 
@@ -83,13 +83,13 @@ export class SelectPanelsComponent implements OnInit {
               private router: Router,
               private diseaseService: DiseaseService) {
     const fb = new FormBuilder();   
-    this.diseaseForm = fb.group({
+    this.panelsForm = fb.group({
       //panelSelect: new FormControl(false)
       panelSelect: [{value: false, disabled: true}]
     });
   }
 
-  panels = new FormControl<Panel[]>([]);
+  panelSelectControl = new FormControl<Panel[]>([]);
   rankValues: number[] = [];
   panelList: Panel[] = [];
   panel: Panel = {
@@ -154,7 +154,7 @@ export class SelectPanelsComponent implements OnInit {
         );
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-        this.paginator._intl.itemsPerPageLabel = 'Eintäge pro Seite';
+        this.paginator._intl.itemsPerPageLabel = 'Einträge pro Seite';
         this.paginator._intl.nextPageLabel = 'Nächste Seite';
         this.paginator._intl.previousPageLabel = 'Vorherige Seite';
         //this.sorted_associated_panels = this.disease.associated_panels.sort(
@@ -165,13 +165,11 @@ export class SelectPanelsComponent implements OnInit {
     );
   }
 
-  dropDown = new FormControl();
-
 
   // TODO: specify type Panel ?
-  showChange(value: any) {
+  onPanelSelectionChange(value: any) {
     this.disease.associated_panels = value;
-    console.log("showChange --- Selected panels: ", this.disease.associated_panels);
+    console.log("onPanelSelectionChange --- Selected panels: ", this.disease.associated_panels);
   }
 
   isAssociatedPanel(panel: Panel): boolean {
