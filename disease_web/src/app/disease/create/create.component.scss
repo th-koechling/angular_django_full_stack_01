@@ -167,6 +167,10 @@ mat-label {
 
 /*auto increasing textearea height, from: */
 /*https://chriscoyier.net/2023/09/29/css-solves-auto-expanding-textareas-probably-eventually/*/
+
+/* TODO: test, if this works out of the box: cdkTextareaAutosize directive from Angular Material */
+
+
 .grow-wrap {
     /*font-family: monospace;*/
     font-family: 'Roboto', sans-serif;
