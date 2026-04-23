@@ -1,0 +1,9 @@
+.disease-card {
+    height: 100%;   /* make the card take the full height of its container */
+    display: flex;  /* use flexbox to layout the content */
+    flex-direction: column; /* stack content vertically */
+}
+
+mat-card-content {
+    flex: 1;   /* allow the content to grow and fill the available space */
+}

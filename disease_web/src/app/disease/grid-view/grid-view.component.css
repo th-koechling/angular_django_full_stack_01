@@ -1,0 +1,43 @@
+.disease-container {
+    margin-top: 20px;
+    margin-left: 20px;
+    display: grid;
+    gap: 1rem;
+}
+
+.disease-grid {
+    display: grid; /* use CSS Grid to layout the cards in a responsive grid */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* create columns that are at least 280px wide and fill the available space */
+    gap: 16px; /* add space between the grid items */
+}
+
+.empty-grid {
+    grid-column: 1 / -1; /* make the empty message span all columns */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+
+    mat-icon {
+        font-size: 4rem;
+        width: 4rem;
+        height: 4rem;
+        color: var(--mat-sys-outline);
+        margin-bottom: 1rem;
+    }
+}
+
+h3 {
+    margin: 0 0 0.5rem;
+    color: var(--mat-sys-on-surface);
+}
+
+p {
+    margin: 0;
+    color: var(--mat-sys-on-surface-variant);
+}
+
+
+

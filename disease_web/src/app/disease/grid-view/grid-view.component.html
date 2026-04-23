@@ -1,0 +1,13 @@
+<div class="disease-container">
+    <div class="disease-grid">
+        @for (disease of diseases(); track disease.id) {
+            <app-disease-card [disease]="disease" />
+        } @empty {
+            <div class="empty-grid">
+            <mat-icon>inventory_2</mat-icon>
+            <h3>No diseases found</h3>
+            <p>Werden Sie mal wieder krank!</p>
+            </div>
+        }
+    </div>
+</div>

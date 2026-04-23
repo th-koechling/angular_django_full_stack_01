@@ -1,0 +1,12 @@
+<mat-card class="disease-card">
+    <mat-card-header>
+        <mat-card-title>{{ disease().name }}</mat-card-title>
+        <mat-card-subtitle>subtitle</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <p>description could go here</p>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button style="background-color:cornflowerblue; color: white;" (click)="viewDisease(disease().name)">View Disease</button>
+    </mat-card-actions>
+</mat-card>
