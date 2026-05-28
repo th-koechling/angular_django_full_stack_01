@@ -1,0 +1,42 @@
+<div class="editing-notes">
+    <div>
+        <h2 style="color: midnightblue;">Letzte Änderungen</h2>
+        <p style="color: slategray; font-style: bold;">
+            Neuester/ letzter Kommentar: <br>
+            {{ latestEditingNote }} <br>
+        </p>
+    </div>
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                   [Anmerkungen]
+                </mat-panel-title>
+                <mat-panel-description>
+                    Ältere Änderungen, sortiert nach Datum
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            @for (note of editingNotesBacklog; track note) {
+                <p style="color: slategray; font-style: bold;">
+                    {{ note }} <br>
+                </p>
+            }
+            <p>Kommentar-Text zu älteren Änderungen</p>
+        </mat-expansion-panel>
+
+        <!-- multiple expansion panels can be added here -->
+         <!--
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Expansion Panel 2
+                </mat-panel-title>
+                <mat-panel-description>
+                    Ältere Änderungen, sortiert nach Datum
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <p>Kommentar-Text zu älteren Änderungen</p>
+        </mat-expansion-panel>
+        -->
+    </mat-accordion>
+</div>

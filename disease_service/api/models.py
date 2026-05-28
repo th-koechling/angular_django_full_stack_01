@@ -1,10 +1,12 @@
 from django.db import models
+#from simple_history.models import HistoricalRecords
 
 
 class Gene(models.Model):
     symbol = models.CharField(max_length=100, unique=True) 
     # <- unique not working if serializer uses default unique validator
     description = models.CharField(max_length=500, blank=True, null=True)
+    #history = HistoricalRecords()
 
     class Meta:
         db_table = 'gene'
@@ -16,6 +18,7 @@ class Gene(models.Model):
 class Panel(models.Model):
     name = models.CharField(max_length=500, unique=True)
     genes = models.ManyToManyField(Gene, blank=True, null=True)
+    #history = HistoricalRecords()
 
     class Meta:
         db_table = 'panel'
@@ -36,7 +39,7 @@ class Disease(models.Model):
     report_tech = models.TextField(max_length=50000, blank=True, null=True)
     associated_panels = models.ManyToManyField(
         Panel, through="DiseasePanel", blank=True, null=True)
-
+    # history = HistoricalRecords()
     class Meta:
         db_table = 'disease'
 
@@ -56,6 +59,8 @@ class DiseasePanel(models.Model):
                 fields=['disease', 'panel'], name='unique_disease_panel'
             )
         ]
+
+    # history = HistoricalRecords()
 
     def __str__(self):
         return f"{self.disease.name} - {self.panel.name}"

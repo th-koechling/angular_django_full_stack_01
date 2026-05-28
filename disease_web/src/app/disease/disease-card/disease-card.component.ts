@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, ViewEncapsulation, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { Disease } from '../interfaces';
@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [MatCardModule, MatButtonModule],
   templateUrl: './disease-card.component.html',
-  styleUrls: ['./disease-card.component.css']
+  styleUrls: ['./disease-card.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DiseaseCardComponent {
 

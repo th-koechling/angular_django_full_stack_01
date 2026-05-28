@@ -1,3 +1,21 @@
+.app-container {
+    display: flex;
+    align-items: top;
+    height: 100vH;
+    flex-shrink: 1;
+    justify-content: flex-start;
+}
+
+.left-view {
+    width: 150px;
+    padding-top: 10px;
+    padding-bottom: 15px;
+    padding-left: 30px;
+    padding-right: 20px;
+    margin-top: 15px;
+    flex-shrink: 0;
+}
+
 .view-edit-form {
     max-width: 900px;
     padding: 40px;

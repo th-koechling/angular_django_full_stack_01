@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { EditingNotesComponent } from '../editing-notes/editing-notes.component';
 import { DiseaseService } from '../disease.service';
 import { Disease, Panel, DiseasePanel } from '../interfaces';
 import { FormsModule, FormControl } from '@angular/forms';
@@ -35,7 +36,9 @@ const material = [
 @Component({
   selector: 'app-detail-view',
   standalone: true,
-  imports: [material, CommonModule, FormsModule, ReactiveFormsModule, MatTooltipModule],
+  imports: [material, CommonModule, 
+            FormsModule, ReactiveFormsModule, 
+            MatTooltipModule, EditingNotesComponent],
   templateUrl: './detail-view.component.html',
   styleUrls: ['./detail-view.component.css']
 })

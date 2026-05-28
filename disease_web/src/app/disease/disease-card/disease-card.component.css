@@ -2,8 +2,18 @@
     height: 100%;   /* make the card take the full height of its container */
     display: flex;  /* use flexbox to layout the content */
     flex-direction: column; /* stack content vertically */
+    word-wrap: break-word; /* allow long words to break and wrap to the next line */
+}
+
+mat-card-header {
+    word-wrap: break-word; /* allow long words to break and wrap to the next line */
+}
+
+mat-card-title {
+    word-wrap: break-word; /* allow long words to break and wrap to the next line */
 }
 
 mat-card-content {
     flex: 1;   /* allow the content to grow and fill the available space */
+    word-wrap: break-word; /* allow long words to break and wrap to the next line */
 }
