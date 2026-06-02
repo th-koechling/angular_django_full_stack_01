@@ -3,171 +3,170 @@
     <div class="left-view">
         <app-editing-notes [diseaseName]="diseaseName"></app-editing-notes>
     </div>
-
-<div class="view-edit-form">
-    <div class="outline">
-        <h1 style="color: midnightblue; font-weight: bold;" >{{ disease.name }}</h1>
-    </div>
-        <!--
-        <mat-form-field style="width: 425px; height: 70px;">
-            <input matInput type="text" name="name" id="name" [(ngModel)]="disease.name" placeholder="name" readonly>
-            <mat-icon fontIcon="abc" matPrefix></mat-icon>
-        </mat-form-field>
-        -->
-    <div class="outline">
-    <h2 style="color: midnightblue;">Auswertung</h2>
-    <div style="display: flex; flex-direction: row; align-items: center;">
-        <button mat-mini-fab 
-            class="button edit" 
-            matTooltip="Zur Panel-Auswahl"
-            style="margin-right: 10px;"
-            (click)="panelSelectionView()">
-            <mat-icon>edit</mat-icon>
-        </button>
-        <h3 style="color: midnightblue;">Auszuwertende Panel</h3> 
-    </div>
-    <div style="display: flex; width: 100%; align-items: top; min-height: 200px;">
-        <div style="flex: 1;
-                    border: 1px solid slategray;
-                    border-radius: 3px;
-                    margin-right: 10px;
-                    margin-bottom: 20px;">
-            <table style="padding: 1rem;">
-                <tr style="color: midnightblue;">
-                    <th>Reihenfolge</th>
-                    <th>Panel</th>
-                </tr>
-                @for (panel of sorted_associated_panels; track panel.name) {
-                    <tr>
-                        @if (panel.rank === 0 || panel.rank === undefined) {
-                            <td>NA</td>
-                        } @else {
-                            <td>{{ panel.rank }}.</td>
-                        }
-                        <td>{{ panel.name }}</td>
+    <div class="view-edit-form">
+        <div class="outline">
+            <h1 style="color: midnightblue; font-weight: bold;" >{{ disease.name }}</h1>
+        </div>
+            <!--
+            <mat-form-field style="width: 425px; height: 70px;">
+                <input matInput type="text" name="name" id="name" [(ngModel)]="disease.name" placeholder="name" readonly>
+                <mat-icon fontIcon="abc" matPrefix></mat-icon>
+            </mat-form-field>
+            -->
+        <div class="outline">
+        <h2 style="color: midnightblue;">Auswertung</h2>
+        <div style="display: flex; flex-direction: row; align-items: center;">
+            <button mat-mini-fab 
+                class="button edit" 
+                matTooltip="Zur Panel-Auswahl"
+                style="margin-right: 10px;"
+                (click)="panelSelectionView()">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <h3 style="color: midnightblue;">Auszuwertende Panel</h3> 
+        </div>
+        <div style="display: flex; width: 100%; align-items: top; min-height: 200px;">
+            <div style="flex: 1;
+                        border: 1px solid slategray;
+                        border-radius: 3px;
+                        margin-right: 10px;
+                        margin-bottom: 20px;">
+                <table style="padding: 1rem;">
+                    <tr style="color: midnightblue;">
+                        <th>Reihenfolge</th>
+                        <th>Panel</th>
                     </tr>
-                }
-            </table>
+                    @for (panel of sorted_associated_panels; track panel.name) {
+                        <tr>
+                            @if (panel.rank === 0 || panel.rank === undefined) {
+                                <td>NA</td>
+                            } @else {
+                                <td>{{ panel.rank }}.</td>
+                            }
+                            <td>{{ panel.name }}</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <mat-form-field
+                style="flex: 1;
+                        margin: 0px;" 
+                appearance="outline">
+                <span class="subheader">Hinweise zur Filterung</span>
+                <textarea matInput
+                    style="min-height: 120px;"
+                    placeholder="Bitte sehr kurz fassen, nur Stichworte, z.B. [...]" 
+                    [(ngModel)]="disease.filter_info" 
+                    name="filter_info" 
+                    id="filter_info"></textarea>
+            </mat-form-field>
         </div>
-        <mat-form-field
-            style="flex: 1;
-                    margin: 0px;" 
-            appearance="outline">
-            <span class="subheader">Hinweise zur Filterung</span>
-            <textarea matInput
-                style="min-height: 120px;"
-                placeholder="Bitte sehr kurz fassen, nur Stichworte, z.B. [...]" 
-                [(ngModel)]="disease.filter_info" 
-                name="filter_info" 
-                id="filter_info"></textarea>
-        </mat-form-field>
+        <div style="display: flex; align-items: center;">
+            <mat-form-field 
+                style="width: 900px;"
+                appearance="outline"> 
+                <mat-label>Besonderheiten bei der Auswertung</mat-label>
+                <textarea matInput 
+                    style="min-height: 180px;"
+                    placeholder="" 
+                    [(ngModel)]="disease.analysis_features" 
+                    name="analysis_features" 
+                    id="analysis_features">
+                </textarea>
+            </mat-form-field>
+        </div>
     </div>
-    <div style="display: flex; align-items: center;">
-        <mat-form-field 
-            style="width: 900px;"
-            appearance="outline"> 
-            <mat-label>Besonderheiten bei der Auswertung</mat-label>
-            <textarea matInput 
-                style="min-height: 180px;"
-                placeholder="" 
-                [(ngModel)]="disease.analysis_features" 
-                name="analysis_features" 
-                id="analysis_features">
-            </textarea>
-        </mat-form-field>
-    </div>
-</div>
 
-    <div class="outline">
-        <h2 style="color: midnightblue;">Befundung</h2>
-        <div style="display: flex; align-items: center;">
-            <mat-form-field 
-                style="width: 900px;"
-                appearance="outline"> 
-                <mat-label>Allgemeine Info</mat-label>
-                <textarea matInput 
-                    style="min-height: 100px;"
-                    placeholder="" 
-                    [(ngModel)]="disease.report_info" 
-                    name="report_info" 
-                    id="report_info">
-                </textarea>
-            </mat-form-field>
+        <div class="outline">
+            <h2 style="color: midnightblue;">Befundung</h2>
+            <div style="display: flex; align-items: center;">
+                <mat-form-field 
+                    style="width: 900px;"
+                    appearance="outline"> 
+                    <mat-label>Allgemeine Info</mat-label>
+                    <textarea matInput 
+                        style="min-height: 100px;"
+                        placeholder="" 
+                        [(ngModel)]="disease.report_info" 
+                        name="report_info" 
+                        id="report_info">
+                    </textarea>
+                </mat-form-field>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <mat-form-field 
+                    style="width: 900px;"
+                    appearance="outline"> 
+                    <mat-label>Befundtext</mat-label>
+                    <textarea matInput 
+                        style="min-height: 100px;"
+                        placeholder="" 
+                        [(ngModel)]="disease.report_text" 
+                        name="report_text" 
+                        id="report_text">
+                    </textarea>
+                </mat-form-field>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <mat-form-field 
+                    style="width: 900px;"
+                    appearance="outline"> 
+                    <mat-label>Technischer Report</mat-label>
+                    <textarea matInput 
+                        style="min-height: 100px;"
+                        placeholder="" 
+                        [(ngModel)]="disease.report_tech" 
+                        name="report_tech" 
+                        id="report_tech">
+                    </textarea>
+                </mat-form-field>
+            </div>
+        </div>  
+        <div class="outline">
+            <h2 style="color: midnightblue;">Erkrankungsinfos</h2>
+            <div style="display: flex; align-items: center;">
+                <mat-form-field 
+                    style="width: 900px;"
+                    appearance="outline"> 
+                    <textarea matInput 
+                        style="min-height: 700px;"
+                        placeholder="" 
+                        [(ngModel)]="disease.general_info" 
+                        name="general_info" 
+                        id="general_info">
+                    </textarea>
+                </mat-form-field>
+            </div>
         </div>
-        <div style="display: flex; align-items: center;">
-            <mat-form-field 
-                style="width: 900px;"
-                appearance="outline"> 
-                <mat-label>Befundtext</mat-label>
-                <textarea matInput 
-                    style="min-height: 100px;"
-                    placeholder="" 
-                    [(ngModel)]="disease.report_text" 
-                    name="report_text" 
-                    id="report_text">
-                </textarea>
-            </mat-form-field>
-        </div>
-        <div style="display: flex; align-items: center;">
-            <mat-form-field 
-                style="width: 900px;"
-                appearance="outline"> 
-                <mat-label>Technischer Report</mat-label>
-                <textarea matInput 
-                    style="min-height: 100px;"
-                    placeholder="" 
-                    [(ngModel)]="disease.report_tech" 
-                    name="report_tech" 
-                    id="report_tech">
-                </textarea>
-            </mat-form-field>
-        </div>
-    </div>  
-    <div class="outline">
-        <h2 style="color: midnightblue;">Erkrankungsinfos</h2>
-        <div style="display: flex; align-items: center;">
-            <mat-form-field 
-                style="width: 900px;"
-                appearance="outline"> 
-                <textarea matInput 
-                    style="min-height: 700px;"
-                    placeholder="" 
-                    [(ngModel)]="disease.general_info" 
-                    name="general_info" 
-                    id="general_info">
-                </textarea>
-            </mat-form-field>
+        <div style="display:flex; width: 100%; align-items: center; justify-content: space-between;">
+            <button 
+                mat-raised-button 
+                (click)="goToDiseaseOverview()" 
+                class="button home"
+                style="margin-bottom: 20px;">
+                Zurück
+                <mat-icon 
+                    fontIcon="door_back" 
+                    style="color: white; 
+                        margin-left: 0px; 
+                        margin-right: 10px; 
+                        display: block !important;">
+                </mat-icon>
+            </button>
+            <div style="display: flex; width: 90%; justify-content: end; align-items: center; margin-bottom: 20px;">
+                <button mat-raised-button 
+                        class="button confirm" 
+                        (click)="updateDisease(disease)">
+                    Speichern
+                    <mat-icon fontIcon="save" style="font-size: 20px;"></mat-icon>
+                </button>
+                <button mat-raised-button 
+                        class="button cancel" 
+                        (click)="restoreDisease()">
+                    Abbruch
+                    <mat-icon fontIcon="cancel" style="font-size: 20px;"></mat-icon>
+                </button>
+            </div>
         </div>
     </div>
-    <div style="display:flex; width: 100%; align-items: center; justify-content: space-between;">
-        <button 
-            mat-raised-button 
-            (click)="goToDiseaseOverview()" 
-            class="button home">
-            Zurück
-            <mat-icon 
-                fontIcon="door_back" 
-                style="color: white; 
-                       margin-left: 0px; 
-                       margin-right: 10px; 
-                       display: block !important;">
-            </mat-icon>
-        </button>
-        <div style="display: flex; width: 90%; justify-content: end; align-items: center;">
-            <button mat-raised-button 
-                    class="button confirm" 
-                    (click)="updateDisease(disease)">
-                Speichern
-                <mat-icon fontIcon="save" style="font-size: 20px;"></mat-icon>
-            </button>
-            <button mat-raised-button 
-                    class="button cancel" 
-                    (click)="restoreDisease()">
-                Abbruch
-                <mat-icon fontIcon="cancel" style="font-size: 20px;"></mat-icon>
-            </button>
-        </div>
-        <br>
-    </div>
-</div>
 </div>
