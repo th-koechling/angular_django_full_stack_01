@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EditingNotesComponent } from '../editing-notes/editing-notes.component';
 import { DiseaseService } from '../disease.service';
-import { Disease, Panel, DiseasePanel } from '../interfaces';
+import { Disease, Panel, DiseasePanel, EditingNote } from '../interfaces';
 import { FormsModule, FormControl } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Observable, forkJoin, concat } from 'rxjs';
@@ -84,6 +84,8 @@ export class DetailViewComponent implements OnInit {
   sorted_associated_panels: Panel[] = [];
 
   ngOnInit() {
+    const diseaseName = this.route.snapshot.queryParamMap.get('diseaseName');
+    this.diseaseName
     this.rankValues = [];
     console.log("rankValues: ", this.rankValues);
     const panels$: Observable<Panel[]> = this.diseaseService.getPanels();

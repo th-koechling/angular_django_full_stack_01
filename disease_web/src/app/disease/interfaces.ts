@@ -29,3 +29,11 @@ export interface DiseasePanel {
     panel_name:string,
     rank:Number,
 }
+
+export interface EditingNote {
+    id:Number,
+    disease_id:Number,
+    note:string,
+    created_by:string,
+    created_at:string,
+}

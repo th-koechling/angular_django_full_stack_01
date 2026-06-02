@@ -3,6 +3,7 @@ from .models import Gene
 from .models import Disease
 from .models import Panel
 from .models import DiseasePanel
+from .models import EditingNote
 
 
 class GeneSerializer(serializers.ModelSerializer):
@@ -54,6 +55,19 @@ class PanelSerializer(serializers.ModelSerializer):
                     print(f'Gene with symbol {gene_symbol} does not exist. Skipping.')
                     continue
         return panel
+
+
+class EditingNoteSerializer(serializers.ModelSerializer):
+    disease_name = serializers.CharField(source="disease.name", read_only=True)
+    class Meta:
+        model = EditingNote
+        fields = (
+            'id',
+            'disease_name',
+            'note',
+            'created_at',
+            'created_by',
+        )
 
 
 class DiseasePanelSerializer(serializers.ModelSerializer):

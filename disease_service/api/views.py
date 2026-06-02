@@ -3,10 +3,12 @@ from .models import Gene
 from .models import Disease
 from .models import DiseasePanel
 from .models import Panel
+from .models import EditingNote
 from .serializers import GeneSerializer
 from .serializers import DiseaseSerializer
 from .serializers import PanelSerializer
 from .serializers import DiseasePanelSerializer
+from .serializers import EditingNoteSerializer
 
 
 class GeneViewSet(viewsets.ModelViewSet):
@@ -20,6 +22,10 @@ class DiseaseViewSet(viewsets.ModelViewSet):
 class PanelViewSet(viewsets.ModelViewSet):
     queryset = Panel.objects.all().order_by('id')
     serializer_class = PanelSerializer
+
+class EditingNoteViewSet(viewsets.ModelViewSet):
+    queryset = EditingNote.objects.all().order_by('-created_at')
+    serializer_class = EditingNoteSerializer
 
 class DiseasePanelViewSet(viewsets.ModelViewSet):
     queryset = DiseasePanel.objects.all()

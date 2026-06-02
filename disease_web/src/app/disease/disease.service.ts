@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Disease } from './interfaces';
 import { DiseasePanel } from './interfaces';
 import { Panel } from './interfaces';
+import { EditingNote } from './interfaces';
 import { environment } from '../../environments/environment.development';
 import { map } from 'rxjs/operators';
 
@@ -79,6 +80,30 @@ export class DiseaseService {
   }
 
   // deleteDiseasePanel() should not be necessary because of cascading delete when both foreign keys are deleted
+
+  /*
+  getEditingNotesByDisease(diseaseId: Number): Observable<EditingNote[]> {
+    return this.httpClient.get<EditingNote[]>(`${environment.apiUrl}/api/editingnotes/?disease_id=${diseaseId}`);
+  }
+  */
+
+  getEditingNotesByDisease(diseaseName: string): Observable<EditingNote[]> {
+    return this.httpClient.get<EditingNote[]>(`${environment.apiUrl}/api/editingnotes/?disease_name=${diseaseName}`);
+  }
+
+  createEditingNote(data: EditingNote) {
+    return this.httpClient.post<EditingNote>(`${environment.apiUrl}/api/editingnotes/`, data);
+  }
+
+  updateEditingNote(data: EditingNote) {
+    return this.httpClient.put<EditingNote>(`${environment.apiUrl}/api/editingnotes/${data.id}/`, data);
+  }
+
+  deleteEditingNote(id: Number) {
+    return this.httpClient.delete<EditingNote>(`${environment.apiUrl}/api/editingnotes/${id}/`);
+  }
+
+
 
 }
 

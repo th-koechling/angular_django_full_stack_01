@@ -1,4 +1,11 @@
 {
-    "sqltools.connections": [],
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "database": "${workspaceFolder:django_angular_fullstack}/disease_service/db.sqlite3",
+            "name": "test_con"
+        }
+    ],
     "sqltools.useNodeRuntime": true
 }
