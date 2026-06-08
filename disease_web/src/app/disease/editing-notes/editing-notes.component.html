@@ -1,27 +1,36 @@
 <div class="editing-notes">
     <div>
-        <h1 style="color:blueviolet">Most recent editing note</h1>
-        <h2 style="color: cornflowerblue;">{{ newNote }}</h2>
-        <h2 style="color: midnightblue;">Letzte Änderungen</h2>
-        <p style="color: slategray; font-style: bold;">
-            Neuester/ letzter Kommentar: <br>
-            {{ dummy_latestEditingNote }} <br>
+        <h2 style="color:navy">Anmerkungen zur letzten Änderung</h2>
+        <p style="color: navy;">{{ latestEditingNote?.note }}</p>
+        <p style="color: slategray; font-style: italic;">
+            {{ latestEditingNote?.created_at | date:'short' }} <br>
+            {{ latestEditingNote?.created_by }}
         </p>
     </div>
     <mat-accordion>
         <mat-expansion-panel>
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                   [Anmerkungen]
+                    Änderungshistorie 
                 </mat-panel-title>
+                <!--
                 <mat-panel-description>
-                    Ältere Änderungen, sortiert nach Datum
+                    sortiert nach Datum
                 </mat-panel-description>
+                -->
             </mat-expansion-panel-header>
-            @for (note of dummy_editingNotesBacklog; track note) {
-                <p style="color: slategray; font-style: bold;">
-                    {{ note }} <br>
-                </p>
+            @for (editingNote of editingNotes; track $index) {
+                @if ($index > 0 && $index < 20 && editingNote) {
+                    <p style="color: navy; font-style: bold;">
+                        {{ editingNote.note }} 
+                        <br>
+                    </p>
+                    <p style="color: slategray; font-style: italic;">
+                        {{ editingNote.created_at | date:'short' }} <br>
+                        {{ editingNote.created_by }} <br>
+                    </p>
+                    <mat-divider></mat-divider>
+                }
             }
             <p>Kommentar-Text zu älteren Änderungen</p>
         </mat-expansion-panel>
