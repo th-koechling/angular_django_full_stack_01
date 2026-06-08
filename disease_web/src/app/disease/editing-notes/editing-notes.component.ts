@@ -55,6 +55,7 @@ export class EditingNotesComponent implements OnInit {
         this.editingNotes = this.editingNotes ? [data, ...this.editingNotes] : [data];
         this.latestNote = data.note;
         this.newNote = '';
+        this.ngOnInit(); // Refresh the notes list to include the new note
       },
       error: (err) => {
         console.log(err);
