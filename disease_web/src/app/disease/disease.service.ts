@@ -38,6 +38,10 @@ export class DiseaseService {
     );  
   }
 
+  getDiseaseById(id: number): Observable<Disease> {
+    return this.httpClient.get<Disease>(`${environment.apiUrl}${this.diseaseUrl}${id}/`);
+  }
+
   createDisease(data: Disease) {
     return this.httpClient.post<Disease>(`${environment.apiUrl}${this.diseaseUrl}`, data);
   }
@@ -87,11 +91,12 @@ export class DiseaseService {
   }
   */
 
-  getEditingNotesByDisease(diseaseName: string): Observable<EditingNote[]> {
-    return this.httpClient.get<EditingNote[]>(`${environment.apiUrl}/api/editingnotes/?disease_name=${diseaseName}`);
+  getEditingNotesByDiseaseId(diseaseId: number): Observable<EditingNote[]> {
+    return this.httpClient.get<EditingNote[]>(`${environment.apiUrl}/api/editingnotes/?disease_id=${diseaseId}`);
   }
 
   createEditingNote(data: EditingNote) {
+    console.log("Creating new editing note: ", data);
     return this.httpClient.post<EditingNote>(`${environment.apiUrl}/api/editingnotes/`, data);
   }
 

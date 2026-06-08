@@ -27,6 +27,14 @@ class EditingNoteViewSet(viewsets.ModelViewSet):
     queryset = EditingNote.objects.all().order_by('-created_at')
     serializer_class = EditingNoteSerializer
 
+
+#    def get_queryset(self):
+#        disease_id = self.request.query_params.get('disease_id')
+#        print(f"Filtering editing notes for disease_id: {disease_id}")
+#        if disease_id is not None:
+#            return self.queryset.filter(disease_id=disease_id)
+#        return self.queryset
+
 class DiseasePanelViewSet(viewsets.ModelViewSet):
     queryset = DiseasePanel.objects.all()
     serializer_class = DiseasePanelSerializer

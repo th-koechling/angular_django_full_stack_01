@@ -32,7 +32,7 @@ export interface DiseasePanel {
 
 export interface EditingNote {
     id:Number,
-    disease_id:Number,
+    disease:Number,
     note:string,
     created_by:string,
     created_at:string,

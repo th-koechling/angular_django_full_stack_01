@@ -111,7 +111,7 @@ export class CreateComponent implements AfterViewInit {
     this.diseaseService.createDisease(this.createForm.value).subscribe((response) => {
       console.log('Disease created successfully:', response);
       // Navigate to the detail view of the newly created disease
-      this.router.navigate(['/detail-view'], { queryParams: { diseaseName: response.name } });
+      this.router.navigate(['/disease'], { queryParams: { id: response.id } });
     }, (error) => {
       console.error('Error creating disease:', error);
     });
@@ -119,13 +119,6 @@ export class CreateComponent implements AfterViewInit {
     //this.createForm.controls['name'].disable(); 
   } 
   onCancel() {
-    // TODO: do not reset to empty, but to the initial values!!
-    //this.createForm.reset();
-    // this gives weird results:
-    //this.createForm.reset(this.initFormValues);
-    // this seems to work:
     this.createForm = this.fb.group(this.initFormValues);
-    // unnecessary:
-    //this.createForm.controls['name'].enable();
   }
 }

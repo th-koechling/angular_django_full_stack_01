@@ -116,9 +116,14 @@ export class SelectPanelsComponent implements OnInit {
     const diseasePanels$: Observable<DiseasePanel[]> = 
       this.diseaseService.getDiseasePanels();
     const disease$: Observable<Disease> =
+      this.diseaseService.getDiseaseById(
+        Number(this.route.snapshot.queryParamMap.get('diseaseId'))
+      );
+    /*
       this.diseaseService.getDiseaseByName(
         this.route.snapshot.queryParamMap.get('diseaseName')!
       );
+      */
     forkJoin([panels$, diseasePanels$, disease$]).subscribe(
       ([panel_data, disease_panel_data, disease_data]) => {
         const associated_panels: Panel[] = [];
@@ -157,10 +162,6 @@ export class SelectPanelsComponent implements OnInit {
         this.paginator._intl.itemsPerPageLabel = 'Einträge pro Seite';
         this.paginator._intl.nextPageLabel = 'Nächste Seite';
         this.paginator._intl.previousPageLabel = 'Vorherige Seite';
-        //this.sorted_associated_panels = this.disease.associated_panels.sort(
-        //  (a: Panel, b: Panel) =>
-        //  ((a.rank as number) < (b.rank as number) ? -1 : 1)
-        //);
       }
     );
   }
@@ -179,8 +180,8 @@ export class SelectPanelsComponent implements OnInit {
   }
 
   goToDiseaseDetailView() {
-    this.router.navigate(['/detail-view'], {
-      queryParams: { diseaseName: this.disease.name }
+    this.router.navigate(['/disease'], {
+      queryParams: { id: this.disease.id }
     });
   }
 

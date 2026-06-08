@@ -58,12 +58,12 @@ class PanelSerializer(serializers.ModelSerializer):
 
 
 class EditingNoteSerializer(serializers.ModelSerializer):
-    disease_name = serializers.CharField(source="disease.name", read_only=True)
+    #disease_id = serializers.IntegerField(source='disease.id', read_only=True)
     class Meta:
         model = EditingNote
         fields = (
             'id',
-            'disease_name',
+            'disease',
             'note',
             'created_at',
             'created_by',

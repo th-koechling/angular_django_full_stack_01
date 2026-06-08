@@ -48,7 +48,7 @@ class Disease(models.Model):
 
 
 class EditingNote(models.Model):
-    disease = models.ForeignKey(Disease, on_delete=models.CASCADE)
+    disease = models.ForeignKey(to=Disease, on_delete=models.CASCADE)
     note = models.TextField(max_length=50000, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.CharField(max_length=100, blank=True, null=True)    

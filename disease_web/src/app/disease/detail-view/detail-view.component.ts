@@ -45,6 +45,7 @@ const material = [
 
 export class DetailViewComponent implements OnInit {
 
+  diseaseId: number = 0;
   diseaseName: string | null = '';
   associated_panels: any=undefined;
   diseasePanels: DiseasePanel[] = [];
@@ -84,18 +85,21 @@ export class DetailViewComponent implements OnInit {
   sorted_associated_panels: Panel[] = [];
 
   ngOnInit() {
+    const diseaseIdParam = this.route.snapshot.queryParamMap.get('id');
+    console.log("queryParamMap: ", this.route.snapshot.queryParamMap);
+    // console.log("paramMap: ", this.route.snapshot.paramMap); <-- does not contain the id, because it is passed as a query parameter, not as a route parameter (AI)
+    this.diseaseId = diseaseIdParam ? +diseaseIdParam : 0;
+    console.log("detail-view component initialized with diseaseId: ", this.diseaseId);
+    console.log("diseaseId: ", this.diseaseId);
     const diseaseName = this.route.snapshot.queryParamMap.get('diseaseName');
-    this.diseaseName
+    this.diseaseName = diseaseName;
     this.rankValues = [];
     console.log("rankValues: ", this.rankValues);
     const panels$: Observable<Panel[]> = this.diseaseService.getPanels();
     const diseasePanels$: Observable<DiseasePanel[]> = 
       this.diseaseService.getDiseasePanels();
     const disease$: Observable<Disease> = 
-      this.diseaseService.getDiseaseByName(
-        this.route.snapshot.queryParamMap.get('diseaseName')!
-      );
-    
+      this.diseaseService.getDiseaseById(this.diseaseId);
     forkJoin([panels$, diseasePanels$, disease$]).subscribe(
       ([panel_data, disease_panel_data, disease_data]) => {
       const associated_panels: Panel[] = [];
@@ -219,7 +223,8 @@ export class DetailViewComponent implements OnInit {
   }
 
   panelSelectionView() {
-    this.router.navigate(['/select-panels'], { queryParams: { diseaseName: this.disease.name } });
+    //this.router.navigate(['/select-panels'], { queryParams: { diseaseName: this.disease.name } });
+    this.router.navigate(['/select-panels'], { queryParams: { diseaseId: this.disease.id } });
   }
 
   goToDiseaseOverview() {
