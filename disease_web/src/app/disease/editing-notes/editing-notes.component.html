@@ -1,10 +1,19 @@
 <div class="editing-notes">
     <div>
+<<<<<<< HEAD
         <h2 style="color:navy">Anmerkungen zur letzten Änderung</h2>
         <p style="color: navy;">{{ latestEditingNote?.note }}</p>
         <p style="color: slategray; font-style: italic;">
             {{ latestEditingNote?.created_at | date:'short' }} <br>
             {{ latestEditingNote?.created_by }}
+=======
+        <h1 style="color:yellowgreen">Most recent editing note</h1>
+        <h2 style="color: cornflowerblue;">{{ newestNote }}</h2>
+        <h2 style="color: midnightblue;">Letzte Änderungen</h2>
+        <p style="color: slategray; font-style: bold;">
+            Neuester/ letzter Kommentar: <br>
+            {{ dummy_latestEditingNote }} <br>
+>>>>>>> 17290724a425f925f42d78285e130f0d450858a5
         </p>
     </div>
     <mat-accordion>
