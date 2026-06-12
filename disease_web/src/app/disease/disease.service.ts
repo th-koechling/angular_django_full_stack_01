@@ -14,10 +14,11 @@ import { map } from 'rxjs/operators';
 })
 export class DiseaseService {
 
-  private diseaseUrl: String = "/api/diseases/";
-  private panelUrl: String = "/api/panels/";
-  private diseasePanelUrl: String = "/api/diseasepanels/";
-  private detailViewUrl: String = "/api/diseases/home/detail-view/";
+  private diseaseUrl: string = "/api/diseases/";
+  private panelUrl: string = "/api/panels/";
+  private diseasePanelUrl: string = "/api/diseasepanels/";
+  private editingNotesUrl: string = "/api/editingnotes/";
+  private detailViewUrl: string = "/api/diseases/home/detail-view/";
   constructor(private httpClient:HttpClient) { }
 
   // dummy method, as user management does not exist yet
@@ -83,31 +84,18 @@ export class DiseaseService {
     return this.httpClient.put<DiseasePanel>(`${environment.apiUrl}${this.diseasePanelUrl}${data.id}/`, data);
   }
 
-  // deleteDiseasePanel() should not be necessary because of cascading delete when both foreign keys are deleted
-
-  /*
-  getEditingNotesByDisease(diseaseId: Number): Observable<EditingNote[]> {
-    return this.httpClient.get<EditingNote[]>(`${environment.apiUrl}/api/editingnotes/?disease_id=${diseaseId}`);
+  getEditingNotes(): Observable<EditingNote[]> {
+    return this.httpClient.get<EditingNote[]>(`${environment.apiUrl}${this.editingNotesUrl}`);
   }
-  */
 
   getEditingNotesByDiseaseId(diseaseId: number): Observable<EditingNote[]> {
-    return this.httpClient.get<EditingNote[]>(`${environment.apiUrl}/api/editingnotes/?disease_id=${diseaseId}`);
+    return this.httpClient.get<EditingNote[]>(`${environment.apiUrl}${this.editingNotesUrl}?disease_id=${diseaseId}`);
   }
 
   createEditingNote(data: EditingNote) {
     console.log("Creating new editing note: ", data);
-    return this.httpClient.post<EditingNote>(`${environment.apiUrl}/api/editingnotes/`, data);
+    return this.httpClient.post<EditingNote>(`${environment.apiUrl}${this.editingNotesUrl}`, data);
   }
-
-  updateEditingNote(data: EditingNote) {
-    return this.httpClient.put<EditingNote>(`${environment.apiUrl}/api/editingnotes/${data.id}/`, data);
-  }
-
-  deleteEditingNote(id: Number) {
-    return this.httpClient.delete<EditingNote>(`${environment.apiUrl}/api/editingnotes/${id}/`);
-  }
-
 
 
 }

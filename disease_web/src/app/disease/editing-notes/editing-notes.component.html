@@ -19,7 +19,7 @@
                 </mat-panel-description>
                 -->
             </mat-expansion-panel-header>
-            @for (editingNote of editingNotes; track $index) {
+            @for (editingNote of diseaseEditingNotes; track $index) {
                 @if ($index > 0 && $index < 20 && editingNote) {
                     <p style="color: navy; font-style: bold;">
                         {{ editingNote.note }} 

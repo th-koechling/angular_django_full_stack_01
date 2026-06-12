@@ -26,24 +26,30 @@ export class EditingNotesComponent implements OnInit {
 
   editingNotesControl = new FormControl('');
   editingNotes: EditingNote[] | undefined;
+  diseaseEditingNotes: EditingNote[] | undefined;
   latestNote: string = '';
   latestEditingNote: EditingNote | undefined;
   newNote: string = '';
 
   ngOnInit(): void {
     if (this.diseaseId !== null && this.diseaseId !== undefined) {
-      this.diseaseService.getEditingNotesByDiseaseId(this.diseaseId).subscribe((notes) => {
+      this.diseaseService.getEditingNotes().subscribe(notes => {
         this.editingNotes = notes.length > 0 ? notes : undefined;
-        this.latestEditingNote = this.editingNotes && this.editingNotes.length > 0 ? this.editingNotes[0] : undefined;
-        this.latestNote = this.editingNotes && this.editingNotes.length > 0 ? this.editingNotes[0].note : '';
+        this.diseaseEditingNotes = this.editingNotes ? this.editingNotes.filter(note => note.disease === this.diseaseId) : undefined;
+        this.latestEditingNote = this.diseaseEditingNotes && this.diseaseEditingNotes.length > 0 ? this.diseaseEditingNotes[0] : undefined;
+        this.latestNote = this.diseaseEditingNotes && this.diseaseEditingNotes.length > 0 ? this.diseaseEditingNotes[0].note : '';
       });
     }
   }
 
   addNote() {
+    if (!this.newNote.trim()) {
+      console.log("empty note, not adding");
+      return;
+    }
     console.log("DISEASE ID: ", this.diseaseId);
     const newEditingNote: EditingNote = {
-      id: Date.now(), // Using timestamp as a simple unique ID
+      //id: Date.now(), // Using timestamp as a simple unique ID
       disease: this.diseaseId,
       note: this.newNote,
       created_by: 'Current User', // Placeholder, replace with actual user info
