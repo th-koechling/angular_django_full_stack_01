@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Anmerkung hinzufügen</h2>
+<mat-dialog-content>
+    <p>Hier können Sie eine Anmerkung zu den Änderungen hinzufügen</p>
+    <mat-form-field style="width: 100%;">
+        <mat-label>Anmerkung</mat-label>
+        <!--<input matInput placeholder="Anmerkung hinzufügen"> [(ngModel)]="newNote">-->
+        <textarea matInput placeholder="Anmerkung hinzufügen" [(ngModel)]="newNote"></textarea>
+        <mat-icon matSuffix fontIcon="edit_note"></mat-icon>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" style="margin-left: 20px;" mat-dialog-close>Abbrechen</button>
+    <button mat-raised-button style="background-color:cornflowerblue; color: white;" mat-dialog-close>Hinzufügen</button>
+</mat-dialog-actions>

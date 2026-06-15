@@ -203,7 +203,7 @@ export class DetailViewComponent implements OnInit {
     this.disease.associated_panels = this.panelsPreSelect;
   }
 
-  setRank({panel, value}: {panel: Panel, value: Number}) {
+  setRank({panel, value}: {panel: Panel, value: number}) {
     const rank = value;
     this.diseasePanels.forEach((dp: DiseasePanel) => {
       if (dp.disease_name === this.disease.name && dp.panel_name === panel.name) {
@@ -228,11 +228,9 @@ export class DetailViewComponent implements OnInit {
   }
 
   openEditNoteDialog(disease: Disease) {
-    console.log("Opening edit note dialog for disease: ", disease);
-    this.editingNotesComponent.testFun();
-    // Implement dialog opening logic here, e.g., using MatDialog
+    console.log("Open dialog, call from detail-view component, disease: ", disease);
+    this.editingNotesComponent.openDialogMaterial(disease.id);
   }
-
 
   goToDiseaseOverview() {
     this.router.navigate(['/diseases']);

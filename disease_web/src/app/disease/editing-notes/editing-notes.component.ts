@@ -1,11 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
 import { FormsModule, FormControl } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, 
+         MatDialogActions, 
+         MatDialogContent, 
+         MatDialogTitle, 
+         MatDialogModule,
+         MatDialogRef, 
+         MatDialogClose } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { MatAccordion } from '@angular/material/expansion';
+//import { EditingNotesComponent } from '../editing-notes/editing-notes.component';
+import { EditingNoteDialogBoxComponent } from '../editing-note-dialog-box/editing-note-dialog-box.component';
 import { DiseaseService } from '../disease.service';
 import { ActivatedRoute } from '@angular/router';
 import { EditingNote } from '../interfaces';
@@ -14,7 +23,15 @@ import { MatFormField } from "@angular/material/form-field";
 @Component({
   selector: 'app-editing-notes',
   standalone: true,
-  imports: [MatExpansionModule, MatFormField, FormsModule, MatInputModule, MatButtonModule, DatePipe, MatAccordion, MatDividerModule],
+  imports: [MatExpansionModule, 
+            MatFormField, 
+            FormsModule, 
+            MatInputModule, 
+            MatButtonModule, 
+            DatePipe, 
+            MatAccordion, 
+            MatDividerModule, 
+            MatDialogModule],
   templateUrl: './editing-notes.component.html',
   styleUrls: ['./editing-notes.component.css']
 })
@@ -29,8 +46,10 @@ export class EditingNotesComponent implements OnInit {
   diseaseEditingNotes: EditingNote[] | undefined;
   latestNote: string = '';
   latestEditingNote: EditingNote | undefined;
-  editingNoteDialogVisible: boolean = false;
   newNote: string = '';
+  editingNoteDialogVisible: boolean = false;
+  readonly dialog = inject(MatDialog);
+
 
   ngOnInit(): void {
     if (this.diseaseId !== null && this.diseaseId !== undefined) {
@@ -79,5 +98,31 @@ export class EditingNotesComponent implements OnInit {
     }
   }
 
+  openTestDialog() {
+    const dialog = document.getElementById("test-dialog") as HTMLDialogElement;
+    if (dialog) {
+      dialog.showModal();
+    }
+  }
+
+  openDialogMaterial(diseaseId: Number): void {
+    console.log("Opening dialog for disease ID: ", diseaseId);
+    const dialogRef = this.dialog.open(EditingNoteDialogBoxComponent, {
+      width: '400px',
+      data: { diseaseId: diseaseId }
+    });
+}
+
+
+  testDialog() {
+      const dialog = document.getElementById("test-dialog") as HTMLDialogElement;
+      dialog.close();
+    /*
+    const dialog = document.getElementById("test-dialog") as HTMLDialogElement;
+    if (dialog) {
+      dialog.close();
+    }
+      */
+  }
 
 }
