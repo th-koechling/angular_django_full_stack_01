@@ -16,7 +16,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
-import { MatTooltipModule, MatTooltip } from "@angular/material/tooltip";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 const material = [
   MatFormField,
@@ -27,9 +27,7 @@ const material = [
   MatInputModule,
   MatTableModule,
   MatButtonModule,
-  MatSort,
   MatSortModule,
-  MatPaginator,
   MatPaginatorModule,
 ]
 
@@ -83,6 +81,8 @@ export class DetailViewComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort!: MatSort;
   @ViewChild(MatPaginator) paginator: any;
   sorted_associated_panels: Panel[] = [];
+  @ViewChild(EditingNotesComponent) editingNotesComponent!: EditingNotesComponent;
+
 
   ngOnInit() {
     const diseaseIdParam = this.route.snapshot.queryParamMap.get('id');
@@ -226,6 +226,13 @@ export class DetailViewComponent implements OnInit {
     //this.router.navigate(['/select-panels'], { queryParams: { diseaseName: this.disease.name } });
     this.router.navigate(['/select-panels'], { queryParams: { diseaseId: this.disease.id } });
   }
+
+  openEditNoteDialog(disease: Disease) {
+    console.log("Opening edit note dialog for disease: ", disease);
+    this.editingNotesComponent.testFun();
+    // Implement dialog opening logic here, e.g., using MatDialog
+  }
+
 
   goToDiseaseOverview() {
     this.router.navigate(['/diseases']);

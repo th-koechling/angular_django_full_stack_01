@@ -34,23 +34,9 @@
             }
             <p>Kommentar-Text zu älteren Änderungen</p>
         </mat-expansion-panel>
-
-        <!-- multiple expansion panels can be added here -->
-         <!--
-        <mat-expansion-panel>
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    Expansion Panel 2
-                </mat-panel-title>
-                <mat-panel-description>
-                    Ältere Änderungen, sortiert nach Datum
-                </mat-panel-description>
-            </mat-expansion-panel-header>
-            <p>Kommentar-Text zu älteren Änderungen</p>
-        </mat-expansion-panel>
-        -->
     </mat-accordion>
-    <div>
+    @if (editingNoteDialogVisible) {
+    <div id="editing-notes-dialog">
         <h2 style="color: midnightblue;">Anmerkungen</h2>
         <p style="color: slategray; font-style: bold;">
             Anmerkungen zu den Änderungen, z.B. was geändert wurde, warum, von wem, etc. <br>
@@ -61,4 +47,5 @@
         </mat-form-field>
         <button mat-raised-button style="background-color:cornflowerblue; color: white;" (click)="addNote()">Anmerkung hinzufügen</button>
     </div>
+    }
 </div>

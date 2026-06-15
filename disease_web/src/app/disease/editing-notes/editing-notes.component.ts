@@ -29,6 +29,7 @@ export class EditingNotesComponent implements OnInit {
   diseaseEditingNotes: EditingNote[] | undefined;
   latestNote: string = '';
   latestEditingNote: EditingNote | undefined;
+  editingNoteDialogVisible: boolean = false;
   newNote: string = '';
 
   ngOnInit(): void {
@@ -48,6 +49,7 @@ export class EditingNotesComponent implements OnInit {
       return;
     }
     console.log("DISEASE ID: ", this.diseaseId);
+    this.editingNoteDialogVisible = false;
     const newEditingNote: EditingNote = {
       //id: Date.now(), // Using timestamp as a simple unique ID
       disease: this.diseaseId,
@@ -67,6 +69,14 @@ export class EditingNotesComponent implements OnInit {
         console.log(err);
       }
     });
+  }
+
+  testFun() {
+    console.log("TESTING TESTING 123");
+    if (!this.editingNoteDialogVisible) {
+      document.getElementById("editing-notes-dialog")?.scrollIntoView({ behavior: "smooth" });
+      this.editingNoteDialogVisible = true;
+    }
   }
 
 
