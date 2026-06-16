@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, inject, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EditingNotesComponent } from '../editing-notes/editing-notes.component';
+import { EditingNoteDialogBoxComponent } from '../editing-note-dialog-box/editing-note-dialog-box.component';
 import { DiseaseService } from '../disease.service';
 import { Disease, Panel, DiseasePanel, EditingNote } from '../interfaces';
 import { FormsModule, FormControl } from '@angular/forms';
@@ -17,6 +18,8 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 
 const material = [
   MatFormField,
@@ -43,6 +46,7 @@ const material = [
 
 export class DetailViewComponent implements OnInit {
 
+  readonly dialog = inject(MatDialog);
   diseaseId: number = 0;
   diseaseName: string | null = '';
   associated_panels: any=undefined;
@@ -82,6 +86,7 @@ export class DetailViewComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: any;
   sorted_associated_panels: Panel[] = [];
   @ViewChild(EditingNotesComponent) editingNotesComponent!: EditingNotesComponent;
+  @ViewChild(EditingNoteDialogBoxComponent) editingNoteDialogBoxComponent!: EditingNoteDialogBoxComponent;
 
 
   ngOnInit() {
@@ -144,6 +149,7 @@ export class DetailViewComponent implements OnInit {
 
   updateDisease(disease: Disease) {
     if (disease.id !== 0) {
+      this.openEditNoteDialog();
       this.diseasePanels = this.diseasePanelBuffer;
       const diseasePanelsToUpdate: DiseasePanel[] = this.diseasePanels.filter(
         (dp: DiseasePanel) => dp.disease_name === this.disease.name
@@ -173,27 +179,6 @@ export class DetailViewComponent implements OnInit {
     this.diseasePanelBuffer.forEach((dp: DiseasePanel) => {
       dp.disease_name = diseaseName;
     });
-  }
-
-  // TODO: not used? if so, remove!
-  updateDiseasePanels(disease: Disease) {
-    this.diseasePanels = this.diseasePanelBuffer;
-    // <-- using the buffer in the setRank method, so it can be cancelled if needed (button press)
-    if (disease.id !== 0) {
-      this.diseasePanels.forEach((dp: DiseasePanel) => {
-        if (dp.disease_name === this.disease.name) {
-          this.diseaseService.updateDiseasePanel(dp).subscribe({
-            next:(data) => {
-              console.log("diseasePanel updated");
-              window.location.reload();
-            },
-            error:(err) => {
-              console.log(err);
-            }
-          })
-        }
-      });
-    }
   }
 
   restoreDisease() {
@@ -227,9 +212,30 @@ export class DetailViewComponent implements OnInit {
     this.router.navigate(['/select-panels'], { queryParams: { diseaseId: this.disease.id } });
   }
 
-  openEditNoteDialog(disease: Disease) {
-    console.log("Open dialog, call from detail-view component, disease: ", disease);
-    this.editingNotesComponent.openDialogMaterial(disease.id);
+  openEditNoteDialog() {
+    const dialogRef = this.dialog.open(EditingNoteDialogBoxComponent, {
+      width: '400px',
+      data: this.disease,
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("Dialog closed with result: ", result);
+      if (result) {
+        this.diseaseService.createEditingNote({
+          disease: this.disease.id,
+          note: result, // Assuming the dialog returns the note text as the result
+          created_by: 'Current User', // Placeholder, replace with actual user info
+          created_at: new Date().toISOString() // Using ISO string for date format
+        }).subscribe({
+          next: (data) => {
+            console.log("New editing note created successfully");
+            this.editingNotesComponent.ngOnInit(); // Refresh the notes list to include the new note
+          },
+          error: (err) => {
+            console.log(err);
+          }
+        });
+      }
+    });
   }
 
   goToDiseaseOverview() {

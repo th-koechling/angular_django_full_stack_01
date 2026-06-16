@@ -35,17 +35,4 @@
             <p>Kommentar-Text zu älteren Änderungen</p>
         </mat-expansion-panel>
     </mat-accordion>
-    @if (editingNoteDialogVisible) {
-    <div id="editing-notes-dialog">
-        <h2 style="color: midnightblue;">Anmerkungen</h2>
-        <p style="color: slategray; font-style: bold;">
-            Anmerkungen zu den Änderungen, z.B. was geändert wurde, warum, von wem, etc. <br>
-            Diese Informationen können für die Nachverfolgung von Änderungen und die Kommunikation im Team hilfreich sein.
-        </p>
-        <mat-form-field style="width: 100%;">
-            <input matInput placeholder="Anmerkung hinzufügen" [(ngModel)]="newNote">
-        </mat-form-field>
-        <button mat-raised-button style="background-color:cornflowerblue; color: white;" (click)="addNote()">Anmerkung hinzufügen</button>
-    </div>
-    }
 </div>

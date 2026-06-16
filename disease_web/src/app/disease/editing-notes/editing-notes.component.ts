@@ -13,7 +13,6 @@ import { MatDialog,
          MatDialogClose } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { MatAccordion } from '@angular/material/expansion';
-//import { EditingNotesComponent } from '../editing-notes/editing-notes.component';
 import { EditingNoteDialogBoxComponent } from '../editing-note-dialog-box/editing-note-dialog-box.component';
 import { DiseaseService } from '../disease.service';
 import { ActivatedRoute } from '@angular/router';
@@ -37,7 +36,8 @@ import { MatFormField } from "@angular/material/form-field";
 })
 export class EditingNotesComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private diseaseService: DiseaseService) {}
+  constructor(private route: ActivatedRoute, 
+              private diseaseService: DiseaseService) {}
 
   @Input() diseaseId!: number;
 
@@ -62,67 +62,6 @@ export class EditingNotesComponent implements OnInit {
     }
   }
 
-  addNote() {
-    if (!this.newNote.trim()) {
-      console.log("empty note, not adding");
-      return;
-    }
-    console.log("DISEASE ID: ", this.diseaseId);
-    this.editingNoteDialogVisible = false;
-    const newEditingNote: EditingNote = {
-      //id: Date.now(), // Using timestamp as a simple unique ID
-      disease: this.diseaseId,
-      note: this.newNote,
-      created_by: 'Current User', // Placeholder, replace with actual user info
-      created_at: new Date().toISOString() // Using ISO string for date format
-    };
-    this.diseaseService.createEditingNote(newEditingNote).subscribe({
-      next: (data) => {
-        console.log("New editing note created successfully");
-        this.editingNotes = this.editingNotes ? [data, ...this.editingNotes] : [data];
-        this.latestNote = data.note;
-        this.newNote = '';
-        this.ngOnInit(); // Refresh the notes list to include the new note
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    });
-  }
 
-  testFun() {
-    console.log("TESTING TESTING 123");
-    if (!this.editingNoteDialogVisible) {
-      document.getElementById("editing-notes-dialog")?.scrollIntoView({ behavior: "smooth" });
-      this.editingNoteDialogVisible = true;
-    }
-  }
-
-  openTestDialog() {
-    const dialog = document.getElementById("test-dialog") as HTMLDialogElement;
-    if (dialog) {
-      dialog.showModal();
-    }
-  }
-
-  openDialogMaterial(diseaseId: Number): void {
-    console.log("Opening dialog for disease ID: ", diseaseId);
-    const dialogRef = this.dialog.open(EditingNoteDialogBoxComponent, {
-      width: '400px',
-      data: { diseaseId: diseaseId }
-    });
-}
-
-
-  testDialog() {
-      const dialog = document.getElementById("test-dialog") as HTMLDialogElement;
-      dialog.close();
-    /*
-    const dialog = document.getElementById("test-dialog") as HTMLDialogElement;
-    if (dialog) {
-      dialog.close();
-    }
-      */
-  }
 
 }
