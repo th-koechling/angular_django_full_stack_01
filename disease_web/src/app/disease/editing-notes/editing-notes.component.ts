@@ -47,7 +47,6 @@ export class EditingNotesComponent implements OnInit {
   latestNote: string = '';
   latestEditingNote: EditingNote | undefined;
   newNote: string = '';
-  editingNoteDialogVisible: boolean = false;
   readonly dialog = inject(MatDialog);
 
 
