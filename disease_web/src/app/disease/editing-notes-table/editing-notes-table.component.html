@@ -1,0 +1,24 @@
+
+<div style="width: 80%; margin-top:25px;margin-left:20px">
+    <h2>Liste aller Anmerkungen zu Änderungen</h2>
+    <mat-table class="editing-notes-table mat-elevation-z8" [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="note">
+            <mat-header-cell *matHeaderCellDef>Anmerkung</mat-header-cell>
+            <mat-cell *matCellDef="let editingNote">{{ editingNote.note }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="created_at">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Erstellt am</mat-header-cell>
+            <mat-cell class="created-at-cell" 
+                *matCellDef="let editingNote">{{ editingNote.created_at | date:'dd.MM.yyyy HH:mm' }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="created_by">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Erstellt von</mat-header-cell>
+            <mat-cell class="created-by-cell" 
+                *matCellDef="let editingNote">{{ editingNote.created_by }}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <br>
+    <mat-paginator [pageSizeOptions]="[10, 25, 50]"></mat-paginator>
+</div>

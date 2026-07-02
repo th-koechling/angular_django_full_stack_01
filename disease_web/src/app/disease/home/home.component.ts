@@ -132,10 +132,10 @@ export class HomeComponent implements AfterViewInit {
     });
   }
 
-  viewDisease(diseaseName: string) {
-    console.log("Viewing disease: ", diseaseName);
+  viewDisease(diseaseId: string) {
+    console.log("Viewing disease: ", diseaseId);
     // Navigate to detail view and pass the disease object via navigation state
-    this.router.navigate(['/detail-view'], { queryParams: {diseaseName: diseaseName} });
+    this.router.navigate(['/disease'], { queryParams: {id: diseaseId} });
     /*
     alert("Disease:\n" + JSON.stringify(rowData, null, 2));
     let url = 'test(01)';

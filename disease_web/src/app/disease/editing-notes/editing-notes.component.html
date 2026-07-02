@@ -32,7 +32,25 @@
                     <mat-divider></mat-divider>
                 }
             }
-            <p>Kommentar-Text zu älteren Änderungen</p>
+            <!--
+            <div style="display: flex; flex-direction: row; align-items: center;">
+                <button mat-mini-fab color="primary"
+                    matTooltip="Komplette Änderungshistorie anzeigen"
+                    style="margin-right: 10px;"
+                    (click)="showAllEditingNotes()">
+                    <mat-icon>list</mat-icon>
+                </button>
+                <h3 style="color: navy;">Komplette Historie</h3> 
+            </div>
+            -->
+            <div style="margin-top: 20px; margin-bottom: 10px;">
+                <nav>
+                    <a href="/editing-notes-table?diseaseId={{ diseaseId }}">
+                        Komplette Historie anzeigen
+                    </a>
+                </nav>
+                <router-outlet />
+            </div>
         </mat-expansion-panel>
     </mat-accordion>
 </div>

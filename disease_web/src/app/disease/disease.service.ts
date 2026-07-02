@@ -89,7 +89,7 @@ export class DiseaseService {
   }
 
   getEditingNotesByDiseaseId(diseaseId: number): Observable<EditingNote[]> {
-    return this.httpClient.get<EditingNote[]>(`${environment.apiUrl}${this.editingNotesUrl}?disease_id=${diseaseId}`);
+    return this.httpClient.get<EditingNote[]>(`${environment.apiUrl}${this.editingNotesUrl}?disease=${diseaseId}`);
   }
 
   createEditingNote(data: EditingNote) {
