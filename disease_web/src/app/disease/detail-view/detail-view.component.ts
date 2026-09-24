@@ -1,4 +1,4 @@
-import { Component, Inject, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, Inject, inject, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EditingNotesComponent } from '../editing-notes/editing-notes.component';
 import { EditingNoteDialogBoxComponent } from '../editing-note-dialog-box/editing-note-dialog-box.component';
@@ -68,6 +68,11 @@ export class DetailViewComponent implements OnInit {
   constructor(private route: ActivatedRoute, 
               private diseaseService: DiseaseService,
               private router: Router) {}
+
+  @HostListener('window:beforeunload', ['$event'])
+  onBeforeUnload(event: BeforeUnloadEvent) {
+    event.preventDefault();
+  }
 
   panels = new FormControl('');
   rankValues: number[] = [];

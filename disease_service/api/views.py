@@ -15,6 +15,10 @@ class GeneViewSet(viewsets.ModelViewSet):
     queryset = Gene.objects.all().order_by('symbol')
     serializer_class = GeneSerializer
 
+    def get_queryset(self):
+        return super().get_queryset()
+
+
 class DiseaseViewSet(viewsets.ModelViewSet):
     queryset = Disease.objects.all().order_by('name')
     serializer_class = DiseaseSerializer

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { DiseaseService } from '../disease.service';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -35,7 +35,6 @@ export class EditingNotesTableComponent implements OnInit {
   dataSource = new MatTableDataSource<EditingNote>(this.editingNotes);
   constructor(
      private route: ActivatedRoute,
-     private router: Router,
      private diseaseService: DiseaseService) { }
 
   @ViewChild(MatSort) sort: any;

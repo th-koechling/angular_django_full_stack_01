@@ -21,11 +21,11 @@ import { Router, ActivatedRoute, RouterOutlet } from '@angular/router';
 import { EditingNote } from '../interfaces';
 import { MatFormField } from "@angular/material/form-field";
 
+
 @Component({
   selector: 'app-editing-notes',
   standalone: true,
   imports: [MatExpansionModule,
-    MatFormField,
     FormsModule,
     MatInputModule,
     MatButtonModule,
@@ -33,7 +33,6 @@ import { MatFormField } from "@angular/material/form-field";
     MatAccordion,
     MatDividerModule,
     MatIconModule,
-    MatTooltip,
     MatDialogModule, RouterOutlet],
   templateUrl: './editing-notes.component.html',
   styleUrls: ['./editing-notes.component.css']
@@ -66,6 +65,7 @@ export class EditingNotesComponent implements OnInit {
     }
   }
 
+  /*
   showAllEditingNotes() {
     const url = `/diseases/home/editing-notes-table?diseaseId=${this.diseaseId}`;
     console.log("diseaseId: " + this.diseaseId);
@@ -73,7 +73,7 @@ export class EditingNotesComponent implements OnInit {
     //this.router.navigate(['/editing-notes-table'], { queryParams: { diseaseId: this.diseaseId } });
     this.router.navigate(['/editing-notes-table'], { queryParams: { diseaseId: this.diseaseId } });
   }
-
+  */
 
 
 }

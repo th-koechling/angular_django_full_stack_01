@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, HostListener } from '@angular/core';
 import { formDefaultValues } from './form-default-values';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -52,6 +52,11 @@ export class CreateComponent implements AfterViewInit {
               private diseaseService: DiseaseService,
               private router: Router) {}
 
+  @HostListener('window:beforeunload', ['$event'])
+  onBeforeUnload(event: BeforeUnloadEvent) {
+    event.preventDefault();
+  }
+  
   disease: Disease = {
     id: 0,
     name: '',

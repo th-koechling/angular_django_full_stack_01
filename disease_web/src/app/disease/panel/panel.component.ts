@@ -1,7 +1,7 @@
 import { Panel, DiseasePanel, Gene } from './../interfaces';
 import { GeneService } from '../gene/gene.service';
 import { DiseaseService } from '../disease.service';
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { FormsModule, FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -32,6 +32,11 @@ export class PanelComponent implements AfterViewInit {
               private geneService: GeneService,
               private router: Router) {}
 
+  @HostListener('window:beforeunload', ['$event'])
+  onBeforeUnload(event: BeforeUnloadEvent) {
+    event.preventDefault();
+  }
+  
   panels = new FormControl('');
   genes = new FormControl('');
   panel: Panel = {id: 0, name: '', genes: []};

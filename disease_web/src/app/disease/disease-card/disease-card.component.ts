@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, input } from '@angular/core';
+import { Component, ViewEncapsulation, input, HostListener } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { Disease } from '../interfaces';
@@ -17,6 +17,11 @@ export class DiseaseCardComponent {
   constructor(private router: Router) { }
   readonly disease = input.required<Disease>();
  
+  @HostListener('window:beforeunload', ['$event'])
+  onBeforeUnload(event: BeforeUnloadEvent) {
+    event.preventDefault();
+  }
+
   /*
   viewDisease(diseaseName: string) {
     console.log("Viewing disease: ", diseaseName);

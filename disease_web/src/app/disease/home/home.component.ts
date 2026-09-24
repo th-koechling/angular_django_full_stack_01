@@ -1,6 +1,6 @@
 import { Panel, Disease } from '../interfaces';
 import { DiseaseService } from '../disease.service';
-import { Component, AfterViewInit, ViewChild, inject } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, inject, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Observable, forkJoin } from 'rxjs';
@@ -28,6 +28,18 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 export class HomeComponent implements AfterViewInit {
   
   constructor(private diseaseService: DiseaseService) { }
+
+  /* 
+     not in home component, would be a hassle as this is a hub to 
+     get to the individual disease pages:
+  */
+  /*
+  @HostListener('window:beforeunload', ['$event'])
+  onBeforeUnload(event: BeforeUnloadEvent) {
+    event.preventDefault();
+  }
+  */
+
   displayedColumns: string[] = ['id', 'name', 'comment', 'analysis_comment', 
                                 'associated_panels', 'edit', 'view', 'delete'];
   dataSource = new MatTableDataSource<Disease>();

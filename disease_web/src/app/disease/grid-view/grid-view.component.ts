@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, signal } from '@angular/core';
+import { Component, AfterViewInit, signal, HostListener } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,6 +16,11 @@ import { DiseaseService } from '../disease.service';
 export class GridViewComponent implements AfterViewInit {
 
   constructor(private diseaseService: DiseaseService) { }
+
+  @HostListener('window:beforeunload', ['$event'])
+  onBeforeUnload(event: BeforeUnloadEvent) {
+    event.preventDefault();
+  }
 
   diseases = signal<Disease[]>([]);
 

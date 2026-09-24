@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "api",
     "rest_framework",
+    "django_crontab",
     "corsheaders",
     "django_extensions",
 ]
@@ -54,6 +55,11 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+]
+
+CRONJOBS = [
+    #('* * * * *', 'disease_service.cron.create_gene_cronjob', '>> /tmp/cron.log'),
+    #('* * * * *', 'disease_service.cron.test_cronjob', '>> /tmp/cron.log'),
 ]
 
 ROOT_URLCONF = "disease_service.urls"

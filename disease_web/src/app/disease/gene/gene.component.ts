@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, HostListener } from '@angular/core';
 import { Gene } from '../interfaces';
 import { GeneService } from './gene.service';
 import { Router } from '@angular/router';
@@ -28,6 +28,11 @@ export class GeneComponent implements AfterViewInit{
 
   constructor(private geneService: GeneService,
               private router: Router) {}
+
+  @HostListener('window:beforeunload', ['$event'])
+  onBeforeUnload(event: BeforeUnloadEvent) {
+    event.preventDefault();
+  }
 
   ngAfterViewInit(): void {
     this.geneService.getGenes().subscribe((data) => {
